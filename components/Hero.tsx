@@ -1,14 +1,18 @@
-import Image from 'next/image';
 import { ZipGate } from './ZipGate';
 import { client } from '@/content/client';
 import type { LeadSource } from '@/lib/validation';
 
 type Props = {
+  /** Chip géo en haut (ex. "Marseille · Bouches-du-Rhône") */
   locationChip?: string;
+  /** Partie normale du H1 avant l'accent (peut contenir des `\n` pour line breaks) */
   h1Lead: string;
+  /** Partie italique terracotta-light avec variations Fraunces */
   h1Highlight: string;
+  /** Partie normale du H1 après l'accent (avec underline déco terracotta) */
   h1Tail?: string;
   sub: string;
+  /** Image de fond Unsplash (visible à droite via le dégradé latéral) */
   bgImage?: { src: string; alt: string } | null;
   source: LeadSource;
   merciHref: string;
@@ -25,65 +29,96 @@ export function Hero({
   merciHref,
 }: Props) {
   return (
-    <section className="relative isolate overflow-hidden bg-navy-deep text-cream grain-overlay">
-      {/* Background image optionnelle (par défaut : navy plein, look V2) */}
+    <section
+      className="relative isolate overflow-hidden text-cream"
+      style={{
+        minHeight: '92vh',
+        backgroundColor: '#061A33',
+        backgroundImage: bgImage
+          ? `linear-gradient(95deg, rgba(14,43,78,0.92) 0%, rgba(14,43,78,0.65) 45%, rgba(14,43,78,0.15) 70%, rgba(14,43,78,0) 100%), url('${bgImage.src}')`
+          : undefined,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center right',
+      }}
+    >
+      {/* Mobile : dégradé un peu plus opaque pour lisibilité */}
       {bgImage && (
-        <>
-          <Image
-            src={bgImage.src}
-            alt={bgImage.alt}
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-center opacity-30"
-          />
-          <div
-            className="absolute inset-0 bg-gradient-to-r from-navy-deep via-navy-deep/95 to-navy-deep/60"
-            aria-hidden
-          />
-        </>
+        <div
+          className="absolute inset-0 lg:hidden"
+          style={{
+            backgroundImage:
+              'linear-gradient(105deg, rgba(14,43,78,0.92) 0%, rgba(14,43,78,0.7) 55%, rgba(14,43,78,0.45) 100%)',
+          }}
+          aria-hidden
+        />
       )}
 
-      {/* Tâche colorée décorative subtile */}
-      <div
-        className="absolute -top-32 -left-32 size-[28rem] rounded-full bg-terracotta/10 blur-3xl pointer-events-none"
-        aria-hidden
-      />
+      {/* Grain texture overlay */}
+      <div className="absolute inset-0 bg-grain opacity-[0.06] pointer-events-none mix-blend-overlay" aria-hidden />
 
-      <div className="container-wide relative z-10 grid lg:grid-cols-[1.1fr_1fr] gap-10 lg:gap-16 pt-12 pb-16 sm:pt-16 sm:pb-24 lg:py-28 items-center">
-        {/* Colonne gauche : copy + KPIs */}
-        <div>
+      <div className="container-wide relative z-10 grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20 py-12 sm:py-16 lg:py-24 items-center min-h-[92vh]">
+        {/* ─── Colonne gauche : copy + KPIs ───────────────────── */}
+        <div className="relative">
           {locationChip && (
-            <div className="inline-flex items-center gap-2 rounded-full border border-cream/15 bg-white/5 backdrop-blur-sm px-3.5 py-1.5 mb-6 sm:mb-8 text-xs sm:text-sm font-medium tracking-wide text-cream/90">
-              <span className="relative inline-flex items-center justify-center" aria-hidden>
-                <span className="absolute inline-flex size-2 rounded-full bg-emerald-400 opacity-70 animate-ping" />
-                <span className="relative inline-flex size-2 rounded-full bg-emerald-400" />
-              </span>
-              <span className="uppercase tracking-[0.14em]">{locationChip}</span>
+            <div
+              className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-cream/20 bg-cream/10 mb-7 text-[13px] font-medium text-cream uppercase tracking-[0.05em]"
+              style={{ backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}
+            >
+              <span
+                className="inline-block size-1.5 rounded-full bg-emerald-400 shrink-0 animate-pulse-green"
+                aria-hidden
+              />
+              {locationChip}
             </div>
           )}
 
-          <h1 className="font-serif text-cream leading-[1.02] text-balance text-[2.5rem] sm:text-6xl lg:text-[5rem]">
-            <span className="block">{h1Lead}</span>
-            <span className="inline italic text-terracotta-light decoration-terracotta/60 decoration-[6px] sm:decoration-[8px] underline underline-offset-[6px] [text-decoration-skip-ink:none]">
-              {h1Highlight}
-            </span>
-            {h1Tail && <span> {h1Tail}</span>}
+          <h1
+            className="text-cream mb-6"
+            style={{
+              fontSize: 'clamp(2.5rem, 6vw, 5rem)',
+              fontWeight: 300,
+              lineHeight: 1.05,
+              letterSpacing: '-0.02em',
+            }}
+          >
+            {h1Lead.split('\n').map((line, i, arr) => (
+              <span key={i}>
+                {line}
+                {i < arr.length - 1 && <br />}
+              </span>
+            ))}
+            {h1Highlight && (
+              <>
+                <br />
+                <span className="italic-accent-light">{h1Highlight}</span>
+              </>
+            )}
+            {h1Tail && (
+              <>
+                {' '}
+                <span className="underline-deco">{h1Tail}</span>
+              </>
+            )}
           </h1>
 
-          <p className="mt-6 sm:mt-7 text-base sm:text-lg text-cream/85 max-w-xl text-pretty">
+          <p
+            className="text-cream/85 max-w-[540px] mb-9 leading-relaxed"
+            style={{ fontSize: 'clamp(1.05rem, 1.5vw, 1.25rem)' }}
+          >
             {sub}
           </p>
 
-          {/* 3 KPI stats */}
-          <ul className="mt-10 sm:mt-12 grid grid-cols-3 gap-4 sm:gap-8 max-w-xl">
+          {/* 3 KPI stats serif */}
+          <ul className="flex flex-wrap gap-x-8 gap-y-5">
             {client.heroKpis.map((kpi) => (
-              <li key={kpi.label} className="flex flex-col">
-                <span className="font-serif text-3xl sm:text-4xl lg:text-5xl text-cream leading-none">
-                  {/* Suffix en plus petit (ex. "ans", "+", "/5") détecté visuellement */}
+              <li key={kpi.label} className="flex flex-col gap-1">
+                <span
+                  className="font-serif text-cream leading-none"
+                  style={{ fontSize: '32px', fontWeight: 500 }}
+                >
                   <Stat value={kpi.value} />
                 </span>
-                <span className="mt-2 text-[10px] sm:text-xs uppercase tracking-[0.14em] text-cream/55 leading-tight">
+                <span className="text-[11px] sm:text-[12px] uppercase tracking-[0.08em] text-cream/60 font-medium">
                   {kpi.label}
                 </span>
               </li>
@@ -91,8 +126,8 @@ export function Hero({
           </ul>
         </div>
 
-        {/* Colonne droite : ZipGate */}
-        <div className="flex lg:justify-end">
+        {/* ─── Colonne droite : ZipGate ──────────────────────── */}
+        <div className="lg:justify-self-end w-full" id="hero-form">
           <ZipGate source={source} merciHref={merciHref} />
         </div>
       </div>
@@ -101,8 +136,8 @@ export function Hero({
 }
 
 /**
- * Découpe le `value` en (chiffres) + (suffix lettre/symbole) et affiche
- * le suffix en plus petit. Ex. "4500+" → "4500" + "+" / "10 ans" → "10" + "ans".
+ * Découpe la value en (chiffres) + (suffix lettre/symbole) et affiche
+ * le suffix plus petit en terracotta-light. Ex. "4500+" → "4500" + "+" / "10 ans" → "10" + "ans".
  */
 function Stat({ value }: { value: string }) {
   const match = value.match(/^([\d,/.\s]+?)(\s?[a-zA-Z+%/]+)$/);
@@ -110,7 +145,10 @@ function Stat({ value }: { value: string }) {
   return (
     <>
       {match[1]}
-      <span className="text-base sm:text-lg align-baseline text-cream/60 ml-0.5 font-sans tracking-normal">
+      <span
+        className="text-terracotta-light align-baseline ml-0.5"
+        style={{ fontSize: '16px' }}
+      >
         {match[2].trim()}
       </span>
     </>

@@ -4,36 +4,37 @@ type Props = {
   prefix?: string;
   highlight?: string;
   text: string;
+  /** Affiche le dot vert pulsant en tête */
   withDot?: boolean;
   href?: string;
 };
 
 export function AnnouncementBar({ prefix, highlight, text, withDot, href }: Props) {
   const inner = (
-    <div className="container-wide flex items-center justify-center gap-2 py-2.5 text-center text-xs sm:text-sm text-navy">
+    <div className="container-wide flex items-center justify-center gap-2 py-2.5 text-center text-[13px] text-cream/95">
       {withDot && (
-        <span className="relative inline-flex items-center justify-center shrink-0" aria-hidden>
-          <span className="absolute inline-flex size-2 rounded-full bg-emerald-500 opacity-70 animate-ping" />
-          <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
-        </span>
+        <span
+          className="inline-block size-1.5 rounded-full bg-emerald-400 shrink-0 mr-0.5 animate-pulse-green"
+          aria-hidden
+        />
       )}
-      <p className="text-pretty">
-        {prefix && <span className="mr-1">{prefix}</span>}
+      <p className="text-pretty leading-snug">
+        {prefix && <span>{prefix} </span>}
         {highlight && (
-          <span className="font-semibold text-terracotta-deep">{highlight}</span>
+          <strong className="text-terracotta-light font-semibold">{highlight}</strong>
         )}
         {highlight && <span> </span>}
-        <span className="text-slate">{text}</span>
+        <span>{text}</span>
       </p>
     </div>
   );
 
   return (
-    <div className="bg-cream-warm/70 border-b border-cream-warm">
+    <div className="bg-navy-deep text-cream">
       {href ? (
         <Link
           href={href}
-          className="block hover:bg-cream-warm transition-colors duration-300 ease-smooth"
+          className="block hover:bg-navy transition-colors duration-300 ease-smooth"
         >
           {inner}
         </Link>

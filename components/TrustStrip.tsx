@@ -1,45 +1,31 @@
-import { ShieldCheck, Award, Wrench, Clock, Star } from 'lucide-react';
+import { ShieldCheck, Award, Lock, Star, Clock } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import type { TrustItem } from '@/content/types';
 
-const ICONS = {
+const ICONS: Record<TrustItem['icon'], LucideIcon> = {
   'shield-check': ShieldCheck,
-  'award': Award,
-  'wrench': Wrench,
-  'clock': Clock,
-  'star': Star,
-} as const;
+  award: Award,
+  lock: Lock,
+  star: Star,
+  clock: Clock,
+};
 
 type Props = {
   items: TrustItem[];
 };
 
 /**
- * Mobile : 4 badges en grille 2×2, Google sur ligne pleine en dessous.
- * Desktop : ligne unique 5 colonnes.
- *
- * On suppose : 4 items "techniques" + 1 item icon='star' (Google) en dernier.
+ * Trust strip cream avec 5 items en flex (mobile : wrap responsive, desktop : space-between).
+ * Chaque item = icône carrée blanche + texte Fraunces (strong + small uppercase).
  */
 export function TrustStrip({ items }: Props) {
-  const technical = items.filter((i) => i.icon !== 'star');
-  const google = items.find((i) => i.icon === 'star');
-
   return (
-    <section className="bg-cream-warm/60 border-y border-cream-warm">
-      <div className="container-wide py-5 sm:py-6">
-        {/* Mobile : 2×2 + ligne pleine ; Desktop : flex justify-around */}
-        <div className="sm:hidden space-y-2">
-          <ul className="grid grid-cols-2 gap-2">
-            {technical.map((item) => (
-              <BadgeCard key={item.label} item={item} />
-            ))}
-          </ul>
-          {google && <BadgeCard item={google} fullWidth />}
-        </div>
-
-        <ul className="hidden sm:flex items-stretch justify-between gap-3">
+    <section className="bg-cream border-b border-navy/[0.06]">
+      <div className="container-wide py-8 sm:py-10">
+        <ul className="flex flex-wrap items-center justify-center lg:justify-between gap-6 gap-y-5">
           {items.map((item) => (
-            <li key={item.label} className="flex-1">
-              <BadgeCard item={item} />
+            <li key={item.label}>
+              <TrustBadge item={item} />
             </li>
           ))}
         </ul>
@@ -48,26 +34,26 @@ export function TrustStrip({ items }: Props) {
   );
 }
 
-function BadgeCard({ item, fullWidth = false }: { item: TrustItem; fullWidth?: boolean }) {
-  const Icon = ICONS[item.icon];
-  const isGoogle = item.icon === 'star';
-
+function TrustBadge({ item }: { item: TrustItem }) {
+  const Icon = ICONS[item.icon] ?? ShieldCheck;
+  const isStar = item.icon === 'star';
   return (
-    <div
-      className={[
-        'flex items-center gap-2.5 rounded-md bg-white/80 border border-cream-warm px-3 py-2.5 min-h-[56px]',
-        fullWidth ? 'w-full justify-center' : '',
-        isGoogle ? 'border-gold/40 bg-white' : '',
-      ].join(' ')}
-    >
-      <Icon
-        className={`size-5 shrink-0 ${isGoogle ? 'text-gold fill-gold' : 'text-navy'}`}
-        aria-hidden
-      />
-      <div className="flex flex-col leading-tight">
-        <span className="text-xs sm:text-sm font-semibold text-navy">{item.label}</span>
+    <div className="flex items-center gap-3 text-navy">
+      <span className="inline-flex size-10 items-center justify-center rounded-[10px] bg-white border border-navy/10 shrink-0">
+        <Icon
+          className={isStar ? 'size-[22px] text-[#F4B400]' : 'size-[22px] text-navy'}
+          {...(isStar ? { fill: '#F4B400' } : {})}
+          aria-hidden
+        />
+      </span>
+      <div className="font-serif leading-[1.2]">
+        <strong className="block text-[16px] font-semibold text-navy">
+          {item.label}
+        </strong>
         {item.rating && (
-          <span className="text-[11px] text-slate tabular-nums">{item.rating}</span>
+          <small className="block text-[11px] font-medium text-slate uppercase font-sans" style={{ letterSpacing: '0.06em' }}>
+            {item.rating}
+          </small>
         )}
       </div>
     </div>

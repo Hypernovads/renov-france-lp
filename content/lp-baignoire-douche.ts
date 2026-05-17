@@ -31,24 +31,23 @@ export const lpBaignoireDouche: LPContent = {
 
   hero: {
     locationChip: 'Marseille · Bouches-du-Rhône',
-    h1Lead: 'Votre baignoire devient douche.',
+    h1Lead: 'Votre baignoire\ndevient douche.',
     h1Highlight: 'En 1 jour.',
     h1Tail: 'Sans casse.',
     sub:
       "Une équipe d'artisans certifiés Qualibat qui transforme votre salle de bain en une journée. Sans gros chantier, sans poussière.",
-    bgImage: null,
+    bgImage: {
+      src: u('photo-1552321554-5fefe8c9ef14', 2000),
+      alt: 'Salle de bain moderne avec douche italienne',
+    },
   },
 
   trustStrip: [
-    { icon: 'shield-check', label: 'Qualibat RGE' },
-    { icon: 'award', label: 'Garantie décennale' },
-    { icon: 'wrench', label: 'Artisans salariés' },
-    { icon: 'clock', label: 'Pose en 24 h' },
-    {
-      icon: 'star',
-      label: 'Avis Google',
-      rating: '4,5 / 5 · 127 avis',
-    },
+    { icon: 'shield-check', label: 'Qualibat', rating: 'Certification artisan' },
+    { icon: 'award', label: 'RGE', rating: 'Reconnu Garant Environnement' },
+    { icon: 'lock', label: 'Décennale 10 ans', rating: 'Assurée MAAF' },
+    { icon: 'star', label: '4,5/5 Google', rating: '187 avis vérifiés' },
+    { icon: 'clock', label: 'Pose en 24h', rating: 'Sans gros chantier' },
   ],
 
   promiseGrid: {

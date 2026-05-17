@@ -4,10 +4,10 @@ export type Image = { src: string; alt: string };
 
 export type TrustItem = {
   label: string;
-  /** Lucide icon name (kebab — résolu côté composant) */
-  icon: 'shield-check' | 'award' | 'wrench' | 'clock' | 'star';
-  /** Pour Google : note + nombre d'avis */
+  /** Sous-titre descriptif (ex. "Certification artisan", "Assurée MAAF") */
   rating?: string;
+  /** Nom semantique d'icône Lucide (résolu côté composant) */
+  icon: 'shield-check' | 'award' | 'lock' | 'star' | 'clock';
 };
 
 export type PromiseItem = { icon: string; title: string; body: string };
