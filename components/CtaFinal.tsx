@@ -27,10 +27,10 @@ export function CtaFinal({
   sub,
   ctaLabel,
   trustSignals = [],
-  ctaHref = '#hero-form',
+  ctaHref = '#form-long',
 }: Props) {
   return (
-    <section className="relative bg-navy text-cream overflow-hidden py-24 sm:py-28 lg:py-36">
+    <section className="relative bg-navy text-cream overflow-hidden section-pad">
       {/* 2 radial gradients décoratifs */}
       <div
         className="absolute inset-0 pointer-events-none"

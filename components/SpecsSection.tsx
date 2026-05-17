@@ -8,14 +8,14 @@ type Props = {
 
 export function SpecsSection({ eyebrow, h2, items }: Props) {
   return (
-    <section className="section-pad bg-cream-warm/60">
+    <section className="section-pad bg-white">
       <div className="container-tight">
         <header className="max-w-2xl mb-8 sm:mb-10">
           <span className="eyebrow">{eyebrow}</span>
           <h2 className="mt-2 text-3xl sm:text-4xl leading-[1.1] text-balance">{h2}</h2>
         </header>
 
-        <dl className="divide-y divide-cream-warm border-y border-cream-warm">
+        <dl className="divide-y divide-navy/10 border-y border-navy/10">
           {items.map((spec) => (
             <div
               key={spec.label}
