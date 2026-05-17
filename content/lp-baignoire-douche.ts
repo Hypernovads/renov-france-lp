@@ -169,6 +169,50 @@ export const lpBaignoireDouche: LPContent = {
     ],
   },
 
+  packs: {
+    eyebrow: 'Vos options',
+    h2Lead: 'Trois packs,',
+    h2Highlight: 'vous choisissez.',
+    sub:
+      "Notre promesse « 1 jour » concerne le pack Essentiel. Selon vos envies de revêtement, sol ou aménagement, vous pouvez étendre vers Confort ou Premium — vous décidez après la visite technique gratuite.",
+    packs: [
+      {
+        name: 'Essentiel',
+        duration: '1 jour',
+        items: [
+          "Dépose propre de l'ancienne baignoire",
+          'Installation douche italienne sur-mesure',
+          'Receveur extra-plat antidérapant',
+          'Paroi vitrée sécurit 6 mm',
+          'Mitigeur thermostatique anti-brûlure',
+          'Raccordement plomberie & évacuation',
+          'Étanchéité et finitions',
+          'Garantie décennale 10 ans',
+        ],
+      },
+      {
+        name: 'Confort',
+        duration: '2 jours',
+        items: [
+          'Revêtement mural waterproof complet',
+          '12 finitions au choix (effet pierre, bois, béton…)',
+          'Reprise des angles et joints en finition premium',
+        ],
+      },
+      {
+        name: 'Premium',
+        duration: '2 à 3 jours',
+        items: [
+          'Réfection du sol (carrelage ou panneau étanche)',
+          'Meuble vasque sur-mesure',
+          'Accessoires premium (sèche-serviettes, miroir LED, robinetterie design)',
+        ],
+      },
+    ],
+    note:
+      'Tous les packs incluent visite technique gratuite, devis détaillé sous 48 h et garantie décennale 10 ans. Vous restez libre de votre choix après le RDV — aucun engagement avant signature.',
+  },
+
   process: {
     eyebrow: 'Comment ça marche',
     h2Lead: 'Un parcours',
@@ -301,7 +345,7 @@ export const lpBaignoireDouche: LPContent = {
       },
       {
         q: "Vraiment 1 jour ? Comment c'est possible ?",
-        a: "Oui, vraiment. Notre méthode consiste à poser un nouveau receveur extra-plat directement sur l'ancienne installation, avec des panneaux muraux étanches qui s'adaptent à votre espace. Pas de démolition lourde, pas de gravats, pas de poussière. Tout est prêt à l'usage le soir même.",
+        a: "Oui — pour la transformation pure (pack Essentiel) : dépose de la baignoire + pose de votre douche italienne complète, c'est 1 journée (8h à 18h). Si vous ajoutez des options comme le revêtement mural complet, la réfection du sol ou un meuble vasque sur-mesure, comptez 2 à 3 jours selon le pack choisi (voir « Vos options » plus haut sur cette page). Tout est chiffré et planifié avant la signature du devis — pas de surprise.",
       },
       {
         q: 'Vous cassez ma baignoire ?',

@@ -47,6 +47,15 @@ export type AideItem = {
 
 export type FaqItem = { q: string; a: string };
 
+export type Pack = {
+  /** Nom du pack en uppercase (ex. "Essentiel", "Confort", "Premium") */
+  name: string;
+  /** Durée chiffrée (ex. "1 jour", "2 jours", "2 à 3 jours") */
+  duration: string;
+  /** Liste de prestations incluses (bullets) */
+  items: string[];
+};
+
 export type KpiStat = { value: string; label: string };
 
 export type LPContent = {
@@ -111,6 +120,17 @@ export type LPContent = {
     h2: string;
     intro?: string;
     items: IncludedItem[];
+  };
+  /** Section "Vos options" — 3 packs avec durées (transparence sur la promesse "1 jour"). Optionnel. */
+  packs?: {
+    eyebrow: string;
+    h2Lead: string;
+    /** Mot italic-accent terracotta (ex. "vous choisissez.") */
+    h2Highlight?: string;
+    sub: string;
+    packs: Pack[];
+    /** Note italic discrète sous les cards (rassure sans déconvertir) */
+    note?: string;
   };
   process: {
     eyebrow: string;

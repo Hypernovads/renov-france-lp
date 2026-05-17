@@ -8,6 +8,7 @@ import { TrustStrip } from '@/components/TrustStrip';
 import { PromiseGrid } from '@/components/PromiseGrid';
 import { BeforeAfterSlider } from '@/components/BeforeAfterSlider';
 import { IncludedSection } from '@/components/IncludedSection';
+import { PacksSection } from '@/components/PacksSection';
 import { ProcessSteps } from '@/components/ProcessSteps';
 import { Gallery } from '@/components/Gallery';
 import { SpecsSection } from '@/components/SpecsSection';
@@ -86,6 +87,17 @@ export default function BaignoireDoucheLP() {
           intro={lp.included.intro}
           items={lp.included.items}
         />
+
+        {lp.packs && (
+          <PacksSection
+            eyebrow={lp.packs.eyebrow}
+            h2Lead={lp.packs.h2Lead}
+            h2Highlight={lp.packs.h2Highlight}
+            sub={lp.packs.sub}
+            packs={lp.packs.packs}
+            note={lp.packs.note}
+          />
+        )}
 
         <Gallery
           eyebrow={lp.gallery.eyebrow}
