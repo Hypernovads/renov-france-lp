@@ -14,9 +14,9 @@ export const metadata: Metadata = {
 export default function MerciBaignoireDouche() {
   return (
     <>
-      <Header variant="solid" />
+      <Header />
 
-      <main className="min-h-screen bg-cream pt-28 pb-20">
+      <main className="min-h-screen bg-cream pt-16 pb-20">
         <div className="container-tight">
           <div className="max-w-2xl mx-auto text-center">
             <div className="inline-flex size-16 sm:size-20 items-center justify-center rounded-full bg-emerald-500/15 mb-6">

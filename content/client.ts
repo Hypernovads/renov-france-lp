@@ -9,7 +9,7 @@
 
 export const client = {
   // ─── Identité ──────────────────────────────────────────────────
-  brandName: 'À COMPLÉTER — Nom commercial',
+  brandName: 'À COMPLÉTER',
   legalName: 'À COMPLÉTER — Raison sociale',
   siret: 'À COMPLÉTER — SIRET 14 chiffres',
   rcs: 'À COMPLÉTER — RCS Ville',
@@ -59,10 +59,20 @@ export const client = {
   },
 
   // ─── Logo ──────────────────────────────────────────────────────
-  // Tant qu'on n'a pas le logo client, on affiche le brandName en typo serif navy.
+  // Tant qu'on n'a pas le logo client, on affiche le brandName en typo serif navy
+  // avec une icône lucide (Bath) dans un carré navy + point terracotta final.
   // Quand on l'aura : poser /public/logo.svg + logo-cream.svg et activer logoSrc.
   logoSrc: null as string | null,
   logoSrcCream: null as string | null,
+
+  // ─── KPI stats hero ────────────────────────────────────────────
+  // ⚠️ Chiffres PLACEHOLDER à valider avec le brief client.
+  // Affichés en gros dans le hero des LP. 3 KPI strict.
+  heroKpis: [
+    { value: '4500+', label: 'chantiers réalisés' },
+    { value: '4,5/5', label: '127 avis Google' },
+    { value: '10 ans', label: 'garantie décennale' },
+  ],
 } as const;
 
 export type ClientConfig = typeof client;

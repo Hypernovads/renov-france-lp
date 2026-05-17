@@ -1,72 +1,118 @@
 import Image from 'next/image';
-import { CheckCircle2 } from 'lucide-react';
 import { ZipGate } from './ZipGate';
+import { client } from '@/content/client';
 import type { LeadSource } from '@/lib/validation';
 
 type Props = {
-  h1: string;
-  h1Highlight?: string;
+  locationChip?: string;
+  h1Lead: string;
+  h1Highlight: string;
+  h1Tail?: string;
   sub: string;
-  bgImage: { src: string; alt: string };
-  trustChips: string[];
+  bgImage?: { src: string; alt: string } | null;
   source: LeadSource;
   merciHref: string;
 };
 
-export function Hero({ h1, h1Highlight, sub, bgImage, trustChips, source, merciHref }: Props) {
+export function Hero({
+  locationChip,
+  h1Lead,
+  h1Highlight,
+  h1Tail,
+  sub,
+  bgImage,
+  source,
+  merciHref,
+}: Props) {
   return (
-    <section className="relative isolate min-h-[100svh] flex items-end sm:items-center overflow-hidden bg-navy-deep">
-      {/* Background image */}
-      <Image
-        src={bgImage.src}
-        alt={bgImage.alt}
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover object-center"
-      />
+    <section className="relative isolate overflow-hidden bg-navy-deep text-cream grain-overlay">
+      {/* Background image optionnelle (par défaut : navy plein, look V2) */}
+      {bgImage && (
+        <>
+          <Image
+            src={bgImage.src}
+            alt={bgImage.alt}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center opacity-30"
+          />
+          <div
+            className="absolute inset-0 bg-gradient-to-r from-navy-deep via-navy-deep/95 to-navy-deep/60"
+            aria-hidden
+          />
+        </>
+      )}
 
-      {/* Overlay dégradé navy → transparent gauche + assombrissement bas */}
+      {/* Tâche colorée décorative subtile */}
       <div
-        className="absolute inset-0 bg-gradient-to-r from-navy-deep/95 via-navy-deep/70 to-navy-deep/30"
+        className="absolute -top-32 -left-32 size-[28rem] rounded-full bg-terracotta/10 blur-3xl pointer-events-none"
         aria-hidden
       />
-      <div
-        className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-navy-deep/90 to-transparent sm:hidden"
-        aria-hidden
-      />
-      <div className="absolute inset-0 bg-grain opacity-40 mix-blend-overlay pointer-events-none" aria-hidden />
 
-      {/* Contenu */}
-      <div className="container-wide relative z-10 grid sm:grid-cols-2 gap-10 sm:gap-12 pt-28 pb-10 sm:pt-32 sm:pb-24 items-end sm:items-center">
-        {/* Colonne gauche : copy */}
-        <div className="text-cream">
-          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.05] text-cream text-balance">
-            {h1}{' '}
-            {h1Highlight && (
-              <span className="text-terracotta-light italic">{h1Highlight}</span>
-            )}
+      <div className="container-wide relative z-10 grid lg:grid-cols-[1.1fr_1fr] gap-10 lg:gap-16 pt-12 pb-16 sm:pt-16 sm:pb-24 lg:py-28 items-center">
+        {/* Colonne gauche : copy + KPIs */}
+        <div>
+          {locationChip && (
+            <div className="inline-flex items-center gap-2 rounded-full border border-cream/15 bg-white/5 backdrop-blur-sm px-3.5 py-1.5 mb-6 sm:mb-8 text-xs sm:text-sm font-medium tracking-wide text-cream/90">
+              <span className="relative inline-flex items-center justify-center" aria-hidden>
+                <span className="absolute inline-flex size-2 rounded-full bg-emerald-400 opacity-70 animate-ping" />
+                <span className="relative inline-flex size-2 rounded-full bg-emerald-400" />
+              </span>
+              <span className="uppercase tracking-[0.14em]">{locationChip}</span>
+            </div>
+          )}
+
+          <h1 className="font-serif text-cream leading-[1.02] text-balance text-[2.5rem] sm:text-6xl lg:text-[5rem]">
+            <span className="block">{h1Lead}</span>
+            <span className="inline italic text-terracotta-light decoration-terracotta/60 decoration-[6px] sm:decoration-[8px] underline underline-offset-[6px] [text-decoration-skip-ink:none]">
+              {h1Highlight}
+            </span>
+            {h1Tail && <span> {h1Tail}</span>}
           </h1>
-          <p className="mt-5 sm:mt-6 text-base sm:text-lg text-cream/85 max-w-xl text-pretty">
+
+          <p className="mt-6 sm:mt-7 text-base sm:text-lg text-cream/85 max-w-xl text-pretty">
             {sub}
           </p>
 
-          {/* Trust chips */}
-          <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm text-cream/90">
-            {trustChips.map((chip) => (
-              <li key={chip} className="inline-flex items-center gap-1.5">
-                <CheckCircle2 className="size-4 text-terracotta-light" aria-hidden />
-                <span>{chip}</span>
+          {/* 3 KPI stats */}
+          <ul className="mt-10 sm:mt-12 grid grid-cols-3 gap-4 sm:gap-8 max-w-xl">
+            {client.heroKpis.map((kpi) => (
+              <li key={kpi.label} className="flex flex-col">
+                <span className="font-serif text-3xl sm:text-4xl lg:text-5xl text-cream leading-none">
+                  {/* Suffix en plus petit (ex. "ans", "+", "/5") détecté visuellement */}
+                  <Stat value={kpi.value} />
+                </span>
+                <span className="mt-2 text-[10px] sm:text-xs uppercase tracking-[0.14em] text-cream/55 leading-tight">
+                  {kpi.label}
+                </span>
               </li>
             ))}
           </ul>
         </div>
 
         {/* Colonne droite : ZipGate */}
-        <div className="flex sm:justify-end">
-          <ZipGate source={source} merciHref={merciHref} tone="dark" />
+        <div className="flex lg:justify-end">
+          <ZipGate source={source} merciHref={merciHref} />
         </div>
       </div>
     </section>
+  );
+}
+
+/**
+ * Découpe le `value` en (chiffres) + (suffix lettre/symbole) et affiche
+ * le suffix en plus petit. Ex. "4500+" → "4500" + "+" / "10 ans" → "10" + "ans".
+ */
+function Stat({ value }: { value: string }) {
+  const match = value.match(/^([\d,/.\s]+?)(\s?[a-zA-Z+%/]+)$/);
+  if (!match) return <>{value}</>;
+  return (
+    <>
+      {match[1]}
+      <span className="text-base sm:text-lg align-baseline text-cream/60 ml-0.5 font-sans tracking-normal">
+        {match[2].trim()}
+      </span>
+    </>
   );
 }

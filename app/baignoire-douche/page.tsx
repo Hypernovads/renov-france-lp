@@ -27,16 +27,23 @@ export const metadata: Metadata = {
 export default function BaignoireDoucheLP() {
   return (
     <>
-      <AnnouncementBar text={lp.announcement.text} href={lp.announcement.href} />
-      <Header variant="transparent" />
+      <AnnouncementBar
+        prefix={lp.announcement.prefix}
+        highlight={lp.announcement.highlight}
+        text={lp.announcement.text}
+        withDot={lp.announcement.withDot}
+        href={lp.announcement.href}
+      />
+      <Header />
 
       <main>
         <Hero
-          h1={lp.hero.h1}
+          locationChip={lp.hero.locationChip}
+          h1Lead={lp.hero.h1Lead}
           h1Highlight={lp.hero.h1Highlight}
+          h1Tail={lp.hero.h1Tail}
           sub={lp.hero.sub}
           bgImage={lp.hero.bgImage}
-          trustChips={lp.hero.trustChips}
           source={lp.meta.source}
           merciHref={lp.meta.merciHref}
         />

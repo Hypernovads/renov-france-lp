@@ -45,6 +45,8 @@ export type AideItem = {
 
 export type FaqItem = { q: string; a: string };
 
+export type KpiStat = { value: string; label: string };
+
 export type LPContent = {
   meta: {
     source: LeadSource;
@@ -53,15 +55,28 @@ export type LPContent = {
     merciHref: string;
   };
   announcement: {
+    /** Texte avant le mot surligné (ex. "Encore") */
+    prefix?: string;
+    /** Mot/expression mise en valeur en terracotta (ex. "2 créneaux d'expert") */
+    highlight?: string;
+    /** Texte après le surlignage (ex. "disponibles cette semaine — Marseille & Aix") */
     text: string;
+    /** Affiche le petit point vert clignotant en tête */
+    withDot?: boolean;
     href?: string;
   };
   hero: {
-    h1: string;
-    h1Highlight?: string;
+    /** Chip géo en haut du hero (ex. "Marseille · Bouches-du-Rhône") */
+    locationChip?: string;
+    /** Partie normale du H1 avant l'accent (ex. "Votre baignoire devient douche.") */
+    h1Lead: string;
+    /** Partie italique soulignée terracotta (ex. "En 1 jour.") */
+    h1Highlight: string;
+    /** Partie normale du H1 après l'accent (ex. "Sans casse.") */
+    h1Tail?: string;
     sub: string;
-    bgImage: Image;
-    trustChips: string[];
+    /** Image de fond optionnelle ; null = fond navy plein (look mockup V2) */
+    bgImage?: Image | null;
   };
   trustStrip: TrustItem[];
   promiseGrid: {

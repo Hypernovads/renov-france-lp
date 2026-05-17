@@ -23,23 +23,20 @@ export const lpBaignoireDouche: LPContent = {
   },
 
   announcement: {
-    text: 'Devis & visite technique offerts · Pose garantie en 1 jour',
+    prefix: 'Encore',
+    highlight: "2 créneaux d'expert",
+    text: 'disponibles cette semaine — Marseille & Aix-en-Provence',
+    withDot: true,
   },
 
   hero: {
-    h1: 'Votre baignoire devient douche.',
-    h1Highlight: 'En 1 jour. Sans casse.',
+    locationChip: 'Marseille · Bouches-du-Rhône',
+    h1Lead: 'Votre baignoire devient douche.',
+    h1Highlight: 'En 1 jour.',
+    h1Tail: 'Sans casse.',
     sub:
-      "Une douche italienne moderne, posée chez vous en une journée. Sans gros chantier, sans casser le carrelage, sans dégât d'eau. Pour le confort que votre salle de bain mérite enfin.",
-    bgImage: {
-      src: u('photo-1552321554-5fefe8c9ef14'),
-      alt: 'Salle de bain rénovée avec douche italienne moderne',
-    },
-    trustChips: [
-      'Pose en 1 journée',
-      'Garantie 10 ans',
-      'Devis 100% gratuit',
-    ],
+      "Une équipe d'artisans certifiés Qualibat qui transforme votre salle de bain en une journée. Sans gros chantier, sans poussière.",
+    bgImage: null,
   },
 
   trustStrip: [
