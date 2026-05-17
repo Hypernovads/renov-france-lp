@@ -292,31 +292,44 @@ export const lpBaignoireDouche: LPContent = {
 
   faq: {
     eyebrow: 'Vos questions',
-    h2: 'Tout ce qu\'on nous demande le plus souvent.',
+    h2Lead: "Tout ce qu'il faut",
+    h2Highlight: 'savoir.',
     items: [
       {
-        q: 'Combien coûte la transformation d\'une baignoire en douche ?',
-        a: "Le prix dépend de la surface, des finitions choisies et de l'état de la plomberie existante. En moyenne, comptez entre 3 500 € et 7 500 € TTC tout compris (TVA 5,5 % incluse). On vous remet un devis détaillé après visite technique gratuite — pas de prix au doigt mouillé.",
+        q: 'Combien ça coûte vraiment ?',
+        a: "Le coût dépend de votre configuration actuelle, des matériaux choisis et de l'étendue des travaux. Notre expert se déplace gratuitement chez vous pour établir un devis précis et personnalisé, en intégrant toutes les aides auxquelles vous avez droit. Aucun engagement, aucune obligation.",
       },
       {
-        q: 'Vraiment en 1 journée ? Pas de mauvaise surprise ?',
-        a: "Oui, vraiment. C'est notre cœur de métier et on a affiné le process sur plus de 800 chantiers. L'équipe arrive à 8 h, vous récupérez une douche utilisable à 18 h. Les seules exceptions : sinistres cachés découverts à la dépose (fuite, plomberie HS) — on vous prévient avant tout surcoût, vous décidez.",
+        q: "Vraiment 1 jour ? Comment c'est possible ?",
+        a: "Oui, vraiment. Notre méthode consiste à poser un nouveau receveur extra-plat directement sur l'ancienne installation, avec des panneaux muraux étanches qui s'adaptent à votre espace. Pas de démolition lourde, pas de gravats, pas de poussière. Tout est prêt à l'usage le soir même.",
       },
       {
-        q: 'Faut-il casser le carrelage existant ?',
-        a: "Non, c'est tout l'intérêt de notre méthode. On dépose la baignoire sans toucher au carrelage qui l'entoure. On installe ensuite le receveur et la paroi par-dessus l'existant. Si vous voulez aussi changer la faïence, c'est un autre projet (rénovation totale), à voir ensemble.",
+        q: 'Vous cassez ma baignoire ?',
+        a: "Non. La baignoire est déposée par sections (et non cassée), ce qui évite la poussière et les nuisances. Nous emportons l'ancien matériel pour vous. Vos voisins ne sauront même pas qu'il y a un chantier.",
       },
       {
-        q: "J'habite en copropriété, c'est compatible ?",
-        a: "Oui. La transformation baignoire → douche n'impacte pas les parties communes ni la colonne d'évacuation. Pas besoin d'AG ni d'autorisation de la copro dans la plupart des cas. On vous accompagne si une déclaration est demandée par votre syndic.",
+        q: "Et si j'habite en copropriété ?",
+        a: 'Aucun problème. Nos chantiers s\'effectuent sans bruit excessif et nous respectons les horaires de copropriété. Si nécessaire, nous vous aidons à informer le syndic.',
       },
       {
-        q: 'Quelle garantie sur l\'installation ?',
-        a: "Garantie décennale (attestation remise le jour de la pose) sur la pose et l'étanchéité, plus 5 ans pièces sur la robinetterie et 10 ans sur le receveur résine. Notre SAV intervient sous 48 h ouvrées.",
+        q: 'Quels matériaux utilisez-vous ?',
+        a: 'Uniquement des matériaux haut de gamme : receveur antidérapant norme PN24, parois en verre sécurit 6mm, robinetterie italienne thermostatique, panneaux muraux 100% étanches avec large choix de finitions.',
       },
       {
-        q: "Vous intervenez dans toute la région ?",
-        a: `Oui, dans l'ensemble du département des Bouches-du-Rhône (13) : ${"Marseille, Aix-en-Provence, Aubagne, Vitrolles, Marignane, La Ciotat, Cassis, Salon-de-Provence, Istres, Arles, Martigues"} et toutes les communes alentour. Hors zone : on étudie au cas par cas.`,
+        q: 'Vous intervenez où exactement dans le 13 ?',
+        a: "Marseille et toute sa métropole, Aix-en-Provence, Aubagne, Vitrolles, Marignane, La Ciotat, Martigues, Salon-de-Provence, Istres, Arles, Cassis et l'ensemble des Bouches-du-Rhône.",
+      },
+      {
+        q: 'Quelles aides puis-je obtenir ?',
+        a: "Selon votre situation : MaPrimeAdapt' (60 ans et +), TVA réduite à 5,5%, crédit d'impôt 25% pour équipements PMR, aides des caisses de retraite, Action Logement. Notre expert calcule votre éligibilité gratuitement et monte le dossier pour vous.",
+      },
+      {
+        q: 'Quelles garanties ?',
+        a: 'Garantie décennale 10 ans sur tous nos chantiers, assurée par MAAF. Garantie 2 ans sur les équipements. Une visite SAV est offerte à 6 mois pour vérifier la bonne tenue de l\'installation.',
+      },
+      {
+        q: 'Sous quel délai pouvez-vous intervenir ?',
+        a: 'Comptez environ 2 à 4 semaines entre la signature du devis et la pose. Nous nous adaptons à votre planning.',
       },
     ],
   },
@@ -347,9 +360,12 @@ export const lpBaignoireDouche: LPContent = {
   },
 
   ctaFinal: {
-    h2: 'Votre nouvelle douche peut être posée le mois prochain.',
-    sub: "Visite technique gratuite, devis détaillé sous 48 h, pose en 1 journée. Il ne reste qu'à nous appeler.",
+    eyebrow: 'Prêt à commencer ?',
+    h2Lead: 'Votre nouvelle salle de bain',
+    h2Highlight: 'vous attend.',
+    sub: 'Demandez votre devis gratuit. Un expert vous rappelle sous 24h pour étudier votre projet, sans engagement.',
     ctaLabel: 'Obtenir mon devis gratuit',
+    trustSignals: ['Sans engagement', 'Réponse sous 24h', 'Devis détaillé'],
   },
 
   merci: {
@@ -357,5 +373,35 @@ export const lpBaignoireDouche: LPContent = {
     sub:
       "Un conseiller va vous joindre pour fixer une visite technique chez vous. En attendant, vous pouvez nous joindre directement par téléphone.",
     delaiRappel: 'Sous 24 h ouvrées',
+  },
+
+  footer: {
+    services: [
+      { label: 'Baignoire → Douche', href: '/baignoire-douche' },
+      { label: 'Douche senior sécurisée', href: '/maprimeadapt' },
+      { label: 'Rénovation totale', href: '/renovation-totale' },
+      { label: 'Aides & financement', href: '#aides' },
+    ],
+    entreprise: [
+      { label: 'À propos', href: '#' },
+      { label: 'Réalisations', href: '#gallery' },
+      { label: 'Avis clients', href: '#testimonials' },
+      { label: 'Contact', href: '#hero-form' },
+    ],
+    villes: [
+      'Marseille',
+      'Aix-en-Provence',
+      'Aubagne',
+      'Marignane',
+      'Vitrolles',
+      'La Ciotat',
+      'Martigues',
+      'Salon-de-Provence',
+      'Istres',
+      'Arles',
+      'Cassis',
+    ],
+    tagline:
+      'Spécialistes de la rénovation de salle de bain à Marseille et dans tout le 13. Artisans certifiés Qualibat à votre service.',
   },
 };

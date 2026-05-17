@@ -108,7 +108,12 @@ export default function BaignoireDoucheLP() {
           items={lp.aides.items}
         />
 
-        <FaqAccordion eyebrow={lp.faq.eyebrow} h2={lp.faq.h2} items={lp.faq.items} />
+        <FaqAccordion
+          eyebrow={lp.faq.eyebrow}
+          h2Lead={lp.faq.h2Lead}
+          h2Highlight={lp.faq.h2Highlight}
+          items={lp.faq.items}
+        />
 
         <FormLong
           eyebrow={lp.formLong.eyebrow}
@@ -121,10 +126,22 @@ export default function BaignoireDoucheLP() {
           merciHref={lp.meta.merciHref}
         />
 
-        <CtaFinal h2={lp.ctaFinal.h2} sub={lp.ctaFinal.sub} ctaLabel={lp.ctaFinal.ctaLabel} />
+        <CtaFinal
+          eyebrow={lp.ctaFinal.eyebrow}
+          h2Lead={lp.ctaFinal.h2Lead}
+          h2Highlight={lp.ctaFinal.h2Highlight}
+          sub={lp.ctaFinal.sub}
+          ctaLabel={lp.ctaFinal.ctaLabel}
+          trustSignals={lp.ctaFinal.trustSignals}
+        />
       </main>
 
-      <Footer />
+      <Footer
+        services={lp.footer?.services}
+        entreprise={lp.footer?.entreprise}
+        villes={lp.footer?.villes}
+        tagline={lp.footer?.tagline}
+      />
       <StickyBottomMobile devisHref="#form-long" />
     </>
   );

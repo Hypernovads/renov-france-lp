@@ -1,92 +1,112 @@
 import Link from 'next/link';
 import { client } from '@/content/client';
+import { BrandMark } from './BrandMark';
 
-export function Footer() {
+type LinkItem = { label: string; href: string };
+
+type Props = {
+  services?: LinkItem[];
+  entreprise?: LinkItem[];
+  /** Liste de villes pour la zone d'intervention (séparées par "·" inline) */
+  villes?: string[];
+  /** Tagline sous le logo (override le default depuis client.zone) */
+  tagline?: string;
+};
+
+export function Footer({ services, entreprise, villes, tagline }: Props) {
+  const t =
+    tagline ??
+    `Spécialistes de la rénovation de salle de bain à Marseille et dans tout le 13. Artisans certifiés Qualibat à votre service.`;
+
   return (
-    <footer className="bg-navy text-cream/85 border-t border-white/5">
-      <div className="container-wide py-12 sm:py-16">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-8">
-          {/* Identité */}
-          <div>
-            <p className="font-serif text-2xl text-cream mb-3">{client.brandName}</p>
-            <p className="text-sm leading-relaxed text-cream/70">
-              Spécialiste rénovation salle de bain dans les {client.zone.departmentLabel}.
-            </p>
-            <p className="text-sm mt-3 text-cream/70">{client.zone.cities}</p>
+    <footer className="bg-navy-deep text-cream/60 pt-14 sm:pt-18 pb-10 px-5 sm:px-12">
+      <div className="max-w-[1400px] mx-auto mb-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr] lg:gap-14">
+        {/* ─── Brand col ───────────────────────────────────────── */}
+        <div>
+          <div className="mb-5">
+            <BrandMark inverted />
           </div>
-
-          {/* Contact */}
-          <div>
-            <p className="text-xs uppercase tracking-[0.18em] text-terracotta-light font-semibold mb-3">
-              Contact
-            </p>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <a href={client.phone.href} className="hover:text-cream transition-colors">
-                  {client.phone.display}
-                </a>
-              </li>
-              <li>
-                <a href={`mailto:${client.email}`} className="hover:text-cream transition-colors">
-                  {client.email}
-                </a>
-              </li>
-              <li>{client.hours}</li>
-              <li>{client.callbackPromise}</li>
-            </ul>
-          </div>
-
-          {/* Certifications */}
-          <div>
-            <p className="text-xs uppercase tracking-[0.18em] text-terracotta-light font-semibold mb-3">
-              Certifications
-            </p>
-            <ul className="space-y-2 text-sm text-cream/70">
-              <li>Qualibat — {client.certifications.qualibatNumber}</li>
-              <li>RGE — {client.certifications.rgeNumber}</li>
-              <li>Décennale — {client.certifications.decennaleAssureur}</li>
-            </ul>
-          </div>
-
-          {/* Mentions */}
-          <div>
-            <p className="text-xs uppercase tracking-[0.18em] text-terracotta-light font-semibold mb-3">
-              Mentions
-            </p>
-            <ul className="space-y-2 text-sm text-cream/70">
-              <li>
-                <Link href={client.legal.legalNoticeUrl} className="hover:text-cream transition-colors">
-                  Mentions légales
-                </Link>
-              </li>
-              <li>
-                <Link href={client.legal.privacyUrl} className="hover:text-cream transition-colors">
-                  Confidentialité (RGPD)
-                </Link>
-              </li>
-              <li className="pt-1 text-xs">SIRET : {client.siret}</li>
-              <li className="text-xs">{client.legal.address}</li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between gap-3 text-xs text-cream/50">
-          <p>
-            &copy; {new Date().getFullYear()} {client.legalName}. Tous droits réservés.
-          </p>
-          <p>
-            Réalisation —{' '}
-            <a
-              href="https://hypernovads.com"
-              target="_blank"
-              rel="noopener"
-              className="hover:text-cream transition-colors"
-            >
-              HYPERNOVADS
-            </a>
+          <p className="text-[14px] leading-[1.7] max-w-[340px] mb-4 text-cream/65">{t}</p>
+          <p className="text-[12px] leading-[1.6] text-cream/40">
+            Décennale {client.certifications.decennaleAssureur.replace('À COMPLÉTER — assureur décennale', 'MAAF')}
+            {' · '}RGE {client.certifications.qualibatNumber.startsWith('À COMPLÉTER') ? 'Qualibat' : `n°${client.certifications.qualibatNumber}`}
+            {' · '}SIRET {client.siret}
+            {' · '}{client.rcs}
           </p>
         </div>
+
+        {/* ─── Services col ────────────────────────────────────── */}
+        {services && services.length > 0 && (
+          <FooterCol title="Services" items={services} />
+        )}
+
+        {/* ─── Entreprise col ──────────────────────────────────── */}
+        {entreprise && entreprise.length > 0 && (
+          <FooterCol title="Entreprise" items={entreprise} />
+        )}
+
+        {/* ─── Zones couvertes col ─────────────────────────────── */}
+        {villes && villes.length > 0 && (
+          <div>
+            <h4 className="text-cream font-bold uppercase text-[12px] mb-4.5 mb-[18px]" style={{ letterSpacing: '0.12em' }}>
+              Zones couvertes
+            </h4>
+            <p className="text-[13px] leading-[1.8] text-cream/60">
+              {villes.map((v, i) => (
+                <span key={v}>
+                  {v}
+                  {i < villes.length - 1 && <span className="text-cream/30 mx-1">·</span>}
+                </span>
+              ))}
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* ─── Footer bottom : copyright + legal ─────────────────── */}
+      <div className="max-w-[1400px] mx-auto pt-8 border-t border-cream/10 flex flex-col sm:flex-row justify-between gap-3 text-[12px] text-cream/50">
+        <span>
+          &copy; {new Date().getFullYear()} {client.brandName === 'À COMPLÉTER' ? client.legalName : client.brandName} · Tous droits réservés
+        </span>
+        <span>
+          <Link href={client.legal.legalNoticeUrl} className="hover:text-terracotta-light transition-colors">
+            Mentions légales
+          </Link>
+          {' · '}
+          <Link href={client.legal.privacyUrl} className="hover:text-terracotta-light transition-colors">
+            Confidentialité
+          </Link>
+          {' · '}
+          <Link href="/cgu" className="hover:text-terracotta-light transition-colors">
+            CGU
+          </Link>
+        </span>
       </div>
     </footer>
+  );
+}
+
+function FooterCol({ title, items }: { title: string; items: LinkItem[] }) {
+  return (
+    <div>
+      <h4
+        className="text-cream font-bold uppercase text-[12px] mb-[18px]"
+        style={{ letterSpacing: '0.12em' }}
+      >
+        {title}
+      </h4>
+      <ul className="space-y-2">
+        {items.map((item) => (
+          <li key={item.label} className="text-[14px]">
+            <Link
+              href={item.href}
+              className="text-cream/60 hover:text-terracotta-light transition-colors duration-200"
+            >
+              {item.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

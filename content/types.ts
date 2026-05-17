@@ -144,7 +144,9 @@ export type LPContent = {
   };
   faq: {
     eyebrow: string;
-    h2: string;
+    h2Lead: string;
+    /** Mot italic-accent terracotta (ex. "savoir.") */
+    h2Highlight?: string;
     items: FaqItem[];
   };
   formLong: {
@@ -156,13 +158,26 @@ export type LPContent = {
     timings: string[];
   };
   ctaFinal: {
-    h2: string;
+    eyebrow: string;
+    h2Lead: string;
+    /** Mot italic-accent terracotta-light (ex. "vous attend.") sur 2e ligne */
+    h2Highlight?: string;
     sub: string;
     ctaLabel: string;
+    /** 3 trust signals affichés sous le CTA */
+    trustSignals?: string[];
   };
   merci: {
     h1: string;
     sub: string;
     delaiRappel: string;
+  };
+
+  /** Données footer partagées par toutes les LP (peuvent override sur une LP) */
+  footer?: {
+    services?: { label: string; href: string }[];
+    entreprise?: { label: string; href: string }[];
+    villes?: string[];
+    tagline?: string;
   };
 };
