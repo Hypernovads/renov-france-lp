@@ -25,6 +25,8 @@ export type ProcessStep = {
   title: string;
   body: string;
   duration?: string;
+  /** Icône à côté de la duration (default: clock). 'shield' pour les garanties. */
+  metaIcon?: 'clock' | 'shield';
 };
 
 export type SpecItem = { label: string; value: string };
@@ -82,13 +84,26 @@ export type LPContent = {
   promiseGrid: {
     eyebrow: string;
     h2: string;
+    /** Substring du h2 à mettre en italic-accent terracotta */
+    h2Highlight?: string;
+    intro?: string;
     items: PromiseItem[];
   };
   /** Si null : la LP n'a pas de slider avant/après (ex. LP 2 qui a un quiz à la place) */
   beforeAfter: {
     eyebrow: string;
-    h2: string;
-    intro?: string;
+    h2Lead: string;
+    /** Suffix italic-accent terracotta (ex. "Le soir, votre douche.") */
+    h2Highlight?: string;
+    intro: string;
+    /** Substrings à mettre en <strong> navy dans l'intro */
+    introStrong?: string[];
+    /** Stats highlight dans bloc cream (ex. "24h Pose complète / 0kg De gravats") */
+    stats?: { value: string; unit?: string; label: string }[];
+    /** Caption italic en bas du contenu gauche */
+    caption?: string;
+    /** Prefix de la légende sous le slider (ex. "Réalisation à") */
+    itemCaptionPrefix?: string;
     items: BeforeAfterItem[];
   } | null;
   included: {
@@ -99,7 +114,11 @@ export type LPContent = {
   };
   process: {
     eyebrow: string;
-    h2: string;
+    h2Lead: string;
+    /** Mot italic-accent terracotta-light (ex. "aussi simple") */
+    h2Highlight?: string;
+    /** Partie après le highlight, sur 2e ligne (ex. "qu'une journée bien remplie.") */
+    h2Tail?: string;
     steps: ProcessStep[];
   };
   gallery: {

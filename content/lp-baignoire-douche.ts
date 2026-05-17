@@ -51,68 +51,79 @@ export const lpBaignoireDouche: LPContent = {
   ],
 
   promiseGrid: {
-    eyebrow: 'Pourquoi nous',
-    h2: 'Une rénovation pensée pour ne rien casser de votre quotidien.',
+    eyebrow: 'Notre promesse',
+    h2: "Une rénovation comme vous l'imaginez, sans les tracas.",
+    h2Highlight: "comme vous l'imaginez",
+    intro:
+      'Notre méthode unique transforme votre baignoire en douche italienne moderne, en une journée, sans démolition lourde.',
     items: [
       {
         icon: 'clock',
-        title: 'Posée en 1 jour',
-        body: "Vous quittez votre baignoire le matin, vous découvrez votre douche le soir. On s'occupe de tout, vous gardez votre quotidien.",
+        title: 'En 1 jour',
+        body: 'Pas de mois de chantier. Vous utilisez votre douche le soir même.',
       },
       {
-        icon: 'hammer',
-        title: 'Sans gros chantier',
-        body: "Notre technique de dépose sans casse préserve carrelage, faïence et plomberie existants. Pas de poussière partout, pas de semaines de travaux.",
+        icon: 'shield-check',
+        title: 'Garantie 10 ans',
+        body: 'Décennale MAAF incluse. Visite SAV à 6 mois offerte.',
       },
       {
-        icon: 'sparkles',
-        title: 'Esthétique moderne',
-        body: 'Douche italienne, paroi vitrée, robinetterie design, receveur extra-plat. Une salle de bain enfin à votre goût.',
+        icon: 'euro',
+        title: 'Aides cumulables',
+        body: "MaPrimeAdapt, TVA 5,5%, crédit d'impôt. On monte le dossier.",
       },
       {
         icon: 'heart-handshake',
-        title: 'Artisans locaux',
-        body: "Tous nos poseurs sont salariés (jamais de sous-traitance). On intervient dans tout le 13, on connaît vos contraintes copropriété.",
+        title: 'Un interlocuteur',
+        body: 'Un seul devis, une seule équipe. Plus de coordination à gérer.',
       },
     ],
   },
 
   beforeAfter: {
-    eyebrow: 'Réalisations',
-    h2: 'Avant — après. Faites glisser pour voir.',
+    eyebrow: 'Nos réalisations',
+    h2Lead: 'Le matin, votre baignoire.',
+    h2Highlight: 'Le soir, votre douche.',
     intro:
-      "Quelques transformations récentes chez nos clients du 13. Toutes les photos sont des chantiers réels (avec autorisation).",
+      "Notre méthode élimine la démolition lourde. Nous installons un nouveau receveur extra-plat et des panneaux muraux étanches qui s'adaptent à votre espace existant.",
+    introStrong: ['nouveau receveur extra-plat'],
+    stats: [
+      { value: '24', unit: 'h', label: 'Pose complète' },
+      { value: '0', unit: 'kg', label: 'De gravats' },
+    ],
+    caption: '→ Faites glisser le curseur pour découvrir une transformation à Aubagne.',
+    itemCaptionPrefix: 'Réalisation à',
     items: [
       {
-        label: 'Marseille 8e · 1 jour',
+        label: 'Aubagne · 1 journée · Septembre 2025',
         before: {
-          src: u('photo-1620626011761-996317b8d101'),
-          alt: 'Baignoire ancienne avant rénovation',
+          src: u('photo-1620626011761-996317b8d101', 1200),
+          alt: 'Baignoire ancienne avant rénovation à Aubagne',
         },
         after: {
-          src: u('photo-1552321554-5fefe8c9ef14'),
+          src: u('photo-1552321554-5fefe8c9ef14', 1200),
           alt: 'Douche italienne moderne après rénovation',
         },
       },
       {
-        label: 'Aix-en-Provence · 1 jour',
+        label: 'Marseille 8e · 1 journée · Août 2025',
         before: {
-          src: u('photo-1604014237800-1c9102c219da'),
-          alt: 'Salle de bain ancienne avant rénovation',
+          src: u('photo-1604014237800-1c9102c219da', 1200),
+          alt: 'Salle de bain ancienne à Marseille',
         },
         after: {
-          src: u('photo-1600585154340-be6161a56a0c'),
+          src: u('photo-1600585154340-be6161a56a0c', 1200),
           alt: 'Douche moderne paroi vitrée',
         },
       },
       {
-        label: 'Cassis · 1 jour',
+        label: 'Aix-en-Provence · 1 journée · Juin 2025',
         before: {
-          src: u('photo-1584622650111-993a426fbf0a'),
+          src: u('photo-1584622650111-993a426fbf0a', 1200),
           alt: 'Baignoire vieillissante',
         },
         after: {
-          src: u('photo-1564540583246-934409427776'),
+          src: u('photo-1564540583246-934409427776', 1200),
           alt: 'Douche italienne après transformation',
         },
       },
@@ -159,32 +170,38 @@ export const lpBaignoireDouche: LPContent = {
   },
 
   process: {
-    eyebrow: 'Comment ça se passe',
-    h2: '4 étapes simples. De votre appel à votre première douche.',
+    eyebrow: 'Comment ça marche',
+    h2Lead: 'Un parcours',
+    h2Highlight: 'aussi simple',
+    h2Tail: "qu'une journée bien remplie.",
     steps: [
       {
         number: '01',
-        title: 'Vous nous appelez',
-        body: "On échange 5 minutes au téléphone pour comprendre votre projet et fixer une visite.",
-        duration: '5 min',
+        title: 'Vous nous contactez',
+        body: 'Formulaire 30 secondes ou appel direct. On vous rappelle pour qualifier votre besoin.',
+        duration: 'Sous 24h',
+        metaIcon: 'clock',
       },
       {
         number: '02',
-        title: 'Visite technique chez vous',
-        body: 'Un conseiller vient mesurer, vous montrer les finitions et chiffrer précisément. Gratuit.',
+        title: 'Visite à domicile',
+        body: 'Notre expert se déplace, prend les mesures, étudie votre installation. Devis gratuit, sans engagement.',
         duration: 'Sous 7 jours',
+        metaIcon: 'clock',
       },
       {
         number: '03',
-        title: 'Devis signé, date posée',
-        body: "Vous validez le devis, on bloque une date qui vous arrange. Délai moyen : 3 à 4 semaines.",
-        duration: '3-4 semaines',
+        title: 'Pose en 1 jour',
+        body: 'Équipe de 2 artisans, dépose propre, installation complète. Vous utilisez votre douche le soir.',
+        duration: '24h',
+        metaIcon: 'clock',
       },
       {
         number: '04',
-        title: 'Pose en 1 journée',
-        body: "Notre équipe arrive à 8 h. À 18 h, votre nouvelle douche est utilisable. Tout nettoyé, tout évacué.",
-        duration: '1 jour',
+        title: 'Suivi & garantie',
+        body: 'Visite SAV à 6 mois. Garantie décennale active pendant 10 ans. On reste joignables.',
+        duration: '10 ans',
+        metaIcon: 'shield',
       },
     ],
   },

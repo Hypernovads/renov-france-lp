@@ -1,21 +1,19 @@
 import type { Metadata } from 'next';
-import { Fraunces, Inter } from 'next/font/google';
+import { DM_Serif_Display, DM_Sans } from 'next/font/google';
 import './globals.css';
 
-const fraunces = Fraunces({
+const dmSerif = DM_Serif_Display({
   subsets: ['latin'],
-  axes: ['SOFT', 'WONK', 'opsz'],
-  variable: '--font-fraunces',
-  display: 'swap',
+  weight: ['400'],
   style: ['normal', 'italic'],
+  variable: '--font-dm-serif',
+  display: 'swap',
 });
 
-// Inter = équivalent Geist (même créateur Rasmus Andersson, esthétique très proche).
-// Geist n'est pas servi par next/font/google sur Next 14.2.x.
-const geist = Inter({
+const dmSans = DM_Sans({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-geist',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-dm-sans',
   display: 'swap',
 });
 
@@ -31,7 +29,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${fraunces.variable} ${geist.variable}`}>
+    <html lang="fr" className={`${dmSerif.variable} ${dmSans.variable}`}>
       <body>{children}</body>
     </html>
   );

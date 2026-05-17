@@ -53,29 +53,38 @@ export default function BaignoireDoucheLP() {
         <PromiseGrid
           eyebrow={lp.promiseGrid.eyebrow}
           h2={lp.promiseGrid.h2}
+          h2Highlight={lp.promiseGrid.h2Highlight}
+          intro={lp.promiseGrid.intro}
           items={lp.promiseGrid.items}
         />
 
         {lp.beforeAfter && (
           <BeforeAfterSlider
             eyebrow={lp.beforeAfter.eyebrow}
-            h2={lp.beforeAfter.h2}
+            h2Lead={lp.beforeAfter.h2Lead}
+            h2Highlight={lp.beforeAfter.h2Highlight}
             intro={lp.beforeAfter.intro}
+            introStrong={lp.beforeAfter.introStrong}
+            stats={lp.beforeAfter.stats}
+            caption={lp.beforeAfter.caption}
+            itemCaptionPrefix={lp.beforeAfter.itemCaptionPrefix}
             items={lp.beforeAfter.items}
           />
         )}
+
+        <ProcessSteps
+          eyebrow={lp.process.eyebrow}
+          h2Lead={lp.process.h2Lead}
+          h2Highlight={lp.process.h2Highlight}
+          h2Tail={lp.process.h2Tail}
+          steps={lp.process.steps}
+        />
 
         <IncludedSection
           eyebrow={lp.included.eyebrow}
           h2={lp.included.h2}
           intro={lp.included.intro}
           items={lp.included.items}
-        />
-
-        <ProcessSteps
-          eyebrow={lp.process.eyebrow}
-          h2={lp.process.h2}
-          steps={lp.process.steps}
         />
 
         <Gallery

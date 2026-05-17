@@ -2,61 +2,117 @@
 
 import { useRef, useState, useCallback } from 'react';
 import Image from 'next/image';
-import { ChevronLeft, ChevronRight, MoveHorizontal } from 'lucide-react';
+import { ChevronsLeftRight } from 'lucide-react';
 import type { BeforeAfterItem } from '@/content/types';
+
+type Stat = { value: string; unit?: string; label: string };
 
 type Props = {
   eyebrow: string;
-  h2: string;
-  intro?: string;
+  h2Lead: string;
+  /** Mot/expression italic-accent terracotta (substring du h2 ou tail) */
+  h2Highlight?: string;
+  intro: string;
+  /** Mots à mettre en gras navy dans l'intro (substrings) */
+  introStrong?: string[];
+  stats?: Stat[];
+  /** Caption italic en bas du contenu gauche (ex. "→ Faites glisser le curseur…") */
+  caption?: string;
   items: BeforeAfterItem[];
+  /** Label affiché sous le slider (ex. "Réalisation à Aubagne · 1 journée · Sept. 2025") */
+  itemCaptionPrefix?: string;
 };
 
-export function BeforeAfterSlider({ eyebrow, h2, intro, items }: Props) {
-  const [activeIdx, setActiveIdx] = useState(0);
-  const current = items[activeIdx];
+/**
+ * Section Showcase Avant/Après — design mockup V3.
+ * 2 cols desktop : contenu gauche (eyebrow + h2 + intro + stats cream block + caption italic),
+ * slider drag 4:3 droite. Sur mobile : empilé.
+ */
+export function BeforeAfterSlider({
+  eyebrow,
+  h2Lead,
+  h2Highlight,
+  intro,
+  introStrong = [],
+  stats,
+  caption,
+  items,
+  itemCaptionPrefix,
+}: Props) {
+  const [idx, setIdx] = useState(0);
+  const current = items[idx];
 
   return (
-    <section className="section-pad bg-navy-deep text-cream relative overflow-hidden grain-overlay">
-      <div className="container-tight relative z-10">
-        <header className="max-w-2xl mb-10 sm:mb-14">
-          <span className="eyebrow text-terracotta-light">{eyebrow}</span>
-          <h2 className="mt-2 text-3xl sm:text-4xl lg:text-5xl leading-[1.1] text-cream text-balance">
-            {h2}
-          </h2>
-          {intro && <p className="mt-4 text-cream/75 max-w-xl text-pretty">{intro}</p>}
-        </header>
+    <section className="section-pad bg-white">
+      <div className="container-wide">
+        <div className="grid gap-12 lg:gap-20 lg:grid-cols-2 items-center">
+          {/* ─── Colonne gauche : contenu ──────────────────────── */}
+          <div>
+            <span className="eyebrow">{eyebrow}</span>
+            <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl text-balance">
+              {h2Lead}
+              {h2Highlight && (
+                <>
+                  {' '}
+                  <span className="italic-accent">{h2Highlight}</span>
+                </>
+              )}
+            </h2>
 
-        <CompareSlider key={activeIdx} item={current} />
+            <p className="mt-6 text-base sm:text-[17px] text-slate leading-[1.7] text-pretty">
+              <IntroWithStrong text={intro} strongs={introStrong} />
+            </p>
 
-        {/* Pagination */}
-        <div className="mt-6 flex items-center justify-between gap-4">
-          <span className="text-sm text-cream/70">
-            <span className="font-serif text-2xl text-cream tabular-nums">
-              {String(activeIdx + 1).padStart(2, '0')}
-            </span>
-            <span className="mx-1.5 text-cream/40">/</span>
-            <span className="tabular-nums">{String(items.length).padStart(2, '0')}</span>
-            <span className="block sm:inline sm:ml-3 text-cream/90">— {current.label}</span>
-          </span>
+            {/* Bloc stats cream avec border-left terracotta */}
+            {stats && stats.length > 0 && (
+              <div className="mt-7 grid grid-cols-2 gap-6 p-6 sm:p-7 bg-cream rounded-2xl border-l-[3px] border-terracotta">
+                {stats.map((s) => (
+                  <div key={s.label}>
+                    <div className="font-serif text-navy leading-none text-[36px] sm:text-[40px]">
+                      {s.value}
+                      {s.unit && (
+                        <span className="text-terracotta text-lg sm:text-[18px] ml-0.5 align-baseline">
+                          {s.unit}
+                        </span>
+                      )}
+                    </div>
+                    <div className="mt-1.5 text-[13px] text-slate font-medium">{s.label}</div>
+                  </div>
+                ))}
+              </div>
+            )}
 
-          <div className="flex gap-2">
-            <button
-              type="button"
-              onClick={() => setActiveIdx((i) => (i === 0 ? items.length - 1 : i - 1))}
-              aria-label="Réalisation précédente"
-              className="size-11 inline-flex items-center justify-center rounded-md bg-white/10 hover:bg-white/20 transition-colors"
-            >
-              <ChevronLeft className="size-5" aria-hidden />
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveIdx((i) => (i === items.length - 1 ? 0 : i + 1))}
-              aria-label="Réalisation suivante"
-              className="size-11 inline-flex items-center justify-center rounded-md bg-white/10 hover:bg-white/20 transition-colors"
-            >
-              <ChevronRight className="size-5" aria-hidden />
-            </button>
+            {caption && (
+              <p className="mt-6 text-[15px] text-slate italic leading-relaxed">{caption}</p>
+            )}
+
+            {/* Navigation entre réalisations (si > 1) */}
+            {items.length > 1 && (
+              <div className="mt-6 flex items-center gap-2">
+                {items.map((it, i) => (
+                  <button
+                    key={it.label}
+                    type="button"
+                    onClick={() => setIdx(i)}
+                    aria-label={`Voir réalisation ${i + 1} sur ${items.length} — ${it.label}`}
+                    aria-pressed={i === idx}
+                    className={[
+                      'h-1.5 rounded-full transition-all duration-300 ease-smooth',
+                      i === idx ? 'w-8 bg-terracotta' : 'w-4 bg-navy/20 hover:bg-navy/40',
+                    ].join(' ')}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* ─── Colonne droite : slider ───────────────────────── */}
+          <div>
+            <CompareSlider key={idx} item={current} />
+            <p className="mt-5 text-center text-[14px] text-slate italic">
+              {itemCaptionPrefix ? `${itemCaptionPrefix} ` : ''}
+              <strong className="text-navy not-italic font-semibold">{current.label}</strong>
+            </p>
           </div>
         </div>
       </div>
@@ -64,9 +120,33 @@ export function BeforeAfterSlider({ eyebrow, h2, intro, items }: Props) {
   );
 }
 
+function IntroWithStrong({ text, strongs }: { text: string; strongs: string[] }) {
+  if (strongs.length === 0) return <>{text}</>;
+  // Découpe le texte autour de chaque expression strong (split sur regex sans escape — assume strings simples)
+  const pattern = new RegExp(
+    `(${strongs.map((s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`,
+    'g',
+  );
+  const parts = text.split(pattern);
+  return (
+    <>
+      {parts.map((p, i) =>
+        strongs.includes(p) ? (
+          <strong key={i} className="text-navy font-semibold">
+            {p}
+          </strong>
+        ) : (
+          <span key={i}>{p}</span>
+        ),
+      )}
+    </>
+  );
+}
+
 function CompareSlider({ item }: { item: BeforeAfterItem }) {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [pos, setPos] = useState(50);
+  const [dragging, setDragging] = useState(false);
 
   const onMove = useCallback((clientX: number) => {
     const el = wrapperRef.current;
@@ -79,25 +159,32 @@ function CompareSlider({ item }: { item: BeforeAfterItem }) {
   return (
     <div
       ref={wrapperRef}
-      onMouseMove={(e) => {
-        if (e.buttons === 1) onMove(e.clientX);
+      onMouseDown={(e) => {
+        setDragging(true);
+        onMove(e.clientX);
       }}
+      onMouseMove={(e) => {
+        if (dragging) onMove(e.clientX);
+      }}
+      onMouseUp={() => setDragging(false)}
+      onMouseLeave={() => setDragging(false)}
+      onTouchStart={(e) => onMove(e.touches[0].clientX)}
       onTouchMove={(e) => onMove(e.touches[0].clientX)}
-      className="relative w-full aspect-[4/3] sm:aspect-[16/10] rounded-lg overflow-hidden select-none bg-navy cursor-ew-resize shadow-2xl"
+      className="relative w-full aspect-[4/3] rounded-[20px] overflow-hidden select-none bg-navy-deep cursor-ew-resize shadow-[0_30px_60px_rgba(14,43,78,0.25)]"
     >
-      {/* AFTER (en fond, plein cadre) */}
+      {/* AFTER (en fond plein) */}
       <Image
         src={item.after.src}
         alt={item.after.alt}
         fill
-        sizes="(max-width: 768px) 100vw, 1024px"
+        sizes="(max-width: 1024px) 100vw, 700px"
         className="object-cover"
       />
-      <span className="absolute top-3 right-3 z-20 px-2.5 py-1 rounded text-[11px] font-semibold uppercase tracking-wider bg-terracotta text-cream">
+      <span className="absolute top-5 right-5 z-20 px-3.5 py-1.5 rounded-full text-[11px] font-semibold uppercase tracking-[0.15em] bg-black/65 text-white backdrop-blur-md">
         Après
       </span>
 
-      {/* BEFORE (clippé selon pos) */}
+      {/* BEFORE clippé selon pos */}
       <div
         className="absolute inset-0 overflow-hidden"
         style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
@@ -106,33 +193,26 @@ function CompareSlider({ item }: { item: BeforeAfterItem }) {
           src={item.before.src}
           alt={item.before.alt}
           fill
-          sizes="(max-width: 768px) 100vw, 1024px"
+          sizes="(max-width: 1024px) 100vw, 700px"
           className="object-cover"
+          style={{ filter: 'saturate(0.7) brightness(0.85)' }}
         />
-        <span className="absolute top-3 left-3 z-20 px-2.5 py-1 rounded text-[11px] font-semibold uppercase tracking-wider bg-navy text-cream">
+        <span className="absolute top-5 left-5 z-20 px-3.5 py-1.5 rounded-full text-[11px] font-semibold uppercase tracking-[0.15em] bg-black/65 text-white backdrop-blur-md">
           Avant
         </span>
       </div>
 
-      {/* Handle vertical */}
+      {/* Handle vertical + knob */}
       <div
-        className="absolute top-0 bottom-0 w-px bg-white z-10 pointer-events-none"
-        style={{ left: `${pos}%` }}
+        className="absolute top-0 bottom-0 w-[3px] bg-white z-10 pointer-events-none shadow-[0_0_20px_rgba(0,0,0,0.5)]"
+        style={{ left: `${pos}%`, transform: 'translateX(-50%)' }}
       >
-        <button
-          type="button"
-          aria-label="Glisser pour comparer"
-          tabIndex={0}
-          onPointerDown={(e) => {
-            (e.target as HTMLElement).setPointerCapture(e.pointerId);
-          }}
-          onPointerMove={(e) => {
-            if (e.buttons === 1) onMove(e.clientX);
-          }}
-          className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 size-11 rounded-full bg-white text-navy shadow-xl pointer-events-auto cursor-ew-resize flex items-center justify-center hover:scale-110 transition-transform"
+        <span
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center size-[52px] rounded-full bg-cream text-navy shadow-[0_8px_24px_rgba(0,0,0,0.3)]"
+          aria-hidden
         >
-          <MoveHorizontal className="size-5" aria-hidden />
-        </button>
+          <ChevronsLeftRight className="size-5" />
+        </span>
       </div>
     </div>
   );

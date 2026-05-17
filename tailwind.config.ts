@@ -32,8 +32,8 @@ const config: Config = {
         mist: '#E8EDF2',
       },
       fontFamily: {
-        serif: ['var(--font-fraunces)', 'Georgia', 'serif'],
-        sans: ['var(--font-geist)', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-dm-serif)', 'Georgia', 'serif'],
+        sans: ['var(--font-dm-sans)', 'system-ui', 'sans-serif'],
       },
       transitionTimingFunction: {
         smooth: 'cubic-bezier(0.4, 0, 0.2, 1)',

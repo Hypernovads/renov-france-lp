@@ -14,12 +14,10 @@
     font-feature-settings: 'kern', 'liga', 'calt';
   }
 
-  /* Fraunces variable axes — base subtile pour titres normaux */
   h1, h2, h3, .serif {
     @apply font-serif text-navy;
-    font-variation-settings: 'SOFT' 30, 'WONK' 0;
-    letter-spacing: -0.02em;
-    line-height: 1.05;
+    letter-spacing: -0.015em;
+    line-height: 1.08;
     text-wrap: balance;
   }
 
@@ -103,15 +101,13 @@
     @apply bg-terracotta-light;
   }
 
-  /* Accent italique terracotta avec variations Fraunces actives */
+  /* Accent italique terracotta — DM Serif Display est italic-only en 400 */
   .italic-accent {
     @apply italic text-terracotta;
-    font-variation-settings: 'SOFT' 100, 'WONK' 1;
     font-weight: 400;
   }
   .italic-accent-light {
     @apply italic text-terracotta-light;
-    font-variation-settings: 'SOFT' 100, 'WONK' 1;
     font-weight: 400;
   }
 
@@ -130,8 +126,9 @@
 
   /* ─── Sections ─────────────────────────────────────────────── */
 
+  /* Padding asymétrique : top resserré pour remonter les eyebrows, bottom généreux */
   .section-pad {
-    @apply py-20 sm:py-28 lg:py-32;
+    @apply pt-14 sm:pt-16 lg:pt-20 pb-20 sm:pb-28 lg:pb-32;
   }
 }
 
