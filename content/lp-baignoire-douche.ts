@@ -1,4 +1,5 @@
 import type { LPContent } from './types';
+import { client } from './client';
 
 /**
  * LP 1 — Baignoire → Douche
@@ -25,8 +26,9 @@ export const lpBaignoireDouche: LPContent = {
   announcement: {
     prefix: 'Encore',
     highlight: "2 créneaux d'expert",
-    text: 'disponibles cette semaine — Marseille & Aix-en-Provence',
+    text: 'disponibles {semaine} — Marseille & Aix-en-Provence',
     withDot: true,
+    withWeek: true,
   },
 
   hero: {
@@ -46,7 +48,12 @@ export const lpBaignoireDouche: LPContent = {
     { icon: 'shield-check', label: 'Qualibat', rating: 'Certification artisan' },
     { icon: 'award', label: 'RGE', rating: 'Reconnu Garant Environnement' },
     { icon: 'lock', label: 'Décennale 10 ans', rating: 'Assurée MAAF' },
-    { icon: 'star', label: '4,5/5 Google', rating: '187 avis vérifiés' },
+    {
+      icon: 'star',
+      label: '4,5/5 Google',
+      rating: '187 avis vérifiés',
+      href: client.reviews.googleUrl,
+    },
     { icon: 'clock', label: 'Pose en 24h', rating: 'Sans gros chantier' },
   ],
 
@@ -179,6 +186,7 @@ export const lpBaignoireDouche: LPContent = {
       {
         name: 'Essentiel',
         duration: '1 jour',
+        priceFrom: 'À partir de 3 500 € TTC',
         items: [
           "Dépose propre de l'ancienne baignoire",
           'Installation douche italienne sur-mesure',
@@ -193,6 +201,7 @@ export const lpBaignoireDouche: LPContent = {
       {
         name: 'Confort',
         duration: '2 jours',
+        priceFrom: 'À partir de 5 500 € TTC',
         items: [
           'Revêtement mural waterproof complet',
           '12 finitions au choix (effet pierre, bois, béton…)',
@@ -202,6 +211,7 @@ export const lpBaignoireDouche: LPContent = {
       {
         name: 'Premium',
         duration: '2 à 3 jours',
+        priceFrom: 'À partir de 7 500 € TTC',
         items: [
           'Réfection du sol (carrelage ou panneau étanche)',
           'Meuble vasque sur-mesure',
@@ -338,42 +348,43 @@ export const lpBaignoireDouche: LPContent = {
     eyebrow: 'Vos questions',
     h2Lead: "Tout ce qu'il faut",
     h2Highlight: 'savoir.',
+    // Ordre par objection d'achat : prix > durée > propreté > garantie > copro > aides > matériaux > zone > délai démarrage
     items: [
       {
         q: 'Combien ça coûte vraiment ?',
-        a: "Le coût dépend de votre configuration actuelle, des matériaux choisis et de l'étendue des travaux. Notre expert se déplace gratuitement chez vous pour établir un devis précis et personnalisé, en intégrant toutes les aides auxquelles vous avez droit. Aucun engagement, aucune obligation.",
+        a: "Comptez à partir de 3 500 € TTC pour le pack Essentiel (transformation simple en 1 jour), 5 500 € pour Confort (avec revêtement mural complet) et 7 500 € pour Premium (sol + meuble + accessoires). Le prix exact dépend de votre configuration : notre expert vient gratuitement chez vous pour établir un devis précis et calculer toutes les aides auxquelles vous avez droit.",
       },
       {
         q: "Vraiment 1 jour ? Comment c'est possible ?",
         a: "Oui — pour la transformation pure (pack Essentiel) : dépose de la baignoire + pose de votre douche italienne complète, c'est 1 journée (8h à 18h). Si vous ajoutez des options comme le revêtement mural complet, la réfection du sol ou un meuble vasque sur-mesure, comptez 2 à 3 jours selon le pack choisi (voir « Vos options » plus haut sur cette page). Tout est chiffré et planifié avant la signature du devis — pas de surprise.",
       },
       {
+        q: 'Sous quel délai pouvez-vous intervenir ?',
+        a: 'Comptez environ 2 à 4 semaines entre la signature du devis et la pose. Nous nous adaptons à votre planning : visite technique sous 7 jours, devis détaillé sous 48 h, puis date de pose calée ensemble selon vos disponibilités.',
+      },
+      {
         q: 'Vous cassez ma baignoire ?',
         a: "Non. La baignoire est déposée par sections (et non cassée), ce qui évite la poussière et les nuisances. Nous emportons l'ancien matériel pour vous. Vos voisins ne sauront même pas qu'il y a un chantier.",
       },
       {
+        q: 'Quelles garanties ?',
+        a: "Garantie décennale 10 ans sur tous nos chantiers, assurée par MAAF (attestation remise le jour de la pose). Garantie 2 ans sur les équipements et 5 ans sur la robinetterie. Une visite SAV est offerte à 6 mois pour vérifier la bonne tenue de l'installation.",
+      },
+      {
         q: "Et si j'habite en copropriété ?",
-        a: 'Aucun problème. Nos chantiers s\'effectuent sans bruit excessif et nous respectons les horaires de copropriété. Si nécessaire, nous vous aidons à informer le syndic.',
-      },
-      {
-        q: 'Quels matériaux utilisez-vous ?',
-        a: 'Uniquement des matériaux haut de gamme : receveur antidérapant norme PN24, parois en verre sécurit 6mm, robinetterie italienne thermostatique, panneaux muraux 100% étanches avec large choix de finitions.',
-      },
-      {
-        q: 'Vous intervenez où exactement dans le 13 ?',
-        a: "Marseille et toute sa métropole, Aix-en-Provence, Aubagne, Vitrolles, Marignane, La Ciotat, Martigues, Salon-de-Provence, Istres, Arles, Cassis et l'ensemble des Bouches-du-Rhône.",
+        a: "Aucun problème. La transformation baignoire → douche n'impacte ni les parties communes ni la colonne d'évacuation. Pas de besoin d'autorisation en AG dans la majorité des cas. Nous respectons les horaires de copropriété et vous aidons à informer le syndic si nécessaire.",
       },
       {
         q: 'Quelles aides puis-je obtenir ?',
-        a: "Selon votre situation : MaPrimeAdapt' (60 ans et +), TVA réduite à 5,5%, crédit d'impôt 25% pour équipements PMR, aides des caisses de retraite, Action Logement. Notre expert calcule votre éligibilité gratuitement et monte le dossier pour vous.",
+        a: "Selon votre situation : MaPrimeAdapt' (60 ans et +), TVA réduite à 5,5 % automatique pour les logements de plus de 2 ans, crédit d'impôt 25 % pour équipements PMR, aides des caisses de retraite (CARSAT, AGIRC-ARRCO), Action Logement. Notre expert calcule votre éligibilité gratuitement et monte le dossier pour vous.",
       },
       {
-        q: 'Quelles garanties ?',
-        a: 'Garantie décennale 10 ans sur tous nos chantiers, assurée par MAAF. Garantie 2 ans sur les équipements. Une visite SAV est offerte à 6 mois pour vérifier la bonne tenue de l\'installation.',
+        q: 'Quels matériaux utilisez-vous ?',
+        a: 'Uniquement des matériaux haut de gamme : receveur antidérapant norme PN24 (épaisseur 3 cm), parois en verre sécurit 6 mm anti-calcaire, mitigeur thermostatique italien anti-brûlure 38°C, panneaux muraux 100 % étanches avec 12 finitions au choix (effet pierre, bois, béton…).',
       },
       {
-        q: 'Sous quel délai pouvez-vous intervenir ?',
-        a: 'Comptez environ 2 à 4 semaines entre la signature du devis et la pose. Nous nous adaptons à votre planning.',
+        q: 'Vous intervenez où exactement dans le 13 ?',
+        a: "Marseille et toute sa métropole (1er au 16e), Aix-en-Provence, Aubagne, Vitrolles, Marignane, La Ciotat, Martigues, Salon-de-Provence, Istres, Arles, Cassis et l'ensemble des Bouches-du-Rhône — plus de 100 communes couvertes.",
       },
     ],
   },
@@ -388,18 +399,15 @@ export const lpBaignoireDouche: LPContent = {
       'Refaire toute la salle de bain',
       'Je ne sais pas encore',
     ],
-    budgets: [
-      'Moins de 4 000 €',
-      '4 000 — 6 000 €',
-      '6 000 — 10 000 €',
-      'Plus de 10 000 €',
-      'Je préfère qu\'on en parle',
-    ],
-    timings: [
-      'Dès que possible',
-      'Sous 1 à 3 mois',
-      'Sous 3 à 6 mois',
-      'Plus tard, je me renseigne',
+  },
+
+  pressBar: {
+    label: 'Ils parlent de nous',
+    items: [
+      { name: 'La Provence' },
+      { name: 'MaisonAPart' },
+      { name: 'Habitatpresto' },
+      { name: 'CSTB' },
     ],
   },
 

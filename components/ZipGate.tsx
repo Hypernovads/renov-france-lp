@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { checkPostalCode, type ZoneCheckResult } from '@/lib/zone';
 import type { LeadSource } from '@/lib/validation';
+import { client } from '@/content/client';
 
 type Props = {
   source: LeadSource;
@@ -117,8 +118,16 @@ export function ZipGate({ source, merciHref }: Props) {
         >
           Vérifiez votre éligibilité
         </h2>
-        <p className="text-sm text-slate mb-6">
+        <p className="text-sm text-slate mb-2">
           Réponse immédiate · 30 secondes · sans engagement
+        </p>
+        {/* Social proof temps réel — effet bandwagon */}
+        <p className="flex items-center gap-1.5 text-[12px] text-emerald-700 font-medium mb-6">
+          <span className="relative inline-flex items-center justify-center" aria-hidden>
+            <span className="absolute inline-flex size-1.5 rounded-full bg-emerald-500 opacity-60 animate-ping" />
+            <span className="relative inline-flex size-1.5 rounded-full bg-emerald-500" />
+          </span>
+          {client.demandesCeMois}
         </p>
 
         {/* Honeypot */}

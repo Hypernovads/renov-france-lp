@@ -10,19 +10,24 @@ type Props = {
   h2: string;
   sub: string;
   projectTypes: string[];
-  budgets: string[];
-  timings: string[];
   source: LeadSource;
   merciHref: string;
 };
 
+/**
+ * Form long du bas de page — version slim (4 champs).
+ *
+ * Rationale CRO : le ZipGate hero capture déjà CP + tel + propriétaire (+ city).
+ * Demander encore 8 champs ici tue la complétion (60% drop). On garde 4 champs
+ * essentiels au rappel commercial : Nom, Tel, CP, Type de projet.
+ *
+ * Budget et timing se demandent au téléphone (qualif commercial naturelle).
+ */
 export function FormLong({
   eyebrow,
   h2,
   sub,
   projectTypes,
-  budgets,
-  timings,
   source,
   merciHref,
 }: Props) {
@@ -32,12 +37,9 @@ export function FormLong({
 
   const ids = {
     name: useId(),
-    email: useId(),
     phone: useId(),
     postal: useId(),
     project: useId(),
-    budget: useId(),
-    timing: useId(),
     honey: useId(),
   };
 
@@ -50,13 +52,10 @@ export function FormLong({
     const payload = {
       source,
       name: String(fd.get('name') ?? ''),
-      email: String(fd.get('email') ?? ''),
       phone: String(fd.get('phone') ?? ''),
       postal_code: String(fd.get('postal_code') ?? ''),
-      is_owner: String(fd.get('is_owner') ?? '') === 'yes',
       project_type: String(fd.get('project_type') ?? ''),
-      budget: String(fd.get('budget') ?? ''),
-      timing: String(fd.get('timing') ?? ''),
+      is_owner: true, // assumé par défaut sur le form long (la qualif owner est ailleurs)
       website: String(fd.get('website') ?? ''),
     };
 
@@ -83,21 +82,21 @@ export function FormLong({
           {/* Colonne gauche : pitch */}
           <header className="lg:sticky lg:top-24">
             <span className="eyebrow">{eyebrow}</span>
-            <h2 className="mt-2 text-3xl sm:text-4xl lg:text-5xl leading-[1.05] text-balance">
+            <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl leading-[1.05] text-balance">
               {h2}
             </h2>
             <p className="mt-4 text-slate text-pretty">{sub}</p>
             <ul className="mt-6 space-y-2 text-sm text-slate">
-              <li>✓ Devis détaillé sous 48 h</li>
+              <li>✓ Rappel sous 24 h ouvrées</li>
               <li>✓ Visite technique gratuite</li>
               <li>✓ Aucune obligation d&apos;achat</li>
             </ul>
           </header>
 
-          {/* Colonne droite : form */}
+          {/* Colonne droite : form 4 champs */}
           <form
             onSubmit={handleSubmit}
-            className="bg-white rounded-lg border border-cream-warm p-6 sm:p-8 shadow-sm"
+            className="bg-white rounded-2xl border border-cream-warm p-6 sm:p-8 shadow-card-soft"
             noValidate
           >
             {/* Honeypot */}
@@ -113,13 +112,12 @@ export function FormLong({
             </div>
 
             <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
-              <Field id={ids.name} label="Nom et prénom" name="name" required autoComplete="name" />
               <Field
-                id={ids.email}
-                label="Email (optionnel)"
-                name="email"
-                type="email"
-                autoComplete="email"
+                id={ids.name}
+                label="Nom et prénom"
+                name="name"
+                required
+                autoComplete="name"
               />
               <Field
                 id={ids.phone}
@@ -138,7 +136,6 @@ export function FormLong({
                 inputMode="numeric"
                 placeholder="13008"
               />
-
               <Select
                 id={ids.project}
                 label="Type de projet"
@@ -146,45 +143,12 @@ export function FormLong({
                 options={projectTypes}
                 required
               />
-              <Select id={ids.budget} label="Budget estimé" name="budget" options={budgets} />
-              <Select
-                id={ids.timing}
-                label="Quand souhaitez-vous démarrer ?"
-                name="timing"
-                options={timings}
-                required
-              />
-
-              <div className="sm:col-span-1">
-                <span className="block text-sm font-medium text-slate mb-1.5">
-                  Êtes-vous propriétaire&nbsp;?
-                </span>
-                <div className="grid grid-cols-2 gap-2">
-                  {(['yes', 'no'] as const).map((v) => (
-                    <label
-                      key={v}
-                      className="relative flex items-center justify-center min-h-[48px] rounded-md border-2 border-cream-warm bg-cream/50 cursor-pointer transition-all hover:bg-cream-warm/60 has-[:checked]:border-terracotta has-[:checked]:bg-terracotta/10"
-                    >
-                      <input
-                        type="radio"
-                        name="is_owner"
-                        value={v}
-                        required
-                        className="sr-only"
-                      />
-                      <span className="font-medium text-navy">
-                        {v === 'yes' ? 'Oui' : 'Non'}
-                      </span>
-                    </label>
-                  ))}
-                </div>
-              </div>
             </div>
 
             <button
               type="submit"
               disabled={submitting}
-              className="btn-primary w-full mt-6 disabled:opacity-70 disabled:cursor-wait"
+              className="w-full inline-flex items-center justify-center gap-2.5 min-h-[56px] px-6 rounded-2xl bg-terracotta hover:bg-terracotta-deep text-cream font-semibold text-base shadow-terracotta-sm hover:shadow-terracotta-xl transition-all duration-300 ease-smooth disabled:opacity-60 disabled:cursor-wait hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] mt-6"
             >
               {submitting ? (
                 <>
@@ -205,7 +169,8 @@ export function FormLong({
             )}
 
             <p className="mt-4 text-[11px] text-slate leading-snug">
-              Vos données restent confidentielles. RGPD respecté.
+              Vos données restent confidentielles. RGPD respecté. Le budget et le délai sont
+              discutés au téléphone, sans engagement.
             </p>
           </form>
         </div>
@@ -222,13 +187,16 @@ function Field({
 }: React.InputHTMLAttributes<HTMLInputElement> & { id: string; label: string }) {
   return (
     <div className={className}>
-      <label htmlFor={id} className="block text-sm font-medium text-slate mb-1.5">
+      <label
+        htmlFor={id}
+        className="block text-[11px] font-semibold text-slate uppercase tracking-[0.06em] mb-1.5"
+      >
         {label}
       </label>
       <input
         id={id}
         {...rest}
-        className="w-full min-h-[48px] px-3.5 rounded-md border-2 border-cream-warm bg-cream/30 text-ink outline-none transition-all duration-300 ease-smooth focus:border-terracotta focus:bg-white"
+        className="w-full min-h-[48px] px-3.5 rounded-xl border-[1.5px] border-navy/[0.12] bg-white text-ink outline-none transition-all duration-250 focus:border-terracotta focus:shadow-[0_0_0_4px_rgba(194,105,63,0.1)]"
       />
     </div>
   );
@@ -246,14 +214,17 @@ function Select({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-medium text-slate mb-1.5">
+      <label
+        htmlFor={id}
+        className="block text-[11px] font-semibold text-slate uppercase tracking-[0.06em] mb-1.5"
+      >
         {label}
       </label>
       <select
         id={id}
         {...rest}
         defaultValue=""
-        className="w-full min-h-[48px] px-3.5 rounded-md border-2 border-cream-warm bg-cream/30 text-ink outline-none transition-all duration-300 ease-smooth focus:border-terracotta focus:bg-white"
+        className="w-full min-h-[48px] px-3.5 rounded-xl border-[1.5px] border-navy/[0.12] bg-white text-ink outline-none transition-all duration-250 focus:border-terracotta focus:shadow-[0_0_0_4px_rgba(194,105,63,0.1)]"
       >
         <option value="" disabled>
           — Choisir —

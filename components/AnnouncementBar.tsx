@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 type Props = {
@@ -7,9 +10,30 @@ type Props = {
   /** Affiche le dot vert pulsant en tête */
   withDot?: boolean;
   href?: string;
+  /** Si true : remplace `{semaine}` dans `text` par la semaine en cours formatée
+   *  (ex. "du 17 au 23 mai"). Calculé côté client pour rester frais. */
+  withWeek?: boolean;
 };
 
-export function AnnouncementBar({ prefix, highlight, text, withDot, href }: Props) {
+export function AnnouncementBar({
+  prefix,
+  highlight,
+  text,
+  withDot,
+  href,
+  withWeek = false,
+}: Props) {
+  const [week, setWeek] = useState('');
+
+  useEffect(() => {
+    if (!withWeek) return;
+    setWeek(formatCurrentWeekRange());
+  }, [withWeek]);
+
+  // Substitue {semaine} dans text par la plage calculée
+  const finalText =
+    withWeek && week ? text.replace('{semaine}', week) : text.replace(' {semaine}', '');
+
   const inner = (
     <div className="container-wide flex items-center justify-center gap-2 py-2.5 text-center text-[13px] text-cream/95">
       {withDot && (
@@ -24,7 +48,7 @@ export function AnnouncementBar({ prefix, highlight, text, withDot, href }: Prop
           <strong className="text-terracotta-light font-semibold">{highlight}</strong>
         )}
         {highlight && <span> </span>}
-        <span>{text}</span>
+        <span>{finalText}</span>
       </p>
     </div>
   );
@@ -43,4 +67,43 @@ export function AnnouncementBar({ prefix, highlight, text, withDot, href }: Prop
       )}
     </div>
   );
+}
+
+/**
+ * Calcule la semaine ISO en cours formatée pour affichage.
+ * Lundi = début de semaine, dimanche = fin.
+ * Format : "du 17 au 23 mai" (ou "du 30 mai au 5 juin" si la semaine déborde).
+ */
+function formatCurrentWeekRange(): string {
+  const now = new Date();
+  const day = now.getDay(); // 0=dimanche, 1=lundi, ..., 6=samedi
+  const diffToMonday = day === 0 ? -6 : 1 - day;
+  const monday = new Date(now);
+  monday.setDate(now.getDate() + diffToMonday);
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
+
+  const months = [
+    'janvier',
+    'février',
+    'mars',
+    'avril',
+    'mai',
+    'juin',
+    'juillet',
+    'août',
+    'septembre',
+    'octobre',
+    'novembre',
+    'décembre',
+  ];
+  const mDay = monday.getDate();
+  const sDay = sunday.getDate();
+  const mMonth = months[monday.getMonth()];
+  const sMonth = months[sunday.getMonth()];
+
+  if (mMonth === sMonth) {
+    return `du ${mDay} au ${sDay} ${sMonth}`;
+  }
+  return `du ${mDay} ${mMonth} au ${sDay} ${sMonth}`;
 }

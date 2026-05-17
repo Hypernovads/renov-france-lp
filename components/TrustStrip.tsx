@@ -58,15 +58,9 @@ export function TrustStrip({ items }: Props) {
 function TrustBadge({ item, fullWidth = false }: { item: TrustItem; fullWidth?: boolean }) {
   const Icon = ICONS[item.icon] ?? ShieldCheck;
   const isStar = item.icon === 'star';
-  return (
-    <div
-      className={[
-        'flex items-center gap-3 text-navy',
-        fullWidth
-          ? 'w-full justify-center bg-white border border-navy/10 rounded-xl py-3 px-4'
-          : '',
-      ].join(' ')}
-    >
+
+  const content = (
+    <>
       <span
         className={[
           'inline-flex size-10 items-center justify-center rounded-[10px] shrink-0',
@@ -79,7 +73,7 @@ function TrustBadge({ item, fullWidth = false }: { item: TrustItem; fullWidth?: 
           aria-hidden
         />
       </span>
-      <div className="font-serif leading-[1.2]">
+      <div className="font-serif leading-[1.2] text-left">
         <strong className="block text-[16px] font-normal text-navy">{item.label}</strong>
         {item.rating && (
           <small
@@ -90,6 +84,28 @@ function TrustBadge({ item, fullWidth = false }: { item: TrustItem; fullWidth?: 
           </small>
         )}
       </div>
-    </div>
+    </>
   );
+
+  const wrapperCls = [
+    'flex items-center gap-3 text-navy',
+    fullWidth ? 'w-full justify-center bg-white border border-navy/10 rounded-xl py-3 px-4' : '',
+    item.href ? 'transition-all duration-200 hover:scale-[1.02]' : '',
+  ].join(' ');
+
+  if (item.href) {
+    return (
+      <a
+        href={item.href}
+        target="_blank"
+        rel="noopener nofollow"
+        className={wrapperCls}
+        aria-label={`Voir les ${item.label} sur Google`}
+      >
+        {content}
+      </a>
+    );
+  }
+
+  return <div className={wrapperCls}>{content}</div>;
 }

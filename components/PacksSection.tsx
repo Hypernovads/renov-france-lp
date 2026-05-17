@@ -55,17 +55,24 @@ export function PacksSection({ eyebrow, h2Lead, h2Highlight, sub, packs, note }:
                 key={pack.name}
                 className="bg-cream/40 border border-navy/10 rounded-2xl p-6 sm:p-7 flex flex-col"
               >
-                {/* Header card : nom + durée */}
-                <div className="flex items-baseline justify-between gap-3 pb-4 mb-4 border-b border-navy/[0.08]">
-                  <span
-                    className="font-semibold text-navy uppercase text-[12px]"
-                    style={{ letterSpacing: '0.15em' }}
-                  >
-                    {pack.name}
-                  </span>
-                  <span className="font-serif text-navy text-xl sm:text-[22px] leading-none">
-                    {pack.duration}
-                  </span>
+                {/* Header card : nom + durée + prix indicatif optionnel */}
+                <div className="pb-4 mb-4 border-b border-navy/[0.08]">
+                  <div className="flex items-baseline justify-between gap-3">
+                    <span
+                      className="font-semibold text-navy uppercase text-[12px]"
+                      style={{ letterSpacing: '0.15em' }}
+                    >
+                      {pack.name}
+                    </span>
+                    <span className="font-serif text-navy text-xl sm:text-[22px] leading-none">
+                      {pack.duration}
+                    </span>
+                  </div>
+                  {pack.priceFrom && (
+                    <p className="mt-2 text-[13px] text-slate font-medium tabular-nums">
+                      {pack.priceFrom}
+                    </p>
+                  )}
                 </div>
 
                 {/* Pour Confort/Premium : précise "Tout d'Essentiel +" (élision FR si voyelle) */}

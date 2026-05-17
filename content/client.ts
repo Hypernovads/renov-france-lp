@@ -73,6 +73,12 @@ export const client = {
     { value: '4,5/5', label: '127 avis Google' },
     { value: '10 ans', label: 'garantie décennale' },
   ],
+
+  // ─── Social proof temps réel ───────────────────────────────────
+  // Phrase affichée dans le ZipGate sous "Réponse immédiate · 30 s".
+  // Effet bandwagon ("d'autres l'ont fait, c'est crédible").
+  // À automatiser Phase 2 : sync depuis Notion "leads ce mois ci".
+  demandesCeMois: '127 demandes traitées ce mois à Marseille',
 } as const;
 
 export type ClientConfig = typeof client;

@@ -73,11 +73,9 @@ export function Hero({
           )}
 
           <h1
-            className="text-cream mb-6"
+            className="text-cream mb-6 font-normal sm:font-light leading-[0.98] sm:leading-[1.05]"
             style={{
-              fontSize: 'clamp(2.5rem, 6vw, 5rem)',
-              fontWeight: 300,
-              lineHeight: 1.05,
+              fontSize: 'clamp(2.75rem, 6vw, 5rem)',
               letterSpacing: '-0.02em',
             }}
           >

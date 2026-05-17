@@ -5,6 +5,7 @@ import { AnnouncementBar } from '@/components/AnnouncementBar';
 import { Header } from '@/components/Header';
 import { Hero } from '@/components/Hero';
 import { TrustStrip } from '@/components/TrustStrip';
+import { PressBar } from '@/components/PressBar';
 import { PromiseGrid } from '@/components/PromiseGrid';
 import { BeforeAfterSlider } from '@/components/BeforeAfterSlider';
 import { IncludedSection } from '@/components/IncludedSection';
@@ -33,6 +34,7 @@ export default function BaignoireDoucheLP() {
         highlight={lp.announcement.highlight}
         text={lp.announcement.text}
         withDot={lp.announcement.withDot}
+        withWeek={lp.announcement.withWeek}
         href={lp.announcement.href}
       />
       <Header />
@@ -50,6 +52,10 @@ export default function BaignoireDoucheLP() {
         />
 
         <TrustStrip items={lp.trustStrip} />
+
+        {lp.pressBar && lp.pressBar.items.length > 0 && (
+          <PressBar label={lp.pressBar.label} items={lp.pressBar.items} />
+        )}
 
         <PromiseGrid
           eyebrow={lp.promiseGrid.eyebrow}
@@ -132,8 +138,6 @@ export default function BaignoireDoucheLP() {
           h2={lp.formLong.h2}
           sub={lp.formLong.sub}
           projectTypes={lp.formLong.projectTypes}
-          budgets={lp.formLong.budgets}
-          timings={lp.formLong.timings}
           source={lp.meta.source}
           merciHref={lp.meta.merciHref}
         />

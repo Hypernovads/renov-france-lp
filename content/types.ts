@@ -8,6 +8,8 @@ export type TrustItem = {
   rating?: string;
   /** Nom semantique d'icône Lucide (résolu côté composant) */
   icon: 'shield-check' | 'award' | 'lock' | 'star' | 'clock';
+  /** Si présent, le badge devient un lien (ex. URL Google reviews) */
+  href?: string;
 };
 
 export type PromiseItem = { icon: string; title: string; body: string };
@@ -52,6 +54,8 @@ export type Pack = {
   name: string;
   /** Durée chiffrée (ex. "1 jour", "2 jours", "2 à 3 jours") */
   duration: string;
+  /** Prix indicatif optionnel (ex. "À partir de 3 500 €") */
+  priceFrom?: string;
   /** Liste de prestations incluses (bullets) */
   items: string[];
 };
@@ -70,10 +74,13 @@ export type LPContent = {
     prefix?: string;
     /** Mot/expression mise en valeur en terracotta (ex. "2 créneaux d'expert") */
     highlight?: string;
-    /** Texte après le surlignage (ex. "disponibles cette semaine — Marseille & Aix") */
+    /** Texte après le surlignage. Peut contenir `{semaine}` qui sera remplacé
+     *  par la semaine en cours formatée ("du 17 au 23 mai") si `withWeek=true`. */
     text: string;
     /** Affiche le petit point vert clignotant en tête */
     withDot?: boolean;
+    /** Active la substitution `{semaine}` dans `text` */
+    withWeek?: boolean;
     href?: string;
   };
   hero: {
@@ -174,8 +181,12 @@ export type LPContent = {
     h2: string;
     sub: string;
     projectTypes: string[];
-    budgets: string[];
-    timings: string[];
+  };
+
+  /** Bande "Ils parlent de nous" sous TrustStrip. Optionnel. */
+  pressBar?: {
+    label?: string;
+    items: { name: string; logoSrc?: string }[];
   };
   ctaFinal: {
     eyebrow: string;
