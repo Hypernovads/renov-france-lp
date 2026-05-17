@@ -146,9 +146,8 @@ function IntroWithStrong({ text, strongs }: { text: string; strongs: string[] })
 function CompareSlider({ item }: { item: BeforeAfterItem }) {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [pos, setPos] = useState(50);
-  const [dragging, setDragging] = useState(false);
 
-  const onMove = useCallback((clientX: number) => {
+  const updateFromX = useCallback((clientX: number) => {
     const el = wrapperRef.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
@@ -156,21 +155,55 @@ function CompareSlider({ item }: { item: BeforeAfterItem }) {
     setPos(Math.max(0, Math.min(100, next)));
   }, []);
 
+  /**
+   * Pointer Events + pointer capture — le pointeur est "capturé" par le wrapper
+   * dès le pointerdown, donc même si la souris sort du conteneur (ou même de la
+   * fenêtre), pointermove + pointerup continuent à être routés vers cet élément.
+   * Pattern standard pour les sliders drag (utilisé par shadcn, Radix, etc.).
+   */
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    e.currentTarget.setPointerCapture(e.pointerId);
+    updateFromX(e.clientX);
+  };
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    // Drag en cours uniquement si le pointer est captured (= bouton enfoncé)
+    if (!e.currentTarget.hasPointerCapture(e.pointerId)) return;
+    e.preventDefault();
+    updateFromX(e.clientX);
+  };
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    }
+  };
+
+  // Accessibilité : flèches gauche/droite pour ajuster le slider au clavier
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      setPos((p) => Math.max(0, p - 5));
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      setPos((p) => Math.min(100, p + 5));
+    }
+  };
+
   return (
     <div
       ref={wrapperRef}
-      onMouseDown={(e) => {
-        setDragging(true);
-        onMove(e.clientX);
-      }}
-      onMouseMove={(e) => {
-        if (dragging) onMove(e.clientX);
-      }}
-      onMouseUp={() => setDragging(false)}
-      onMouseLeave={() => setDragging(false)}
-      onTouchStart={(e) => onMove(e.touches[0].clientX)}
-      onTouchMove={(e) => onMove(e.touches[0].clientX)}
-      className="relative w-full aspect-[4/3] rounded-[20px] overflow-hidden select-none bg-navy-deep cursor-ew-resize shadow-[0_30px_60px_rgba(14,43,78,0.25)]"
+      role="slider"
+      aria-label="Glisser pour comparer avant et après"
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuenow={Math.round(pos)}
+      tabIndex={0}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
+      onKeyDown={handleKeyDown}
+      style={{ touchAction: 'none' }}
+      className="relative w-full aspect-[4/3] rounded-[20px] overflow-hidden select-none bg-navy-deep cursor-ew-resize shadow-[0_30px_60px_rgba(14,43,78,0.25)] focus:outline-none focus-visible:ring-4 focus-visible:ring-terracotta/40"
     >
       {/* AFTER (en fond plein) */}
       <Image
@@ -178,15 +211,16 @@ function CompareSlider({ item }: { item: BeforeAfterItem }) {
         alt={item.after.alt}
         fill
         sizes="(max-width: 1024px) 100vw, 700px"
-        className="object-cover"
+        className="object-cover pointer-events-none"
+        draggable={false}
       />
-      <span className="absolute top-5 right-5 z-20 px-3.5 py-1.5 rounded-full text-[11px] font-semibold uppercase tracking-[0.15em] bg-black/65 text-white backdrop-blur-md">
+      <span className="absolute top-5 right-5 z-20 px-3.5 py-1.5 rounded-full text-[11px] font-semibold uppercase tracking-[0.15em] bg-black/65 text-white backdrop-blur-md pointer-events-none">
         Après
       </span>
 
       {/* BEFORE clippé selon pos */}
       <div
-        className="absolute inset-0 overflow-hidden"
+        className="absolute inset-0 overflow-hidden pointer-events-none"
         style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
       >
         <Image
@@ -196,13 +230,14 @@ function CompareSlider({ item }: { item: BeforeAfterItem }) {
           sizes="(max-width: 1024px) 100vw, 700px"
           className="object-cover"
           style={{ filter: 'saturate(0.7) brightness(0.85)' }}
+          draggable={false}
         />
         <span className="absolute top-5 left-5 z-20 px-3.5 py-1.5 rounded-full text-[11px] font-semibold uppercase tracking-[0.15em] bg-black/65 text-white backdrop-blur-md">
           Avant
         </span>
       </div>
 
-      {/* Handle vertical + knob */}
+      {/* Handle vertical + knob (pointer-events:none pour laisser passer au wrapper) */}
       <div
         className="absolute top-0 bottom-0 w-[3px] bg-white z-10 pointer-events-none shadow-[0_0_20px_rgba(0,0,0,0.5)]"
         style={{ left: `${pos}%`, transform: 'translateX(-50%)' }}
