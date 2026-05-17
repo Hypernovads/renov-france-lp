@@ -1,0 +1,65 @@
+import {
+  ShieldCheck,
+  Award,
+  Wrench,
+  Clock,
+  Star,
+  Sparkles,
+  Hammer,
+  Droplets,
+  Sun,
+  Ruler,
+  Brush,
+  Home,
+  Settings,
+  ThumbsUp,
+  Calendar,
+  ClipboardCheck,
+  Truck,
+  HeartHandshake,
+  Euro,
+  PiggyBank,
+  Receipt,
+  HandCoins,
+  Building2,
+  Camera,
+  Eye,
+  Quote,
+  type LucideIcon,
+} from 'lucide-react';
+
+/** Registry partagé d'icônes pour les composants qui prennent un nom d'icône en data */
+export const ICONS = {
+  'shield-check': ShieldCheck,
+  award: Award,
+  wrench: Wrench,
+  clock: Clock,
+  star: Star,
+  sparkles: Sparkles,
+  hammer: Hammer,
+  droplets: Droplets,
+  sun: Sun,
+  ruler: Ruler,
+  brush: Brush,
+  home: Home,
+  settings: Settings,
+  'thumbs-up': ThumbsUp,
+  calendar: Calendar,
+  'clipboard-check': ClipboardCheck,
+  truck: Truck,
+  'heart-handshake': HeartHandshake,
+  euro: Euro,
+  'piggy-bank': PiggyBank,
+  receipt: Receipt,
+  'hand-coins': HandCoins,
+  'building-2': Building2,
+  camera: Camera,
+  eye: Eye,
+  quote: Quote,
+} satisfies Record<string, LucideIcon>;
+
+export type IconName = keyof typeof ICONS;
+
+export function getIcon(name: string): LucideIcon {
+  return ICONS[name as IconName] ?? Sparkles;
+}
