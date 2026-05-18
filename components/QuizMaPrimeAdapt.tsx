@@ -27,6 +27,9 @@ type Answers = {
   statut?: 'proprietaire-occupant' | 'proprietaire-bailleur' | 'locataire' | 'enfant';
   revenu?: 'tres-modeste' | 'modeste' | 'intermediaire' | 'superieur' | 'sais-pas';
   situation?: 'autonome' | 'difficultes' | 'reconnu-pmr';
+  /** Régime pro/retraite — critique pour Action Logement (5 000 €) qui ne couvre que
+   *  les retraités du régime général + salariés actifs du privé. */
+  regime?: 'retraite-prive' | 'retraite-public' | 'salarie-prive' | 'salarie-public' | 'independant' | 'sans-activite';
   postal?: string;
 };
 
@@ -118,8 +121,42 @@ const QUESTIONS: Question[] = [
       },
       {
         value: 'reconnu-pmr',
-        label: "Reconnu en perte d'autonomie (GIR / RQTH)",
-        description: "Éligibilité maximale + bonus crédit d'impôt.",
+        label: "Reconnu en perte d'autonomie (GIR 1-6 ou RQTH ≥ 50 %)",
+        description: "MaPrimeAdapt' 70 % automatique + APA possible.",
+      },
+    ],
+  },
+  {
+    id: 'regime',
+    question: 'Votre régime professionnel / retraite ?',
+    hint: "Critique pour Action Logement (5 000 €) — réservée aux retraités du régime général et salariés actifs du privé.",
+    type: 'choice',
+    options: [
+      {
+        value: 'retraite-prive',
+        label: 'Retraité·e du régime général (ex-salarié·e du privé)',
+        description: 'Éligible Action Logement 5 000 € + CARSAT.',
+      },
+      {
+        value: 'salarie-prive',
+        label: 'Actif·ve, salarié·e du privé',
+        description: 'Éligible Action Logement 5 000 € si en perte d’autonomie.',
+      },
+      {
+        value: 'retraite-public',
+        label: 'Retraité·e fonction publique',
+      },
+      {
+        value: 'salarie-public',
+        label: 'Actif·ve fonction publique',
+      },
+      {
+        value: 'independant',
+        label: 'Indépendant·e / profession libérale',
+      },
+      {
+        value: 'sans-activite',
+        label: 'Aucune de ces situations',
       },
     ],
   },
@@ -131,7 +168,11 @@ const QUESTIONS: Question[] = [
   },
 ];
 
-const HT = 6000;
+/**
+ * Pack senior basique RénoBain (dépose baignoire + pose douche italienne sécurisée
+ * + revêtement basique). Confirmé par Steve. À ajuster si le tarif client change.
+ */
+const PACK_HT = 5800;
 
 type Calculation = {
   totalAides: number;
@@ -143,43 +184,90 @@ type Calculation = {
   isCovered: boolean;
 };
 
+/**
+ * Calcul d'éligibilité aux aides cumulables — Bouches-du-Rhône 2026.
+ *
+ * Sources des barèmes (consolidés mai 2026) :
+ * - MaPrimeAdapt' : ANAH / France Rénov' — plafond travaux 22 000 € HT,
+ *   aide max 15 400 € (très modeste) ou 11 000 € (modeste).
+ *   https://france-renov.gouv.fr/aides/maprimeadapt
+ * - Crédit d'impôt PMR (CGI 200 quater A) : SUPPRIMÉ depuis le 01/01/2026
+ *   (dernière année d'application = 2025).
+ * - Action Logement : subvention 5 000 € adaptation SDB pour retraités du régime
+ *   général + salariés actifs du privé en perte d'autonomie.
+ *   https://actionlogement.fr
+ * - CARSAT Sud-Est : Plan d'Actions Personnalisé (PAP) "Bien Vieillir Chez Soi",
+ *   montants variables selon revenus.
+ *   https://www.carsat-sudest.fr
+ * - APA (Département 13) : volet aide adaptation logement pour GIR 1-6.
+ *   https://www.departement13.fr
+ * - TVA 5,5 % : automatique pour logement > 2 ans.
+ *
+ * Le calcul est une ESTIMATION INDICATIVE. La conseillère affine en visite gratuite.
+ */
 function calculateAides(a: Answers): Calculation {
+  const isProprioOccupant = a.statut === 'proprietaire-occupant';
   const isLocataire = a.statut === 'locataire';
   const isPmr = a.situation === 'reconnu-pmr';
+  const isRetraitePrive = a.regime === 'retraite-prive';
+  const isSalariePrive = a.regime === 'salarie-prive';
 
-  // MaPrimeAdapt' — non éligible si locataire
+  const ttc = Math.round(PACK_HT * 1.055); // 5 800 × 1.055 = 6 119 €
+
+  // ─── MaPrimeAdapt' (ANAH) ──────────────────────────────────────────
+  // Éligibilité : propriétaire occupant 60+ OU GIR 1-6 OU RQTH ≥ 50%.
+  // Locataire et propriétaire bailleur NON éligibles à MPA (l'enfant qui équipe
+  // un parent peut être éligible si le parent est propriétaire occupant — on suppose ici).
   let mpaPercent = 0;
-  if (!isLocataire) {
+  if (isProprioOccupant || a.statut === 'enfant' || isPmr) {
     if (a.revenu === 'tres-modeste') mpaPercent = 70;
     else if (a.revenu === 'modeste') mpaPercent = 50;
     else if (a.revenu === 'sais-pas') mpaPercent = 50;
-    else if (a.revenu === 'intermediaire') mpaPercent = 0;
-    else mpaPercent = 0;
+    // Intermédiaire et supérieur : 0% (non éligibles ANAH)
+    if (isPmr) mpaPercent = Math.max(mpaPercent, 70);
   }
-  if (isPmr) mpaPercent = Math.max(mpaPercent, 70);
-  const mpa = Math.round((HT * mpaPercent) / 100);
+  let mpa = Math.round((PACK_HT * mpaPercent) / 100);
+  // Plafond MPA 2026 : 15 400 € très modeste / 11 000 € modeste
+  if (mpaPercent === 70) mpa = Math.min(mpa, 15400);
+  else if (mpaPercent === 50) mpa = Math.min(mpa, 11000);
 
-  // Économie TVA 5,5 % vs 20 % standard
-  const tva = Math.round(HT * 0.145); // ~870 €
+  // ─── TVA 5,5 % automatique (logement > 2 ans) ──────────────────────
+  // Économie vs TVA standard 20 % = 14,5 % du HT
+  const tva = Math.round(PACK_HT * 0.145); // 5 800 × 14.5% = 841 €
 
-  // Crédit d'impôt 25 % équipements PMR
-  const equipementsPMR = isPmr ? 3000 : 2000;
-  const ci = Math.round(equipementsPMR * 0.25);
+  // ─── Action Logement (subvention 5 000 €) ──────────────────────────
+  // Réservée aux retraités du régime général + salariés actifs du privé.
+  // Pas pour fonction publique, indépendants, ou autres.
+  const actionLogement =
+    isRetraitePrive || (isSalariePrive && (isPmr || a.situation === 'difficultes')) ? 5000 : 0;
 
-  // Aide caisse de retraite (montants moyens observés)
-  let caisse = 800;
-  if (a.age === '70-75') caisse = 1200;
-  else if (a.age === '75-80') caisse = 1500;
-  else if (a.age === '80+') caisse = 2000;
-  if (isPmr) caisse += 500;
-  if (isLocataire) caisse = 0;
+  // ─── CARSAT Sud-Est PAP (Plan d'Actions Personnalisé) ──────────────
+  // Réservé aux retraités du régime général. Montant variable selon revenus.
+  let carsat = 0;
+  if (isRetraitePrive) {
+    if (a.revenu === 'tres-modeste') carsat = 1500;
+    else if (a.revenu === 'modeste') carsat = 1000;
+    else if (a.revenu === 'sais-pas') carsat = 1000;
+    else if (a.revenu === 'intermediaire') carsat = 500;
+    // Supérieur : pas éligible PAP
+    if (isPmr) carsat += 300;
+  }
 
-  const totalAides = mpa + tva + ci + caisse;
+  // ─── APA Département 13 (volet adaptation logement) ────────────────
+  // Pour GIR 1-6 reconnu. Montant variable, on prend une estimation moyenne.
+  const apa = isPmr && isProprioOccupant ? 1000 : 0;
 
-  // TTC à 5,5% = 6330€. Reste = TTC - aides directes (hors TVA déjà déduite)
-  const ttc = Math.round(HT * 1.055);
-  const restRaw = ttc - mpa - ci - caisse;
+  // ─── Total et cap ──────────────────────────────────────────────────
+  // Aides directes (déduites du devis) : MPA + Action Logement + CARSAT + APA
+  // TVA est déjà incluse dans le calcul TTC, on l'affiche séparément comme "économie"
+  const aidesDirectes = mpa + actionLogement + carsat + apa;
+
+  // Reste à charge cappé à 1 € symbolique si les aides dépassent le coût TTC
+  const restRaw = ttc - aidesDirectes;
   const restAcharge = Math.max(1, restRaw);
+
+  // Total aides affiché (inclut l'économie TVA pour la com)
+  const totalAides = aidesDirectes + tva;
 
   const zoneResult = a.postal ? checkPostalCode(a.postal) : null;
   const city =
@@ -192,10 +280,11 @@ function calculateAides(a: Answers): Calculation {
     totalAides,
     restAcharge,
     breakdown: [
-      { label: "MaPrimeAdapt'", amount: mpa, eligible: mpa > 0 },
+      { label: "MaPrimeAdapt' (ANAH)", amount: mpa, eligible: mpa > 0 },
       { label: 'TVA réduite 5,5 %', amount: tva, eligible: true },
-      { label: "Crédit d'impôt 25 %", amount: ci, eligible: true },
-      { label: 'Aide caisse de retraite', amount: caisse, eligible: caisse > 0 },
+      { label: 'Action Logement', amount: actionLogement, eligible: actionLogement > 0 },
+      { label: 'CARSAT Sud-Est (PAP)', amount: carsat, eligible: carsat > 0 },
+      { label: 'APA Département 13', amount: apa, eligible: apa > 0 },
     ],
     isLocataire,
     isPmr,
@@ -209,7 +298,7 @@ function calculateAides(a: Answers): Calculation {
  *
  * Flow :
  * 1. intro       : pitch "Vérifiez votre éligibilité en 30 sec" + CTA Commencer
- * 2. question    : 5 questions enchaînées (âge → statut → revenu → situation → CP)
+ * 2. question    : 6 questions enchaînées (âge → statut → revenu → situation → régime → CP)
  * 3. calculating : écran 4s avec 4 messages qui défilent (théâtralisation)
  * 4. result      : estimation animée + breakdown + form (nom+tel) → submit /api/lead
  *
@@ -385,7 +474,7 @@ function IntroPanel({ onStart }: { onStart: () => void }) {
         Vérifiez votre éligibilité
       </h2>
       <p className="text-sm text-slate mb-6">
-        5 questions simples · 30 secondes · sans engagement
+        6 questions simples · 45 secondes · sans engagement
       </p>
 
       <ul className="text-left space-y-2.5 mb-7 text-[14px] text-slate">
@@ -823,8 +912,13 @@ function ResultPanel({
         )}
 
         <p className="text-[11px] text-slate/70 text-pretty leading-snug">
-          * Estimation indicative basée sur les barèmes 2026. Notre conseillère affine votre
-          calcul en visite gratuite, sans engagement. RGPD respecté.
+          * Estimation indicative basée sur les barèmes publics 2026
+          (MaPrimeAdapt' ANAH, Action Logement, CARSAT Sud-Est, APA Département 13,
+          TVA 5,5 %), pour un pack senior de référence à 5 800 € HT en
+          Bouches-du-Rhône. Les montants exacts dépendent de votre revenu fiscal
+          de référence, votre composition de foyer, votre régime de retraite et
+          la décision finale des organismes. Notre conseillère calcule vos aides
+          précises gratuitement en visite, sans engagement. RGPD respecté.
         </p>
       </form>
     </div>
