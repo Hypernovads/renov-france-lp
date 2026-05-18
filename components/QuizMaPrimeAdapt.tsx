@@ -109,29 +109,34 @@ const QUESTIONS: Question[] = [
   },
   {
     id: 'revenu',
-    question: "Pensez-vous être éligible aux aides MaPrimeAdapt' ?",
-    hint: "Si vous ne savez pas, on vérifie pour vous.",
+    question: 'Votre tranche de revenu fiscal de référence ?',
+    hint: "Ligne en bas de la 1ère page de votre avis d'imposition. Confidentiel — sert uniquement au calcul de vos aides (barèmes ANAH 2026).",
     type: 'choice',
     options: [
       {
         value: 'tres-modeste',
-        label: 'Oui, je sais que mes revenus sont modestes',
-        description: "Idéal : taux d'aide maximal (70 %).",
-      },
-      {
-        value: 'sais-pas',
-        label: 'Je ne sais pas — vérifiez pour moi',
-        description: "On calcule avec une hypothèse favorable.",
+        label: 'Moins de 17 363 € (seul) ou 25 393 € (couple)',
+        description: "Très modeste — MaPrimeAdapt' 70 % ✓",
       },
       {
         value: 'modeste',
-        label: 'Probablement, je suis à la limite',
-        description: 'Taux intermédiaire estimé.',
+        label: '17 363 — 22 259 € (seul) ou 25 393 — 32 553 € (couple)',
+        description: "Modeste — MaPrimeAdapt' 50 % ✓",
+      },
+      {
+        value: 'intermediaire',
+        label: '22 259 — 31 185 € (seul) ou 32 553 — 45 842 € (couple)',
+        description: 'Intermédiaire — autres aides cumulables',
       },
       {
         value: 'superieur',
-        label: 'Probablement pas, mais je veux savoir',
-        description: 'On vérifie les autres aides cumulables.',
+        label: 'Plus de 31 185 € (seul) ou 45 842 € (couple)',
+        description: 'Supérieur — aides limitées mais possibles',
+      },
+      {
+        value: 'sais-pas',
+        label: 'Je préfère qu’on vérifie pour moi',
+        description: 'On calcule avec une hypothèse favorable.',
       },
     ],
   },
@@ -151,7 +156,7 @@ const QUESTIONS: Question[] = [
       {
         value: 'reconnu-pmr',
         label: "Reconnu en perte d'autonomie (GIR 1-6 ou RQTH ≥ 50 %)",
-        description: "MaPrimeAdapt' 70 % automatique + APA possible.",
+        description: "Débloque MaPrimeAdapt' 70 % + APA + bonus CARSAT (jusqu'à +6 000 € d'aides supplémentaires).",
       },
     ],
   },
