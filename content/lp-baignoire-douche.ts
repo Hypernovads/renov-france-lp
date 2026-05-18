@@ -124,14 +124,14 @@ export const lpBaignoireDouche: LPContent = {
         },
       },
       {
-        label: 'Exemple — Vieille SDB → douche contemporaine',
+        label: 'De la faïence bleue vieillissante à une douche italienne épurée',
         before: {
-          src: u('photo-1584622650111-993a426fbf0a', 1200),
-          alt: 'Baignoire vieillissante avant rénovation',
+          src: '/images/realisations/realisation-03-avant.png',
+          alt: 'Salle de bain ancienne avec faïence bleu turquoise à motifs floraux, baignoire blanche et radiateur fonte avant rénovation',
         },
         after: {
-          src: u('photo-1564540583246-934409427776', 1200),
-          alt: 'Douche italienne contemporaine après transformation',
+          src: '/images/realisations/realisation-03-apres.png',
+          alt: 'Douche italienne moderne avec paroi vitrée, carrelage beige effet textile, meuble vasque chêne clair et niche éclairée après rénovation',
         },
       },
     ],
