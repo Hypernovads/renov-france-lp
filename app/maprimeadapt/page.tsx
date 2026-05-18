@@ -4,6 +4,7 @@ import { lpMaPrimeAdapt as lp } from '@/content/lp-maprimeadapt';
 import { AnnouncementBar } from '@/components/AnnouncementBar';
 import { Header } from '@/components/Header';
 import { Hero } from '@/components/Hero';
+import { QuizMaPrimeAdapt } from '@/components/QuizMaPrimeAdapt';
 import { TrustStrip } from '@/components/TrustStrip';
 import { PressBar } from '@/components/PressBar';
 import { PromiseGrid } from '@/components/PromiseGrid';
@@ -58,6 +59,9 @@ export default function MaPrimeAdaptLP() {
           bgImage={lp.hero.bgImage}
           source={lp.meta.source}
           merciHref={lp.meta.merciHref}
+          rightSlot={
+            <QuizMaPrimeAdapt source={lp.meta.source} merciHref={lp.meta.merciHref} />
+          }
         />
 
         <TrustStrip items={lp.trustStrip} />

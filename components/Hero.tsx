@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { ZipGate } from './ZipGate';
 import { client } from '@/content/client';
 import type { LeadSource } from '@/lib/validation';
@@ -14,8 +15,12 @@ type Props = {
   sub: string;
   /** Image de fond Unsplash (visible à droite via le dégradé latéral) */
   bgImage?: { src: string; alt: string } | null;
+  /** Source du lead — utilisée par le ZipGate par défaut. Ignoré si rightSlot est fourni. */
   source: LeadSource;
+  /** Page de remerciement — utilisée par le ZipGate par défaut. Ignoré si rightSlot est fourni. */
   merciHref: string;
+  /** Override la colonne droite (par défaut : ZipGate). LP2 passe ici son <QuizMaPrimeAdapt />. */
+  rightSlot?: ReactNode;
 };
 
 export function Hero({
@@ -27,6 +32,7 @@ export function Hero({
   bgImage,
   source,
   merciHref,
+  rightSlot,
 }: Props) {
   return (
     <section
@@ -124,9 +130,9 @@ export function Hero({
           </ul>
         </div>
 
-        {/* ─── Colonne droite : ZipGate ──────────────────────── */}
+        {/* ─── Colonne droite : rightSlot (default ZipGate) ──── */}
         <div className="lg:justify-self-end w-full" id="hero-form">
-          <ZipGate source={source} merciHref={merciHref} />
+          {rightSlot ?? <ZipGate source={source} merciHref={merciHref} />}
         </div>
       </div>
     </section>
