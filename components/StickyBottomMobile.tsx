@@ -1,15 +1,30 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Phone, MessageCircle, FileText } from 'lucide-react';
+import { Phone, MessageCircle, FileText, Sparkles } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { client } from '@/content/client';
 
 type Props = {
-  /** Ancre vers le formulaire long de la LP */
+  /** Ancre vers la cible du 3ᵉ bouton (default : '#form-long' pour LP1) */
   devisHref?: string;
+  /** Label du 3ᵉ bouton (default : "Mon devis"). LP2 utilise "Tester en 30s". */
+  devisLabel?: string;
+  /** Icône du 3ᵉ bouton (default : FileText). LP2 utilise Sparkles (quiz). */
+  devisIcon?: 'file' | 'sparkles';
 };
 
-export function StickyBottomMobile({ devisHref = '#form-long' }: Props) {
+const ICONS: Record<NonNullable<Props['devisIcon']>, LucideIcon> = {
+  file: FileText,
+  sparkles: Sparkles,
+};
+
+export function StickyBottomMobile({
+  devisHref = '#form-long',
+  devisLabel = 'Mon devis',
+  devisIcon = 'file',
+}: Props) {
+  const DevisIcon = ICONS[devisIcon];
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -52,8 +67,8 @@ export function StickyBottomMobile({ devisHref = '#form-long' }: Props) {
           href={devisHref}
           className="flex flex-col items-center justify-center gap-0.5 min-h-[56px] rounded-md bg-terracotta text-cream font-semibold text-xs shadow-lg active:scale-95 transition-transform"
         >
-          <FileText className="size-5" aria-hidden />
-          Mon devis
+          <DevisIcon className="size-5" aria-hidden />
+          {devisLabel}
         </a>
       </div>
     </div>

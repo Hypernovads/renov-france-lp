@@ -161,7 +161,11 @@ export default function MaPrimeAdaptLP() {
         villes={lp.footer?.villes}
         tagline={lp.footer?.tagline}
       />
-      <StickyBottomMobile devisHref="#form-long" />
+      <StickyBottomMobile
+        devisHref="#hero-form"
+        devisLabel="Tester en 30s"
+        devisIcon="sparkles"
+      />
     </>
   );
 }
