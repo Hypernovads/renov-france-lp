@@ -4,6 +4,7 @@ import { lpRenovation as lp } from '@/content/lp-renovation';
 import { AnnouncementBar } from '@/components/AnnouncementBar';
 import { Header } from '@/components/Header';
 import { Hero } from '@/components/Hero';
+import { ConceptionForm } from '@/components/ConceptionForm';
 import { TrustStrip } from '@/components/TrustStrip';
 import { PressBar } from '@/components/PressBar';
 import { PromiseGrid } from '@/components/PromiseGrid';
@@ -60,6 +61,9 @@ export default function RenovationTotaleLP() {
           bgImage={lp.hero.bgImage}
           source={lp.meta.source}
           merciHref={lp.meta.merciHref}
+          rightSlot={
+            <ConceptionForm source={lp.meta.source} merciHref={lp.meta.merciHref} />
+          }
         />
 
         <TrustStrip items={lp.trustStrip} />
@@ -158,7 +162,11 @@ export default function RenovationTotaleLP() {
         villes={lp.footer?.villes}
         tagline={lp.footer?.tagline}
       />
-      <StickyBottomMobile devisHref="#form-long" />
+      <StickyBottomMobile
+        devisHref="#hero-form"
+        devisLabel="Conception 3D"
+        devisIcon="sparkles"
+      />
     </>
   );
 }
