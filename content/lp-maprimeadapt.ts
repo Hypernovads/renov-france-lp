@@ -46,8 +46,10 @@ export const lpMaPrimeAdapt: LPContent = {
     sub:
       "Testez votre éligibilité en 30 secondes. Notre expert monte gratuitement votre dossier MaPrimeAdapt', caisse de retraite et toutes les aides cumulables. Pose en 1 jour, sans démolition.",
     bgImage: {
-      src: u('photo-1556909114-f6e7ad7d3136', 2000),
-      alt: 'Senior sereine après installation de sa nouvelle douche sécurisée',
+      // Vraie réalisation RénoBain : douche italienne carrelage beige effet textile,
+      // niche éclairée, paroi vitrée. Design moderne, chaleureux, rassurant pour cible 65+.
+      src: '/images/realisations/realisation-03-apres.png',
+      alt: 'Douche italienne moderne sécurisée avec paroi vitrée, carrelage beige et niche éclairée',
     },
   },
 
