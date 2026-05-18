@@ -186,7 +186,6 @@ export const lpBaignoireDouche: LPContent = {
       {
         name: 'Essentiel',
         duration: '1 jour',
-        priceFrom: 'À partir de 3 500 € TTC',
         items: [
           "Dépose propre de l'ancienne baignoire",
           'Installation douche italienne sur-mesure',
@@ -201,7 +200,6 @@ export const lpBaignoireDouche: LPContent = {
       {
         name: 'Confort',
         duration: '2 jours',
-        priceFrom: 'À partir de 5 500 € TTC',
         items: [
           'Revêtement mural waterproof complet',
           '12 finitions au choix (effet pierre, bois, béton…)',
@@ -211,7 +209,6 @@ export const lpBaignoireDouche: LPContent = {
       {
         name: 'Premium',
         duration: '2 à 3 jours',
-        priceFrom: 'À partir de 7 500 € TTC',
         items: [
           'Réfection du sol (carrelage ou panneau étanche)',
           'Meuble vasque sur-mesure',
@@ -352,7 +349,7 @@ export const lpBaignoireDouche: LPContent = {
     items: [
       {
         q: 'Combien ça coûte vraiment ?',
-        a: "Comptez à partir de 3 500 € TTC pour le pack Essentiel (transformation simple en 1 jour), 5 500 € pour Confort (avec revêtement mural complet) et 7 500 € pour Premium (sol + meuble + accessoires). Le prix exact dépend de votre configuration : notre expert vient gratuitement chez vous pour établir un devis précis et calculer toutes les aides auxquelles vous avez droit.",
+        a: "Le prix dépend de votre configuration actuelle (état de la plomberie, surface, contraintes), du pack choisi (Essentiel, Confort ou Premium — voir « Vos options » plus haut), des finitions, et des options ajoutées (revêtement mural, sol, meuble vasque…). C'est pour ça qu'on ne fait pas de prix au doigt mouillé : notre expert se déplace gratuitement chez vous pour mesurer, étudier votre installation et chiffrer précisément en intégrant toutes les aides auxquelles vous avez droit. Devis ferme, détaillé, sous 48 h.",
       },
       {
         q: "Vraiment 1 jour ? Comment c'est possible ?",
