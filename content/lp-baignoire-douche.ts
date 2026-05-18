@@ -113,14 +113,14 @@ export const lpBaignoireDouche: LPContent = {
         },
       },
       {
-        label: 'Exemple — Baignoire ancienne → douche italienne moderne',
+        label: "D'une baignoire beige fatiguée à une douche carrelage grand format",
         before: {
-          src: u('photo-1604014237800-1c9102c219da', 1200),
-          alt: 'Salle de bain ancienne avant transformation',
+          src: '/images/realisations/realisation-02-avant.png',
+          alt: "Salle de bain ancienne avec baignoire blanche et faïence beige à motifs floraux discrets avant rénovation",
         },
         after: {
-          src: u('photo-1600585154340-be6161a56a0c', 1200),
-          alt: 'Douche moderne avec paroi vitrée',
+          src: '/images/realisations/realisation-02-apres.png',
+          alt: 'Douche italienne moderne avec carrelage grand format beige, robinetterie noire et paroi vitrée après rénovation',
         },
       },
       {
