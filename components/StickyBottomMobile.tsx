@@ -8,9 +8,9 @@ import { client } from '@/content/client';
 type Props = {
   /** Ancre vers la cible du 3ᵉ bouton (default : '#form-long' pour LP1) */
   devisHref?: string;
-  /** Label du 3ᵉ bouton (default : "Mon devis"). LP2 utilise "Tester en 30s". */
+  /** Label du 3ᵉ bouton (default : "Devis" — uniforme cross-LP par choix Steve). */
   devisLabel?: string;
-  /** Icône du 3ᵉ bouton (default : FileText). LP2 utilise Sparkles (quiz). */
+  /** Icône du 3ᵉ bouton (default : FileText). LP2/LP3 utilisent Sparkles. */
   devisIcon?: 'file' | 'sparkles';
 };
 
@@ -21,7 +21,7 @@ const ICONS: Record<NonNullable<Props['devisIcon']>, LucideIcon> = {
 
 export function StickyBottomMobile({
   devisHref = '#form-long',
-  devisLabel = 'Mon devis',
+  devisLabel = 'Devis',
   devisIcon = 'file',
 }: Props) {
   const DevisIcon = ICONS[devisIcon];

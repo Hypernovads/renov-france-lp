@@ -163,7 +163,7 @@ export default function MaPrimeAdaptLP() {
       />
       <StickyBottomMobile
         devisHref="#hero-form"
-        devisLabel="Tester en 30s"
+        devisLabel="Devis"
         devisIcon="sparkles"
       />
     </>

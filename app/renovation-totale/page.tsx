@@ -163,7 +163,7 @@ export default function RenovationTotaleLP() {
       />
       <StickyBottomMobile
         devisHref="#hero-form"
-        devisLabel="Mon projet"
+        devisLabel="Devis"
         devisIcon="sparkles"
       />
     </>

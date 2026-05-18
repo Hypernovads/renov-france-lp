@@ -10,9 +10,11 @@ import { BrandMark } from './BrandMark';
  *
  * Comportements conversion :
  * 1. Téléphone TOUJOURS visible avec numéro plein (desktop + mobile) — sur ce vertical,
- *    50 % des leads convertissent par tel, l'icône seule cache la friction du clic-pour-voir.
- * 2. CTA "Mon devis gratuit" caché tant qu'on est dans le hero (le ZipGate suffit there).
- *    Réapparaît au scroll au-delà du hero pour ramener vers le form-long. Pattern Apple.
+ *    50 % des leads convertissent par tel. Sur mobile le numéro prend la place libérée
+ *    par le bouton CTA (qui est redondant avec le sticky bottom mobile).
+ * 2. CTA "Mon devis gratuit" caché tant qu'on est dans le hero. Apparaît au scroll
+ *    UNIQUEMENT sur desktop (sm+). Sur mobile, le sticky bottom 3-boutons (WhatsApp /
+ *    Appeler / Devis) prend le relais — pas de duplication d'action.
  */
 export function Header() {
   const [showDevisCta, setShowDevisCta] = useState(false);
@@ -39,20 +41,22 @@ export function Header() {
         <BrandMark />
 
         <nav className="flex items-center gap-2 sm:gap-3">
-          {/* Tel toujours visible avec numéro plein */}
+          {/* Tel toujours visible avec numéro plein (nowrap pour ne pas casser sur mobile) */}
           <a
             href={client.phone.href}
-            className="inline-flex items-center gap-2 font-semibold text-navy bg-transparent border border-navy/15 rounded-full min-h-[44px] sm:min-h-[48px] px-3 sm:px-4 text-[13px] sm:text-[15px] tabular-nums transition-all duration-300 ease-smooth hover:bg-navy hover:text-cream hover:border-navy active:scale-95"
+            className="inline-flex items-center gap-2 font-semibold text-navy bg-transparent border border-navy/15 rounded-full min-h-[44px] sm:min-h-[48px] px-3 sm:px-4 text-[13px] sm:text-[15px] tabular-nums whitespace-nowrap transition-all duration-300 ease-smooth hover:bg-navy hover:text-cream hover:border-navy active:scale-95"
             aria-label={`Appeler ${client.phone.display}`}
           >
-            <Phone className="size-4" aria-hidden />
+            <Phone className="size-4 shrink-0" aria-hidden />
             <span>{client.phone.display}</span>
           </a>
 
-          {/* CTA "Mon devis" — apparaît au scroll après le hero */}
+          {/* CTA "Mon devis" — DESKTOP UNIQUEMENT (sm+). Sur mobile, sticky bottom prend
+              le relais → pas de duplication. Apparaît au scroll après le hero. */}
           <a
             href="#form-long"
             className={[
+              'hidden sm:inline-flex',
               'btn-primary text-[13px] sm:text-sm overflow-hidden',
               'transition-all duration-300 ease-smooth',
               showDevisCta
@@ -62,10 +66,7 @@ export function Header() {
             aria-hidden={!showDevisCta}
             tabIndex={showDevisCta ? 0 : -1}
           >
-            <span className="whitespace-nowrap">
-              <span className="hidden sm:inline">Mon devis gratuit</span>
-              <span className="sm:hidden">Devis</span>
-            </span>
+            <span className="whitespace-nowrap">Mon devis gratuit</span>
             <ArrowRight className="size-4 shrink-0" aria-hidden />
           </a>
         </nav>
