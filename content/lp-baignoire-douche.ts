@@ -88,7 +88,7 @@ export const lpBaignoireDouche: LPContent = {
   },
 
   beforeAfter: {
-    eyebrow: 'Nos réalisations',
+    eyebrow: 'Exemples de transformation',
     h2Lead: 'Le matin, votre baignoire.',
     h2Highlight: 'Le soir, votre douche.',
     intro:
@@ -98,40 +98,40 @@ export const lpBaignoireDouche: LPContent = {
       { value: '24', unit: 'h', label: 'Pose complète' },
       { value: '0', unit: 'kg', label: 'De gravats' },
     ],
-    caption: '→ Faites glisser le curseur pour découvrir une transformation à Aubagne.',
-    itemCaptionPrefix: 'Réalisation à',
+    caption: '→ Faites glisser le curseur pour découvrir une transformation type.',
+    itemCaptionPrefix: '',
     items: [
       {
-        label: 'Aubagne · 1 journée · Septembre 2025',
+        label: "D'une baignoire datée à une douche italienne épurée",
         before: {
-          src: u('photo-1620626011761-996317b8d101', 1200),
-          alt: 'Baignoire ancienne avant rénovation à Aubagne',
+          src: '/images/realisations/realisation-01-avant.png',
+          alt: 'Salle de bain vieillissante avec baignoire verte et faïence à motifs floraux avant rénovation',
         },
         after: {
-          src: u('photo-1552321554-5fefe8c9ef14', 1200),
-          alt: 'Douche italienne moderne après rénovation',
+          src: '/images/realisations/realisation-01-apres.png',
+          alt: 'Douche italienne moderne avec paroi vitrée, meuble vasque chêne clair et carrelage grand format après rénovation',
         },
       },
       {
-        label: 'Marseille 8e · 1 journée · Août 2025',
+        label: 'Exemple — Baignoire ancienne → douche italienne moderne',
         before: {
           src: u('photo-1604014237800-1c9102c219da', 1200),
-          alt: 'Salle de bain ancienne à Marseille',
+          alt: 'Salle de bain ancienne avant transformation',
         },
         after: {
           src: u('photo-1600585154340-be6161a56a0c', 1200),
-          alt: 'Douche moderne paroi vitrée',
+          alt: 'Douche moderne avec paroi vitrée',
         },
       },
       {
-        label: 'Aix-en-Provence · 1 journée · Juin 2025',
+        label: 'Exemple — Vieille SDB → douche contemporaine',
         before: {
           src: u('photo-1584622650111-993a426fbf0a', 1200),
-          alt: 'Baignoire vieillissante',
+          alt: 'Baignoire vieillissante avant rénovation',
         },
         after: {
           src: u('photo-1564540583246-934409427776', 1200),
-          alt: 'Douche italienne après transformation',
+          alt: 'Douche italienne contemporaine après transformation',
         },
       },
     ],
