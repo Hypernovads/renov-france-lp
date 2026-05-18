@@ -4,7 +4,7 @@ import { lpRenovation as lp } from '@/content/lp-renovation';
 import { AnnouncementBar } from '@/components/AnnouncementBar';
 import { Header } from '@/components/Header';
 import { Hero } from '@/components/Hero';
-import { ConceptionForm } from '@/components/ConceptionForm';
+import { ProjectStartForm } from '@/components/ProjectStartForm';
 import { TrustStrip } from '@/components/TrustStrip';
 import { PressBar } from '@/components/PressBar';
 import { PromiseGrid } from '@/components/PromiseGrid';
@@ -30,9 +30,8 @@ export const metadata: Metadata = {
  * LP 3 — Rénovation totale (haut de gamme).
  *
  * Différences vs LP1 / LP2 :
- * - Hero a un <ConceptionForm> à droite (au lieu du ZipGate LP1 ou Quiz LP2)
- *   Tant que le composant ConceptionForm n'est pas créé, le Hero utilise
- *   le ZipGate par défaut. À switcher à l'étape 2.
+ * - Hero a un <ProjectStartForm> à droite (au lieu du ZipGate LP1 ou Quiz LP2)
+ *   Form 1-step premium : style préféré + surface + nom/tel/créneau rappel.
  * - Pas de PacksSection (rénovation = sur-mesure, pas de packs figés)
  * - AidesSection laissée à sa position standard (avant la FAQ) — secondaire
  *   vs LP2 où elle est centrale.
@@ -62,7 +61,7 @@ export default function RenovationTotaleLP() {
           source={lp.meta.source}
           merciHref={lp.meta.merciHref}
           rightSlot={
-            <ConceptionForm source={lp.meta.source} merciHref={lp.meta.merciHref} />
+            <ProjectStartForm source={lp.meta.source} merciHref={lp.meta.merciHref} />
           }
         />
 
@@ -164,7 +163,7 @@ export default function RenovationTotaleLP() {
       />
       <StickyBottomMobile
         devisHref="#hero-form"
-        devisLabel="Conception 3D"
+        devisLabel="Mon projet"
         devisIcon="sparkles"
       />
     </>

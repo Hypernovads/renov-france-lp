@@ -75,7 +75,7 @@ const SLOTS: { value: SlotValue; label: string; sub: string }[] = [
 ];
 
 /**
- * ConceptionForm — composant central du hero LP3 (rénovation totale).
+ * ProjectStartForm — composant central du hero LP3 (rénovation totale).
  *
  * Form premium 1-step adapté à la cible 35-55 propriétaires aisés.
  * Capture l'intention design en amont (style + surface) pour que le
@@ -97,7 +97,7 @@ const SLOTS: { value: SlotValue; label: string; sub: string }[] = [
  * - project_type : "Conception 3D — [style] / [surface]"
  * - raw.design_style, raw.surface, raw.rappel_slot
  */
-export function ConceptionForm({ source, merciHref }: Props) {
+export function ProjectStartForm({ source, merciHref }: Props) {
   const router = useRouter();
   const [style, setStyle] = useState<StyleValue | null>(null);
   const [surface, setSurface] = useState<SurfaceValue | null>(null);
@@ -133,7 +133,7 @@ export function ConceptionForm({ source, merciHref }: Props) {
           phone,
           postal_code: '', // pas demandé dans ce form, à recueillir au tel
           is_owner: true, // cible propriétaire aisée par défaut
-          project_type: `Conception 3D — ${styleLabel} / ${surfaceLabel}`,
+          project_type: `Rénovation totale — ${styleLabel} / ${surfaceLabel}`,
           website: honey,
           raw: {
             design_style: style,
@@ -172,10 +172,10 @@ export function ConceptionForm({ source, merciHref }: Props) {
               className="font-serif text-navy leading-tight"
               style={{ fontSize: '22px', fontWeight: 500, letterSpacing: '-0.01em' }}
             >
-              Conception 3D offerte
+              Démarrer votre projet
             </h2>
             <p className="text-sm text-slate mt-1">
-              Plans HD livrés sous 7 jours · sans engagement
+              Visite designer offerte chez vous · sans engagement
             </p>
           </div>
 
@@ -195,7 +195,7 @@ export function ConceptionForm({ source, merciHref }: Props) {
               <Phone className="size-4" aria-hidden />
               {client.phone.display}
             </a>
-            <p className="text-[11px] text-slate/70 mt-0.5">designer dédié au bout du fil</p>
+            <p className="text-[11px] text-slate/70 mt-0.5">parlez directement avec un designer</p>
           </div>
 
           {/* Style préféré */}
@@ -363,7 +363,7 @@ export function ConceptionForm({ source, merciHref }: Props) {
               </>
             ) : (
               <>
-                Réserver ma conception 3D
+                Démarrer mon projet
                 <ArrowRight className="size-5" aria-hidden />
               </>
             )}
@@ -383,11 +383,11 @@ export function ConceptionForm({ source, merciHref }: Props) {
             </li>
             <li className="inline-flex items-center gap-1">
               <CheckCircle2 className="size-3 text-emerald-600" aria-hidden />
-              Plans HD sous 7 j
+              Visite designer offerte
             </li>
             <li className="inline-flex items-center gap-1">
               <CheckCircle2 className="size-3 text-emerald-600" aria-hidden />
-              Designer dédié
+              Devis détaillé
             </li>
           </ul>
 
@@ -395,9 +395,9 @@ export function ConceptionForm({ source, merciHref }: Props) {
           <div className="mt-4 p-3 rounded-xl bg-cream-warm/40 border border-cream-warm/60 flex items-start gap-2.5">
             <Quote className="size-3.5 text-terracotta shrink-0 mt-1" aria-hidden />
             <p className="text-[12px] text-slate leading-snug italic">
-              « La 3D nous a totalement convaincus. Le rendu final est{' '}
+              « L'étude design nous a convaincus. Le rendu final est{' '}
               <strong className="text-navy not-italic font-semibold">
-                exactement conforme aux plans
+                exactement conforme à ce qu'on avait imaginé
               </strong>
               . »
               <span className="block text-[10px] text-slate/70 not-italic mt-0.5">

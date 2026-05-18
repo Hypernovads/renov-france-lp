@@ -7,11 +7,11 @@ import { client } from './client';
  * Cible : 35-55 ans propriétaires aisés (CSP+ / artisans / chefs d'entreprise
  * / cadres sup' / professions libérales).
  *
- * Hook : "Votre salle de bain réinventée. Conception 3D offerte."
+ * Hook : "Votre salle de bain réinventée. Du brief à la livraison."
  *
- * Différenciateur central : conception 3D personnalisée OFFERTE livrée sous
- * 7 jours, sur-mesure intégral (pas de pack figé), 1 interlocuteur unique
- * (designer + équipe artisans), clé en main.
+ * Différenciateur central : designer dédié + artisans Qualibat sous le même
+ * toit (1 seul interlocuteur), sur-mesure intégral (pas de pack figé),
+ * étude design personnalisée à domicile, clé en main du brief aux finitions.
  *
  * Visuels : SDB design haut de gamme magazine. Carrelage grand format,
  * marbre, bois clair, robinetterie italienne. PAS d'imagerie sécurité/senior,
@@ -21,7 +21,7 @@ import { client } from './client';
  * sur le prix mais sur le design + l'expérience). Focus éco-PTZ, MaPrimeRénov'
  * performance énergétique, TVA 5,5 %.
  *
- * Le hero affiche le <ConceptionForm> à droite (au lieu du ZipGate de la LP1
+ * Le hero affiche le <ProjectStartForm> à droite (au lieu du ZipGate de la LP1
  * ou du Quiz MaPrimeAdapt' de la LP2).
  */
 
@@ -31,16 +31,15 @@ const u = (id: string, w = 1600) =>
 export const lpRenovation: LPContent = {
   meta: {
     source: 'lp_renovation',
-    title: 'Rénovation totale de salle de bain — Conception 3D offerte | Bouches-du-Rhône',
+    title: 'Rénovation totale de salle de bain — Designers + artisans Qualibat | Bouches-du-Rhône',
     description:
-      "Designer + artisans Qualibat à votre service. Conception 3D personnalisée offerte, sur-mesure intégral, clé en main. Marseille, Aix-en-Provence et tout le 13.",
+      "Designers + artisans Qualibat à votre service pour une rénovation totale clé en main. Sur-mesure intégral, étude personnalisée à domicile. Marseille, Aix-en-Provence et tout le 13.",
     merciHref: '/merci-renovation-totale',
   },
 
   announcement: {
-    prefix: 'Conception 3D',
-    highlight: 'OFFERTE',
-    text: '+ accompagnement clé en main — Marseille & Bouches-du-Rhône',
+    highlight: 'Designers + artisans Qualibat',
+    text: 'à votre service dans tout le 13',
     withDot: true,
   },
 
@@ -48,9 +47,9 @@ export const lpRenovation: LPContent = {
     locationChip: 'Marseille · Bouches-du-Rhône',
     h1Lead: 'Votre salle de bain',
     h1Highlight: 'réinventée.',
-    h1Tail: 'Conception 3D offerte.',
+    h1Tail: 'Du brief à la livraison.',
     sub:
-      "Une équipe de designers et d'artisans Qualibat à votre service. De la conception 3D personnalisée à la livraison clé en main : un seul interlocuteur, zéro coordination, qualité premium.",
+      "Vous souhaitez changer votre salle de bain ? Designers + artisans Qualibat à votre service pour une rénovation totale, clé en main. Un seul interlocuteur du brief à la remise des clés.",
     bgImage: {
       // Vraie réalisation RénoBain #3 : douche italienne carrelage beige effet
       // textile + paroi vitrée + niche éclairée. Ambiance "spa" premium qui parle
@@ -62,7 +61,7 @@ export const lpRenovation: LPContent = {
 
   trustStrip: [
     { icon: 'shield-check', label: 'Qualibat RGE', rating: 'Artisans certifiés' },
-    { icon: 'award', label: 'Designer 3D', rating: 'Conception personnalisée' },
+    { icon: 'award', label: 'Designer dédié', rating: 'Étude personnalisée' },
     { icon: 'lock', label: 'Décennale 10 ans', rating: 'Assurée MAAF' },
     {
       icon: 'star',
@@ -70,7 +69,7 @@ export const lpRenovation: LPContent = {
       rating: '187 avis vérifiés',
       href: client.reviews.googleUrl,
     },
-    { icon: 'clock', label: 'Sous 7 jours', rating: 'Conception 3D livrée' },
+    { icon: 'clock', label: 'Clé en main', rating: 'Du brief aux finitions' },
   ],
 
   promiseGrid: {
@@ -78,12 +77,12 @@ export const lpRenovation: LPContent = {
     h2: "Une rénovation pensée comme un projet d'architecte, livrée comme un chantier.",
     h2Highlight: "comme un projet d'architecte",
     intro:
-      "Pas de pack figé, pas de catalogue imposé. On dessine votre salle de bain en 3D, on chiffre précisément, on construit avec nos artisans. Un seul interlocuteur du début à la fin.",
+      "Pas de pack figé, pas de catalogue imposé. On écoute votre brief, on dessine, on chiffre précisément, on construit avec nos artisans. Un seul interlocuteur du début à la fin.",
     items: [
       {
         icon: 'sparkles',
-        title: 'Conception 3D personnalisée',
-        body: 'Notre designer dessine votre projet avec rendus HD photo-réalistes, livrés sous 7 jours.',
+        title: 'Designer dédié',
+        body: 'Un professionnel pense votre projet avec vous avant la pose. Visite à domicile, écoute, propositions design personnalisées.',
       },
       {
         icon: 'brush',
@@ -161,8 +160,8 @@ export const lpRenovation: LPContent = {
     items: [
       {
         icon: 'sparkles',
-        title: 'Conception 3D photo-réaliste',
-        body: 'Plans HD, rendus 360°, visite virtuelle. Validation avant tout démarrage.',
+        title: 'Étude design personnalisée',
+        body: 'Visite à domicile, prise de mesures précises, propositions design avec sélection de matériaux. Validation avant tout démarrage.',
       },
       {
         icon: 'truck',
@@ -210,22 +209,22 @@ export const lpRenovation: LPContent = {
     steps: [
       {
         number: '01',
-        title: 'Réservation conception 3D',
-        body: 'Formulaire 2 min : style, surface, créneau de RDV. Notre designer vous rappelle.',
-        duration: '5 min',
+        title: 'Vous nous contactez',
+        body: 'Formulaire 2 min ou appel direct. On vous rappelle pour qualifier votre projet et planifier la visite.',
+        duration: 'Sous 24 h',
         metaIcon: 'clock',
       },
       {
         number: '02',
-        title: 'Conception 3D livrée',
-        body: 'Visite chez vous, prise de mesures précises, design 3D photo-réaliste avec plusieurs propositions.',
+        title: 'Visite designer + étude',
+        body: 'Designer + chef de chantier viennent chez vous, mesurent, écoutent votre brief, proposent des pistes design.',
         duration: 'Sous 7 jours',
         metaIcon: 'clock',
       },
       {
         number: '03',
-        title: 'Validation + devis détaillé',
-        body: 'Échanges sur les rendus 3D, ajustements illimités, devis ferme et chiffré par poste.',
+        title: 'Devis détaillé + ajustements',
+        body: 'Proposition design + chiffrage poste par poste. Ajustements illimités jusqu\'à validation du devis ferme.',
         duration: 'Sous 14 jours',
         metaIcon: 'clock',
       },
@@ -256,7 +255,6 @@ export const lpRenovation: LPContent = {
     eyebrow: 'Standards de qualité',
     h2: 'Les détails techniques de votre rénovation.',
     items: [
-      { label: 'Conception 3D', value: 'Rendus HD photo-réalistes + plans 2D techniques' },
       { label: 'Carrelage', value: 'Grand format 60×60 cm minimum, effet pierre/bois/marbre/béton' },
       { label: 'Robinetterie', value: 'Italienne thermostatique, chrome / noir mat / cuivre' },
       { label: 'Sanitaires', value: 'Marques premium (Roca, Jacob Delafon, Geberit, Duravit)' },
@@ -278,7 +276,7 @@ export const lpRenovation: LPContent = {
         name: 'Pauline & Marc T.',
         city: 'Aix-en-Provence · maison familiale',
         rating: 5,
-        body: "La conception 3D nous a totalement convaincus : on a pu visualiser AVANT, ajuster, redessiner. Au final, le rendu réel est exactement conforme aux plans. Chantier propre, équipe à l'écoute, on recommande sans hésiter.",
+        body: "L'étude design nous a totalement convaincus : on a pu projeter notre projet, ajuster, peaufiner. Au final, le rendu réel est exactement conforme à ce qu'on avait imaginé. Chantier propre, équipe à l'écoute, on recommande sans hésiter.",
       },
       {
         name: 'Bertrand L.',
@@ -331,11 +329,11 @@ export const lpRenovation: LPContent = {
     items: [
       {
         q: 'Combien coûte une rénovation totale de salle de bain ?',
-        a: 'Le prix dépend de la surface (5 m² ou 12 m² ne se rénovent pas pareil), des matériaux choisis (carrelage grand format premium vs faïence standard), de la complexité (déplacements de plomberie, gros œuvre) et du niveau de finitions. C\'est pour ça qu\'on ne fait pas de prix au doigt mouillé : notre designer se déplace gratuitement, dessine votre projet en 3D, puis chiffre précisément par poste. Devis ferme et détaillé.',
+        a: 'Le prix dépend de la surface (5 m² ou 12 m² ne se rénovent pas pareil), des matériaux choisis (carrelage grand format premium vs faïence standard), de la complexité (déplacements de plomberie, gros œuvre) et du niveau de finitions. C\'est pour ça qu\'on ne fait pas de prix au doigt mouillé : notre designer se déplace gratuitement, étudie votre projet, puis chiffre précisément poste par poste. Devis ferme et détaillé sous 14 jours.',
       },
       {
-        q: 'La conception 3D est-elle vraiment offerte ?',
-        a: 'Oui, totalement offerte et sans engagement. Notre designer vient chez vous, prend les mesures, écoute votre brief, puis conçoit votre salle de bain en 3D avec plusieurs propositions (style, agencement, matériaux). Vous recevez les rendus HD sous 7 jours. Si vous décidez de ne pas continuer avec nous, vous gardez les plans — on assume.',
+        q: "Comment se passe l'étude de mon projet ?",
+        a: "Notre designer se déplace chez vous gratuitement pour comprendre votre projet, prendre les mesures précises et écouter vos envies. Il vous présente plusieurs propositions design (style, agencement, matériaux) lors d'un second rendez-vous. Les ajustements sont illimités jusqu'à validation du devis ferme. Sans engagement, sans pression commerciale.",
       },
       {
         q: 'Combien de temps prend la rénovation totale ?',
@@ -369,10 +367,10 @@ export const lpRenovation: LPContent = {
   },
 
   formLong: {
-    eyebrow: 'Réserver ma conception 3D',
-    h2: 'Recevez vos plans 3D personnalisés sous 7 jours.',
+    eyebrow: 'Démarrer mon projet',
+    h2: 'Recevez une étude personnalisée chez vous.',
     sub:
-      "Notre designer vous rappelle pour planifier une visite gratuite chez vous, prendre les mesures et concevoir votre projet sur-mesure. Aucun engagement.",
+      "Notre designer vous rappelle pour planifier une visite gratuite à domicile, écouter votre brief et chiffrer votre projet précisément. Aucun engagement.",
     projectTypes: [
       'Rénovation totale de ma salle de bain principale',
       "Création d'une 2e salle de bain (suite parentale, sous-combles…)",
@@ -383,17 +381,17 @@ export const lpRenovation: LPContent = {
 
   ctaFinal: {
     eyebrow: 'Prêt à commencer ?',
-    h2Lead: 'Votre salle de bain de rêve',
+    h2Lead: 'Votre salle de bain de demain',
     h2Highlight: 'commence ici.',
-    sub: "Réservez votre conception 3D offerte. Notre designer vous rappelle sous 24 h pour planifier la visite.",
-    ctaLabel: 'Réserver ma conception 3D',
-    trustSignals: ['Sans engagement', 'Plans HD sous 7 jours', 'Designer dédié'],
+    sub: "Confiez-nous votre projet. Notre designer vous rappelle sous 24 h pour planifier la visite à domicile gratuite.",
+    ctaLabel: 'Démarrer mon projet',
+    trustSignals: ['Sans engagement', 'Visite designer offerte', 'Devis détaillé'],
   },
 
   merci: {
     h1: 'Merci, votre designer vous rappelle sous 24 h.',
     sub:
-      "Pour planifier votre visite à domicile, prendre les mesures précises et lancer la conception 3D de votre projet.",
+      "Pour planifier votre visite à domicile, prendre les mesures et lancer l'étude de votre projet de rénovation.",
     delaiRappel: 'Sous 24 h ouvrées',
   },
 
@@ -424,6 +422,6 @@ export const lpRenovation: LPContent = {
       'Cassis',
     ],
     tagline:
-      "Designers + artisans Qualibat à Marseille et dans tout le 13. Conception 3D offerte, rénovation totale sur-mesure, clé en main.",
+      "Designers + artisans Qualibat à Marseille et dans tout le 13. Rénovation totale sur-mesure, clé en main, du brief à la livraison.",
   },
 };
