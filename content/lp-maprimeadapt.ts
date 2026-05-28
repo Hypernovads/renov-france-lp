@@ -146,25 +146,24 @@ export const lpMaPrimeAdapt: LPContent = {
     h2: 'Si l’une de ces situations vous parle, vous êtes au bon endroit.',
     h2Highlight: 'au bon endroit',
     intro:
-      "MaPrimeAdapt' existe pour aider les Français à rester chez eux, en sécurité et en autonomie. Peut-être que ça vous concerne, vous ou un proche.",
+      "MaPrimeAdapt' aide les Français à rester chez eux, en sécurité. Peut-être que ça vous concerne, vous ou un proche.",
     items: [
       {
         icon: 'droplets',
         situation: 'Enjamber la baignoire devient difficile, voire risqué ?',
         reassurance:
-          "MaPrimeAdapt' finance son remplacement par une douche de plain-pied sécurisée, antidérapante et accessible.",
+          "On la remplace par une douche de plain-pied sécurisée, financée par MaPrimeAdapt'.",
       },
       {
         icon: 'heart-handshake',
         situation: 'Vous voulez que vos parents restent chez eux, en sécurité ?',
-        reassurance:
-          'Vous pouvez lancer les démarches pour eux. On vous accompagne de bout en bout, vous coordonnez, on gère le reste.',
+        reassurance: 'Vous lancez la démarche pour eux, on s’occupe de tout le reste.',
       },
       {
         icon: 'home',
         situation: 'Votre salle de bain n’est plus adaptée à votre mobilité ?',
         reassurance:
-          'Douche, WC surélevé, barres d’appui, élargissement des portes : tout peut être adapté, avec les aides à la clé.',
+          'Douche, WC, barres d’appui, portes élargies : tout peut être adapté.',
       },
     ],
     ctaLabel: 'Vérifier mon éligibilité',
@@ -273,37 +272,32 @@ export const lpMaPrimeAdapt: LPContent = {
     eyebrow: 'Notre prise en charge',
     h2: 'On s’occupe de tout, de A à Z.',
     intro:
-      "Du premier appel jusqu'à la fin des travaux, notre conseillère dédiée monte votre dossier d'aides. Vous ne touchez à aucune paperasse.",
+      'Notre conseillère dédiée monte votre dossier d’aides, du premier appel à la fin des travaux. Vous ne touchez à aucune paperasse.',
     items: [
       {
         icon: 'clipboard-check',
         title: 'Dossier MaPrimeAdapt’ monté par nous',
-        body: "Constitution, dépôt et suivi auprès de l'ANAH. On identifie aussi toutes les aides cumulables auxquelles vous avez droit.",
+        body: "Constitution, dépôt et suivi auprès de l'ANAH.",
       },
       {
         icon: 'home',
         title: 'Visite et conseil à domicile',
-        body: 'Un expert se déplace gratuitement, étudie votre logement et vous conseille les bons aménagements.',
+        body: 'Un expert se déplace gratuitement et vous conseille.',
       },
       {
         icon: 'shield-check',
         title: 'Équipements certifiés PMR',
-        body: 'Barre de maintien, siège rabattable, sol antidérapant PN24, mitigeur anti-brûlure 38 °C — du matériel certifié.',
+        body: 'Barre, siège, sol antidérapant, mitigeur anti-brûlure.',
       },
       {
         icon: 'award',
         title: 'Artisans certifiés Handibat',
-        body: "Des poseurs spécialisés dans l'adaptation du logement, qualifiés pour les travaux financés par MaPrimeAdapt'.",
+        body: 'Des poseurs spécialisés dans l’adaptation du logement.',
       },
       {
         icon: 'heart-handshake',
         title: 'Garantie décennale & SAV',
-        body: 'Garantie décennale sur l’installation, garantie pièces sur la robinetterie, et un SAV qui répond.',
-      },
-      {
-        icon: 'euro',
-        title: 'Reste à charge optimisé',
-        body: 'On maximise vos aides cumulables pour réduire au maximum ce qu’il vous reste à payer.',
+        body: 'Installation garantie 10 ans, et un SAV qui répond.',
       },
     ],
   },

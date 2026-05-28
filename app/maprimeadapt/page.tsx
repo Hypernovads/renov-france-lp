@@ -13,7 +13,6 @@ import { EligibilitySection } from '@/components/EligibilitySection';
 import { BaremeSection } from '@/components/BaremeSection';
 import { AidesSection } from '@/components/AidesSection';
 import { ProcessSteps } from '@/components/ProcessSteps';
-import { IncludedSection } from '@/components/IncludedSection';
 import { BeforeAfterSlider } from '@/components/BeforeAfterSlider';
 import { Gallery } from '@/components/Gallery';
 import { Testimonials } from '@/components/Testimonials';
@@ -101,6 +100,21 @@ export default function MaPrimeAdaptLP() {
           />
         )}
 
+        {/* Avant / Après — remonté ici : respiration visuelle tôt dans la page */}
+        {lp.beforeAfter && (
+          <BeforeAfterSlider
+            eyebrow={lp.beforeAfter.eyebrow}
+            h2Lead={lp.beforeAfter.h2Lead}
+            h2Highlight={lp.beforeAfter.h2Highlight}
+            intro={lp.beforeAfter.intro}
+            introStrong={lp.beforeAfter.introStrong}
+            stats={lp.beforeAfter.stats}
+            caption={lp.beforeAfter.caption}
+            itemCaptionPrefix={lp.beforeAfter.itemCaptionPrefix}
+            items={lp.beforeAfter.items}
+          />
+        )}
+
         {/* Êtes-vous éligible ? — 3 tranches d'âge */}
         {lp.eligibility && (
           <EligibilitySection
@@ -145,27 +159,21 @@ export default function MaPrimeAdaptLP() {
           steps={lp.process.steps}
         />
 
-        {/* Notre prise en charge */}
-        <IncludedSection
+        {/* Notre prise en charge — split image droite (quinconce). Image = placeholder
+            (réalisation 03) à remplacer par une photo "conseillère / visite à domicile". */}
+        <CoveredWorks
           eyebrow={lp.included.eyebrow}
           h2={lp.included.h2}
+          h2Highlight="de A à Z"
           intro={lp.included.intro}
           items={lp.included.items}
+          image={{
+            src: '/images/realisations/realisation-03-apres.png',
+            alt: 'Salle de bain adaptée livrée par nos équipes',
+          }}
+          imageCaption="Réalisation — Aix-en-Provence"
+          imageSide="right"
         />
-
-        {lp.beforeAfter && (
-          <BeforeAfterSlider
-            eyebrow={lp.beforeAfter.eyebrow}
-            h2Lead={lp.beforeAfter.h2Lead}
-            h2Highlight={lp.beforeAfter.h2Highlight}
-            intro={lp.beforeAfter.intro}
-            introStrong={lp.beforeAfter.introStrong}
-            stats={lp.beforeAfter.stats}
-            caption={lp.beforeAfter.caption}
-            itemCaptionPrefix={lp.beforeAfter.itemCaptionPrefix}
-            items={lp.beforeAfter.items}
-          />
-        )}
 
         <Gallery
           eyebrow={lp.gallery.eyebrow}
