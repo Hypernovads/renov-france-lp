@@ -2,20 +2,24 @@ import type { LPContent } from './types';
 import { client } from './client';
 
 /**
- * LP 2 — MaPrimeAdapt' (douche sécurisée senior).
+ * LP 2 — MaPrimeAdapt' (adaptation du logement / maintien à domicile).
  *
- * Cible : 65+ revenus modestes OU enfants équipant leurs parents.
- * Hook : "Votre douche sécurisée à partir de 1€" après aides cumulées.
- * Différenciateur central : MaPrimeAdapt' (jusqu'à 70% du HT) + caisses retraite
- * + crédit d'impôt + TVA 5,5%, dossier monté entièrement par nous.
+ * ANGLE (refonte 2026-05, inspirée EcoShower) : on vend L'AIDE, pas un produit.
+ * MaPrimeAdapt' est le héros de la page. La salle de bain reste le cœur de métier
+ * (mise en avant en premier), mais l'aide finance bien plus (WC, portes, monte-escalier).
  *
- * Visuels : seniors souriants 60-75 ans dignes, actifs, lumineux. PAS d'imagerie
- * EHPAD, médicale ou dramatisante. La sécurité = sérénité, pas peur.
+ * Le "à partir de 1€" est VOLONTAIREMENT sorti de la LP → réservé à la pub Meta.
+ * Sur la page : crédibilité (montants réels, barème, exemple chiffré), pas de cap symbolique.
  *
- * Équipements à mettre en avant : barre de maintien, siège rabattable, mitigeur
- * anti-brûlure 38°C, receveur antidérapant PN24, robinetterie ergonomique.
+ * Parcours visé : le visiteur comprend en 2 s qu'il y a des aides → il s'identifie
+ * (section "Vous vous reconnaissez ?") → il se situe (éligibilité 3 tranches) →
+ * il est rassuré (barème + exemple) → il vérifie son éligibilité (quiz hero).
  *
- * Le hero affichera le QuizMaPrimeAdapt à droite (au lieu du ZipGate de la LP1).
+ * RÈGLES : aucune mention "pose en 1 jour / 24h" (durée communiquée à la visite).
+ * Crédit d'impôt PMR SUPPRIMÉ depuis 01/01/2026 → remplacé par Action Logement.
+ *
+ * Cible : 60+ revenus modestes, personnes handicapées, OU enfants équipant leurs parents.
+ * Visuels : seniors dignes, actifs, lumineux. Jamais EHPAD / médical / dramatisant.
  */
 
 const u = (id: string, w = 1600) =>
@@ -24,80 +28,219 @@ const u = (id: string, w = 1600) =>
 export const lpMaPrimeAdapt: LPContent = {
   meta: {
     source: 'lp_maprimeadapt',
-    title: 'Votre douche sécurisée à partir de 1€ — Bouches-du-Rhône',
+    title: "MaPrimeAdapt' : jusqu'à 15 000 € d'aides pour votre salle de bain — Bouches-du-Rhône",
     description:
-      "MaPrimeAdapt', TVA 5,5 %, aides caisses de retraite. Notre expert calcule votre éligibilité gratuitement et monte tout le dossier. Pose en 1 jour dans les Bouches-du-Rhône.",
+      "Vérifiez votre éligibilité à MaPrimeAdapt' en 30 secondes. Jusqu'à 70 % de vos travaux d'adaptation financés : douche sécurisée, salle de bain adaptée, accessibilité. Notre expert monte tout le dossier. Bouches-du-Rhône.",
     merciHref: '/merci-maprimeadapt',
   },
 
   announcement: {
-    prefix: 'Aides cumulables',
-    highlight: 'jusqu’à 70 %',
-    text: '— testez votre éligibilité {semaine} en 30 secondes',
+    prefix: "MaPrimeAdapt'",
+    highlight: "jusqu'à 70 % financés",
+    text: '— vérifiez votre éligibilité {semaine} en 30 secondes',
     withDot: true,
     withWeek: true,
   },
 
   hero: {
     locationChip: 'Marseille · Bouches-du-Rhône',
-    h1Lead: 'Votre douche\nsécurisée',
-    h1Highlight: 'à partir de 1€',
-    h1Tail: 'après aides.',
+    h1Lead: "MaPrimeAdapt' :",
+    h1Highlight: "jusqu'à 15 000 €",
+    h1Tail: "d'aides pour votre salle de bain.",
     sub:
-      "Testez votre éligibilité en 30 secondes. Notre expert monte gratuitement votre dossier MaPrimeAdapt', caisse de retraite et toutes les aides cumulables. Pose en 1 jour, sans démolition.",
+      "Plus de 4 millions de personnes sont éligibles. Vérifiez la vôtre en 30 secondes — notre expert monte gratuitement tout votre dossier d'aides.",
     bgImage: {
-      // Vraie réalisation RénoBain : douche italienne carrelage beige effet textile,
-      // niche éclairée, paroi vitrée. Design moderne, chaleureux, rassurant pour cible 65+.
+      // Vraie réalisation RénoBain : douche italienne carrelage beige, niche éclairée,
+      // paroi vitrée. Moderne, chaleureux, rassurant pour la cible 60+.
       src: '/images/realisations/realisation-03-apres.png',
-      alt: 'Douche italienne moderne sécurisée avec paroi vitrée, carrelage beige et niche éclairée',
+      alt: 'Douche italienne moderne et sécurisée avec paroi vitrée, carrelage beige et niche éclairée',
     },
   },
 
   trustStrip: [
     { icon: 'shield-check', label: 'Qualibat Handibat', rating: 'Certifié PMR' },
-    { icon: 'award', label: 'RGE', rating: 'Reconnu Garant Environnement' },
-    { icon: 'lock', label: 'Décennale 10 ans', rating: 'Assurée MAAF' },
+    { icon: 'award', label: "Agréé MaPrimeAdapt'", rating: 'Dossier monté par nous' },
+    { icon: 'lock', label: 'Décennale 10 ans', rating: 'Installation garantie' },
     {
       icon: 'star',
       label: '4,5/5 Google',
       rating: '187 avis vérifiés',
       href: client.reviews.googleUrl,
     },
-    { icon: 'clock', label: 'Pose en 24h', rating: 'Sans démolition' },
+    { icon: 'clock', label: 'Réponse en 30 s', rating: "Test d'éligibilité gratuit" },
   ],
 
+  // PromiseGrid réutilisé pour "Travaux couverts" — l'angle large voulu par Steve.
+  // Salle de bain en premier (cœur de métier), puis le reste de l'adaptation.
   promiseGrid: {
-    eyebrow: 'Notre engagement',
-    h2: 'Une douche sécurisée, sans paperasse, sans souci.',
-    h2Highlight: 'sans paperasse',
+    eyebrow: 'Travaux couverts',
+    h2: 'Une aide, beaucoup de travaux possibles.',
+    h2Highlight: 'beaucoup de travaux',
     intro:
-      "On s'occupe de tout : montage du dossier d'aides, pose en 1 jour, suivi pendant 10 ans. Vous, vous profitez de votre nouvelle douche.",
+      "MaPrimeAdapt' ne se limite pas à la douche : elle finance l'adaptation de tout votre logement. Et la salle de bain reste notre cœur de métier.",
     items: [
       {
-        icon: 'euro',
-        title: "À partir de 1€",
-        body: "Après cumul des aides (MaPrimeAdapt' jusqu'à 70 %, caisses de retraite, crédit d'impôt 25 %, TVA 5,5 %).",
+        icon: 'droplets',
+        title: 'Salle de bain adaptée',
+        body: "Réfection complète et sécurisée : douche de plain-pied, sol antidérapant, éclairage et rangements pensés pour l'autonomie. Notre spécialité.",
       },
       {
         icon: 'shield-check',
-        title: 'Sécurité totale',
-        body: 'Barre de maintien, siège rabattable, sol antidérapant PN24, mitigeur anti-brûlure 38°C — équipements certifiés PMR.',
+        title: 'Baignoire → douche sécurisée',
+        body: "Fini l'enjambement. Receveur extra-plat, paroi vitrée, barre de maintien et siège — posés sans gros travaux.",
       },
       {
-        icon: 'clipboard-check',
-        title: 'Dossier monté par nous',
-        body: "Vous ne touchez à aucune paperasse. Notre conseillère dédiée s'occupe de toutes les démarches MaPrimeAdapt', de A à Z.",
+        icon: 'home',
+        title: 'WC & accessibilité',
+        body: 'WC surélevé, barres d’appui, robinetterie ergonomique : les bons équipements pour gagner en confort et en sécurité.',
       },
       {
-        icon: 'clock',
-        title: 'Pose en 1 jour',
-        body: 'Sans démolition lourde, sans poussière. Vous utilisez votre douche le soir même.',
+        icon: 'wrench',
+        title: 'Mobilité dans le logement',
+        body: "Élargissement des portes, suppression des seuils, monte-escalier : MaPrimeAdapt' couvre aussi le reste de la maison.",
       },
     ],
   },
 
-  // Pas de slider avant/après sur LP2 — le quiz d'éligibilité du hero fait office de "morceau central".
-  // On garde quand même 1 paire pour la preuve visuelle de la transformation.
+  // Section "Travaux couverts" — split image + liste aérée (sobre, façon EcoShower).
+  // La diversité (SDB, douche, WC, monte-escalier) est portée par la LISTE, pas par
+  // une grille d'images. Une seule image sobre (cœur de métier = SDB).
+  coveredWorks: {
+    eyebrow: 'Travaux couverts',
+    h2: "MaPrimeAdapt', ce n'est pas que la salle de bain.",
+    h2Highlight: 'pas que la salle de bain',
+    intro:
+      "Une seule aide pour adapter tout votre logement au vieillissement ou au handicap. La salle de bain reste notre spécialité — on s'occupe aussi du reste.",
+    image: {
+      src: '/images/realisations/realisation-02-apres.png',
+      alt: 'Salle de bain adaptée et sécurisée réalisée par nos équipes',
+    },
+    imageCaption: 'Réalisation — Bouches-du-Rhône',
+    items: [
+      {
+        icon: 'droplets',
+        title: 'Salle de bain adaptée',
+        body: "Réfection complète et sécurisée, pensée pour l'autonomie.",
+      },
+      {
+        icon: 'shield-check',
+        title: 'Baignoire → douche sécurisée',
+        body: 'Douche de plain-pied, receveur extra-plat, barre de maintien et siège.',
+      },
+      {
+        icon: 'home',
+        title: 'WC & accessibilité',
+        body: 'WC surélevé, barres d’appui, robinetterie ergonomique.',
+      },
+      {
+        icon: 'wrench',
+        title: 'Monte-escalier & mobilité',
+        body: 'Élargissement des portes, suppression des seuils, monte-escalier.',
+      },
+    ],
+  },
+
+  // Section "Vous vous reconnaissez ?" — identification émotionnelle.
+  identification: {
+    eyebrow: 'Vous vous reconnaissez ?',
+    h2: 'Si l’une de ces situations vous parle, vous êtes au bon endroit.',
+    h2Highlight: 'au bon endroit',
+    intro:
+      "MaPrimeAdapt' existe pour aider les Français à rester chez eux, en sécurité et en autonomie. Peut-être que ça vous concerne, vous ou un proche.",
+    items: [
+      {
+        icon: 'droplets',
+        situation: 'Enjamber la baignoire devient difficile, voire risqué ?',
+        reassurance:
+          "MaPrimeAdapt' finance son remplacement par une douche de plain-pied sécurisée, antidérapante et accessible.",
+      },
+      {
+        icon: 'heart-handshake',
+        situation: 'Vous voulez que vos parents restent chez eux, en sécurité ?',
+        reassurance:
+          'Vous pouvez lancer les démarches pour eux. On vous accompagne de bout en bout, vous coordonnez, on gère le reste.',
+      },
+      {
+        icon: 'home',
+        situation: 'Votre salle de bain n’est plus adaptée à votre mobilité ?',
+        reassurance:
+          'Douche, WC surélevé, barres d’appui, élargissement des portes : tout peut être adapté, avec les aides à la clé.',
+      },
+    ],
+    ctaLabel: 'Vérifier mon éligibilité',
+    ctaHref: '#hero-form',
+  },
+
+  // Section "Êtes-vous éligible ?" — 3 tranches d'âge claires (façon EcoShower).
+  eligibility: {
+    eyebrow: 'Conditions',
+    h2: 'Êtes-vous éligible à MaPrimeAdapt’ ?',
+    h2Highlight: 'éligible',
+    intro:
+      "L'éligibilité repose sur deux piliers : votre situation (âge ou handicap) et vos revenus. Voici les grands cas — le test en haut de page confirme le vôtre en 30 secondes.",
+    tranches: [
+      {
+        age: '70 ans et +',
+        condition: 'Aucune condition de perte d’autonomie : l’âge suffit (sous conditions de revenus).',
+      },
+      {
+        age: '60 à 69 ans',
+        condition: 'Avec une perte d’autonomie reconnue (évaluation GIR 1 à 6).',
+      },
+      {
+        age: 'Tout âge — handicap',
+        condition: 'Taux d’incapacité ≥ 50 % ou bénéficiaire de la PCH, sans condition d’âge.',
+      },
+    ],
+    conditions: [
+      'Être propriétaire occupant, ou locataire avec l’accord du propriétaire.',
+      'Le logement concerné est votre résidence principale.',
+      'Avoir des revenus modestes ou très modestes (barème ANAH).',
+      'Résider dans les Bouches-du-Rhône (notre zone d’intervention).',
+    ],
+    ctaLabel: 'Tester mon éligibilité en 30 s',
+    ctaHref: '#hero-form',
+  },
+
+  // Section "Barème + exemple chiffré" — crédibilise les montants.
+  bareme: {
+    eyebrow: 'Combien vous touchez',
+    h2: 'Jusqu’à 70 % de vos travaux financés.',
+    h2Highlight: '70 %',
+    intro:
+      "Le montant de l'aide dépend de vos revenus. Voici le barème ANAH 2026 (hors Île-de-France) — et un exemple concret pour s'y retrouver.",
+    plafondTravaux: '22 000 € HT de travaux',
+    rows: [
+      {
+        profil: 'Revenus très modestes',
+        taux: '70 %',
+        plafondAide: "Aide jusqu'à 15 400 €",
+        tone: 'high',
+      },
+      {
+        profil: 'Revenus modestes',
+        taux: '50 %',
+        plafondAide: "Aide jusqu'à 11 000 €",
+        tone: 'mid',
+      },
+    ],
+    example: {
+      persona: 'M. et Mme Bernard, 76 et 73 ans — Aubagne',
+      badge: 'Revenus très modestes',
+      lines: [
+        { label: 'Réfection de leur salle de bain adaptée', value: '17 000 €', kind: 'base' },
+        { label: "MaPrimeAdapt' (70 %)", value: '− 11 900 €', kind: 'aide' },
+        { label: 'Reste à charge estimé', value: '5 100 €', kind: 'total' },
+      ],
+      footnote:
+        "Avant cumul avec les aides des caisses de retraite et d'Action Logement, qui réduisent encore le reste à charge.",
+    },
+    note:
+      "Montants indicatifs 2026 (hors Île-de-France), soumis à conditions de ressources et d'éligibilité. Notre conseillère calcule votre cas précis gratuitement, sans engagement.",
+  },
+
+  // Pas de slider central sur LP2 (le quiz hero fait office de morceau central),
+  // mais on garde 1 paire avant/après pour la preuve visuelle de la transformation.
   beforeAfter: {
     eyebrow: 'Avant — Après',
     h2Lead: 'Plus de baignoire à enjamber.',
@@ -127,40 +270,40 @@ export const lpMaPrimeAdapt: LPContent = {
   },
 
   included: {
-    eyebrow: 'Équipements inclus',
-    h2: 'Tout ce qu’il faut pour vivre votre douche en sécurité.',
+    eyebrow: 'Notre prise en charge',
+    h2: 'On s’occupe de tout, de A à Z.',
     intro:
-      "Notre pack senior inclut tous les équipements certifiés PMR — pas d'options à ajouter, pas de mauvaise surprise.",
+      "Du premier appel jusqu'à la fin des travaux, notre conseillère dédiée monte votre dossier d'aides. Vous ne touchez à aucune paperasse.",
     items: [
       {
-        icon: 'droplets',
-        title: 'Receveur extra-plat antidérapant PN24',
-        body: 'Hauteur 3 cm, accès de plain-pied, sol classe C anti-glisse même mouillé.',
-      },
-      {
-        icon: 'shield-check',
-        title: 'Barre de maintien certifiée',
-        body: "Inox brossé, design discret, supporte jusqu'à 200 kg. Positionnée selon votre morphologie.",
+        icon: 'clipboard-check',
+        title: 'Dossier MaPrimeAdapt’ monté par nous',
+        body: "Constitution, dépôt et suivi auprès de l'ANAH. On identifie aussi toutes les aides cumulables auxquelles vous avez droit.",
       },
       {
         icon: 'home',
-        title: 'Siège rabattable',
-        body: 'Siège confort qui se replie contre le mur. Charge max 150 kg, certifié PMR.',
+        title: 'Visite et conseil à domicile',
+        body: 'Un expert se déplace gratuitement, étudie votre logement et vous conseille les bons aménagements.',
       },
       {
-        icon: 'sun',
-        title: 'Mitigeur thermostatique anti-brûlure',
-        body: 'Sécurité 38 °C max, butée enfant désactivable, marque française garantie 5 ans.',
+        icon: 'shield-check',
+        title: 'Équipements certifiés PMR',
+        body: 'Barre de maintien, siège rabattable, sol antidérapant PN24, mitigeur anti-brûlure 38 °C — du matériel certifié.',
       },
       {
-        icon: 'sparkles',
-        title: 'Robinetterie ergonomique',
-        body: 'Levier large à manipuler sans force, douchette légère à hauteur variable.',
+        icon: 'award',
+        title: 'Artisans certifiés Handibat',
+        body: "Des poseurs spécialisés dans l'adaptation du logement, qualifiés pour les travaux financés par MaPrimeAdapt'.",
       },
       {
-        icon: 'clipboard-check',
-        title: 'Dossier complet MaPrimeAdapt’',
-        body: "Notre conseillère monte votre dossier de A à Z. Vous ne touchez à aucune paperasse.",
+        icon: 'heart-handshake',
+        title: 'Garantie décennale & SAV',
+        body: 'Garantie décennale sur l’installation, garantie pièces sur la robinetterie, et un SAV qui répond.',
+      },
+      {
+        icon: 'euro',
+        title: 'Reste à charge optimisé',
+        body: 'On maximise vos aides cumulables pour réduire au maximum ce qu’il vous reste à payer.',
       },
     ],
   },
@@ -169,34 +312,34 @@ export const lpMaPrimeAdapt: LPContent = {
     eyebrow: 'Comment ça se passe',
     h2Lead: 'Un parcours',
     h2Highlight: 'serein,',
-    h2Tail: "balisé étape par étape.",
+    h2Tail: 'balisé étape par étape.',
     steps: [
       {
         number: '01',
-        title: 'Quiz d’éligibilité',
-        body: '30 secondes pour estimer vos aides cumulables. Sans engagement, sans données stockées avant votre accord.',
+        title: 'Vérifiez votre éligibilité',
+        body: '30 secondes pour estimer vos aides. Sans engagement, sans données stockées avant votre accord.',
         duration: '30 sec',
         metaIcon: 'clock',
       },
       {
         number: '02',
-        title: 'Visite expert chez vous',
-        body: 'Notre conseillère se déplace gratuitement, mesure, étudie votre installation et chiffre précisément.',
+        title: 'Visite d’un expert chez vous',
+        body: 'Notre conseillère se déplace gratuitement, mesure, étudie votre installation et chiffre précisément votre projet.',
         duration: 'Sous 7 jours',
         metaIcon: 'clock',
       },
       {
         number: '03',
         title: 'On monte votre dossier d’aides',
-        body: "Constitution MaPrimeAdapt', caisse de retraite, crédit d'impôt. Tout est validé avant la pose.",
-        duration: 'Sous 14 jours',
-        metaIcon: 'clock',
+        body: "Constitution MaPrimeAdapt', caisses de retraite, Action Logement. Tout est validé avant le démarrage des travaux.",
+        duration: 'Zéro paperasse',
+        metaIcon: 'shield',
       },
       {
         number: '04',
-        title: 'Pose en 1 journée',
-        body: "Équipe de 2 artisans certifiés Handibat, 8 h à 18 h. Vous utilisez votre douche le soir.",
-        duration: '24h',
+        title: 'Réalisation des travaux',
+        body: "Une équipe d'artisans certifiés Handibat réalise votre salle de bain adaptée, proprement et dans les règles de l'art.",
+        duration: 'Certifié Handibat',
         metaIcon: 'shield',
       },
     ],
@@ -204,7 +347,7 @@ export const lpMaPrimeAdapt: LPContent = {
 
   gallery: {
     eyebrow: 'Galerie',
-    h2: 'Des douches conçues pour durer.',
+    h2: 'Des salles de bain conçues pour durer.',
     images: [
       { src: u('photo-1552321554-5fefe8c9ef14'), alt: 'Douche italienne épurée' },
       { src: u('photo-1620626011761-996317b8d101'), alt: 'Douche carrelage grand format' },
@@ -217,9 +360,9 @@ export const lpMaPrimeAdapt: LPContent = {
 
   specs: {
     eyebrow: 'Caractéristiques',
-    h2: 'Les détails techniques de votre pack senior.',
+    h2: 'Les détails techniques de votre installation.',
     items: [
-      { label: 'Durée du chantier', value: '1 journée (8 h à 18 h)' },
+      { label: 'Durée du chantier', value: 'Selon l’ampleur du projet (communiquée à la visite)' },
       { label: 'Receveur', value: 'Résine extra-plat 3 cm, antidérapant PN24' },
       { label: 'Barre de maintien', value: 'Inox brossé, charge 200 kg, certifiée PMR' },
       { label: 'Siège', value: 'Rabattable mural, charge 150 kg' },
@@ -239,13 +382,13 @@ export const lpMaPrimeAdapt: LPContent = {
         name: 'Sylvie L.',
         city: 'Marseille 12e · pour sa mère',
         rating: 5,
-        body: "On a équipé maman en 1 jour. Elle n'aurait jamais fait les démarches d'aides toute seule — leur conseillère s'est occupée de tout. Résultat : un reste à charge minime et une douche enfin sécurisée.",
+        body: "On a équipé maman sans qu'elle ait à gérer quoi que ce soit. Elle n'aurait jamais fait les démarches d'aides toute seule — leur conseillère s'est occupée de tout. Résultat : un reste à charge minime et une douche enfin sécurisée.",
       },
       {
         name: 'Georges P.',
         city: 'Aix-en-Provence',
         rating: 5,
-        body: "Le dossier MaPrimeAdapt' a couvert 68 % du chantier. Net à payer : 950 €. Service impeccable du premier appel jusqu'à la pose. Je recommande sans hésiter.",
+        body: "Le dossier MaPrimeAdapt' a couvert 68 % du chantier. Net à payer : 950 €. Service impeccable du premier appel jusqu'à la fin des travaux. Je recommande sans hésiter.",
       },
       {
         name: 'Marguerite D.',
@@ -258,14 +401,14 @@ export const lpMaPrimeAdapt: LPContent = {
 
   aides: {
     eyebrow: 'Vos aides cumulables',
-    h2: "Cumulez les aides. Réduisez votre reste à charge jusqu'à 99 %.",
+    h2: 'Cumulez les aides. Réduisez fortement votre reste à charge.',
     intro:
       "Selon votre âge, vos revenus et votre situation, plusieurs dispositifs se cumulent. Notre conseillère calcule votre éligibilité gratuitement et monte le dossier complet.",
     items: [
       {
         name: "MaPrimeAdapt'",
         amount: "Jusqu'à 70 % du HT",
-        body: "Aide phare pour les 60 ans et +. Versée par l'ANAH selon votre niveau de revenu fiscal. Notre conseillère monte le dossier complet.",
+        body: "Aide phare versée par l'ANAH selon votre âge et votre niveau de revenu. Notre conseillère monte le dossier complet.",
       },
       {
         name: 'TVA 5,5 % automatique',
@@ -273,14 +416,14 @@ export const lpMaPrimeAdapt: LPContent = {
         body: 'TVA réduite pour les logements de plus de 2 ans. Appliquée directement par nos soins sur votre facture.',
       },
       {
-        name: "Crédit d'impôt 25 %",
-        amount: "Jusqu'à 2 500 €",
-        body: "Équipements PMR (barre, siège, mitigeur anti-brûlure) éligibles au crédit d'impôt. Cumulable avec MaPrimeAdapt'.",
+        name: 'Action Logement',
+        amount: "Jusqu'à 5 000 €",
+        body: "Subvention pour l'adaptation du logement des retraités et salariés du secteur privé, sous conditions. Cumulable avec MaPrimeAdapt'.",
       },
       {
         name: 'Aides caisses de retraite',
         amount: '500 — 3 500 €',
-        body: 'CARSAT, AGIRC-ARRCO, MSA selon votre régime. Notre conseillère identifie les aides auxquelles vous avez droit.',
+        body: 'CARSAT, AGIRC-ARRCO, MSA selon votre régime. Notre conseillère identifie celles auxquelles vous avez droit.',
       },
     ],
   },
@@ -292,31 +435,35 @@ export const lpMaPrimeAdapt: LPContent = {
     items: [
       {
         q: "Suis-je éligible à MaPrimeAdapt' ?",
-        a: "MaPrimeAdapt' est ouverte aux personnes de 60 ans et plus, sous conditions de revenus (modestes ou très modestes). Elle est aussi accessible aux personnes en situation de handicap (taux d'incapacité ≥ 50 %) sans condition d'âge. Le quiz en haut de page vous donne une première estimation en 30 secondes.",
+        a: "Elle est ouverte aux personnes de 70 ans et plus sans condition d'autonomie, aux 60-69 ans avec une perte d'autonomie reconnue, et aux personnes en situation de handicap (taux ≥ 50 % ou PCH) sans condition d'âge — le tout sous conditions de revenus. Le test en haut de page vous donne une première réponse en 30 secondes.",
       },
       {
         q: 'Combien je vais réellement payer après aides ?',
-        a: "Pour un pack senior complet (~6 000 € HT), le reste à charge moyen après cumul des aides varie de 950 € à 3 200 € selon votre profil. Dans les cas les plus favorables (très modeste + RQTH + caisses), le reste à charge peut descendre à moins de 100 €. Notre conseillère calcule votre cas précis en visite gratuite.",
+        a: "MaPrimeAdapt' couvre 50 à 70 % du montant des travaux selon vos revenus. Pour le reste, d'autres aides (caisses de retraite, Action Logement, TVA réduite à 5,5 %) viennent encore alléger la facture. Notre conseillère calcule votre reste à charge précis lors d'une visite gratuite.",
       },
       {
         q: 'Le dossier MaPrimeAdapt’ est compliqué ?',
-        a: "Pour vous, non : notre conseillère dédiée s'occupe de TOUT (constitution, dépôt, suivi). Vous nous transmettez vos justificatifs lors de la visite, on s'occupe du reste. Délai moyen d'instruction par l'ANAH : 2 à 3 mois, mais on commence les travaux dès l'accord de financement.",
+        a: "Pour vous, non : notre conseillère dédiée s'occupe de TOUT (constitution, dépôt, suivi auprès de l'ANAH). Vous lui transmettez vos justificatifs, elle gère le reste. Le délai d'instruction de l'ANAH est de quelques mois, mais on cale tout avec vous en amont.",
       },
       {
         q: "Et si j'équipe mes parents (je suis l'enfant) ?",
-        a: "Vous pouvez tout à fait initier les démarches pour vos parents (avec leur accord). Beaucoup de nos clients sont des enfants qui équipent leurs parents — c'est même très fréquent. Les aides restent au nom de la personne âgée (le bénéficiaire), mais vous pouvez gérer la coordination.",
+        a: "Vous pouvez tout à fait initier les démarches pour vos parents (avec leur accord) — c'est même très fréquent. Les aides restent au nom de la personne bénéficiaire, et vous pouvez gérer toute la coordination avec nous.",
       },
       {
-        q: 'Vraiment en 1 jour ? Comment c’est possible ?',
-        a: "Oui — pour la pose du pack senior standard : dépose de la baignoire + installation de la douche sécurisée complète (receveur, paroi, barre, siège, mitigeur), c'est 1 journée (8 h à 18 h). Pas de démolition lourde grâce à notre technique de pose sur support existant.",
+        q: 'Quels types de travaux sont couverts ?',
+        a: "Remplacement de la baignoire par une douche sécurisée, réfection complète de salle de bain adaptée, WC surélevé, barres d'appui, mais aussi élargissement des portes, suppression des seuils ou monte-escalier. MaPrimeAdapt' finance l'adaptation de tout le logement.",
+      },
+      {
+        q: 'Combien de temps durent les travaux ?',
+        a: "Cela dépend de l'ampleur de votre projet. Nous vous communiquons une durée précise lors de la visite, avant tout engagement — et nous nous y tenons. Nos chantiers sont menés proprement, sans démolition lourde inutile.",
       },
       {
         q: "Que se passe-t-il si je n'ai pas 60 ans ?",
-        a: "Si vous êtes en situation de handicap (taux ≥ 50 %), MaPrimeAdapt' reste accessible sans condition d'âge. Si vous n'avez ni 60 ans ni RQTH, vous restez éligible à la TVA 5,5 % + crédit d'impôt 25 % sur les équipements PMR. La LP 'baignoire → douche' classique est sans doute mieux adaptée à votre situation.",
+        a: "Si vous êtes en situation de handicap (taux ≥ 50 % ou PCH), MaPrimeAdapt' reste accessible sans condition d'âge. Sinon, vous bénéficiez quand même de la TVA réduite à 5,5 % sur vos travaux d'adaptation. Parlez-en à notre conseillère, on étudie votre situation.",
       },
       {
         q: 'Quelles garanties ?',
-        a: "Garantie décennale 10 ans sur l'installation, assurée par MAAF (attestation remise le jour de la pose). Garantie 5 ans pièces sur la robinetterie et le mitigeur. Visite SAV gratuite à 6 mois. Certifications Qualibat Handibat (PMR) et RGE.",
+        a: "Garantie décennale sur l'installation (attestation remise le jour de la pose), garantie pièces sur la robinetterie et le mitigeur, et une visite SAV de contrôle. Certifications Qualibat Handibat (PMR) et RGE.",
       },
       {
         q: 'Vous intervenez où exactement dans le 13 ?',
@@ -332,19 +479,19 @@ export const lpMaPrimeAdapt: LPContent = {
       "Notre conseillère vous rappelle pour planifier une visite gratuite, étudier votre éligibilité et chiffrer votre projet. Aucun engagement.",
     projectTypes: [
       'Pour moi (60 ans et +)',
-      "Pour un parent / proche",
+      'Pour un parent / proche',
       'Pour moi (en situation de handicap)',
       'Je veux juste me renseigner',
     ],
   },
 
   ctaFinal: {
-    eyebrow: 'Prêt à commencer ?',
-    h2Lead: 'Votre douche sécurisée',
-    h2Highlight: 'vous attend.',
-    sub: "On monte votre dossier d'aides dès cette semaine. Visite expert gratuite, devis sous 48 h, pose en 1 jour.",
-    ctaLabel: 'Tester mon éligibilité',
-    trustSignals: ['Sans engagement', 'Dossier monté par nous', 'Pose en 1 jour'],
+    eyebrow: 'Prêt à vérifier ?',
+    h2Lead: 'Découvrez le montant de vos aides',
+    h2Highlight: 'en 30 secondes.',
+    sub: "Notre conseillère monte votre dossier MaPrimeAdapt' et toutes les aides cumulables. Visite expert gratuite, sans engagement.",
+    ctaLabel: 'Vérifier mon éligibilité',
+    trustSignals: ['Sans engagement', 'Dossier monté par nous', 'Réponse en 30 secondes'],
   },
 
   merci: {
@@ -359,7 +506,7 @@ export const lpMaPrimeAdapt: LPContent = {
       { label: 'Baignoire → Douche', href: '/baignoire-douche' },
       { label: 'Douche senior sécurisée', href: '/maprimeadapt' },
       { label: 'Rénovation totale', href: '/renovation-totale' },
-      { label: "Aides & financement", href: '#aides' },
+      { label: 'Aides & financement', href: '#aides' },
     ],
     entreprise: [
       { label: 'À propos', href: '#' },
@@ -381,6 +528,6 @@ export const lpMaPrimeAdapt: LPContent = {
       'Cassis',
     ],
     tagline:
-      "Spécialistes de la douche sécurisée senior à Marseille et dans tout le 13. Certifiés Qualibat Handibat (PMR), agréés MaPrimeAdapt'.",
+      "Spécialistes de l'adaptation de salle de bain et du maintien à domicile à Marseille et dans tout le 13. Certifiés Qualibat Handibat (PMR), agréés MaPrimeAdapt'.",
   },
 };

@@ -7,14 +7,16 @@ import { Hero } from '@/components/Hero';
 import { QuizMaPrimeAdapt } from '@/components/QuizMaPrimeAdapt';
 import { TrustStrip } from '@/components/TrustStrip';
 import { PressBar } from '@/components/PressBar';
-import { PromiseGrid } from '@/components/PromiseGrid';
-import { BeforeAfterSlider } from '@/components/BeforeAfterSlider';
-import { IncludedSection } from '@/components/IncludedSection';
-import { ProcessSteps } from '@/components/ProcessSteps';
-import { Gallery } from '@/components/Gallery';
-import { SpecsSection } from '@/components/SpecsSection';
-import { Testimonials } from '@/components/Testimonials';
+import { CoveredWorks } from '@/components/CoveredWorks';
+import { IdentificationSection } from '@/components/IdentificationSection';
+import { EligibilitySection } from '@/components/EligibilitySection';
+import { BaremeSection } from '@/components/BaremeSection';
 import { AidesSection } from '@/components/AidesSection';
+import { ProcessSteps } from '@/components/ProcessSteps';
+import { IncludedSection } from '@/components/IncludedSection';
+import { BeforeAfterSlider } from '@/components/BeforeAfterSlider';
+import { Gallery } from '@/components/Gallery';
+import { Testimonials } from '@/components/Testimonials';
 import { FaqAccordion } from '@/components/FaqAccordion';
 import { FormLong } from '@/components/FormLong';
 import { CtaFinal } from '@/components/CtaFinal';
@@ -27,14 +29,17 @@ export const metadata: Metadata = {
 };
 
 /**
- * LP 2 — MaPrimeAdapt' (douche sécurisée senior).
+ * LP 2 — MaPrimeAdapt' (adaptation logement / maintien à domicile).
  *
- * Différences clés vs LP 1 :
- * - Hero a un QuizMaPrimeAdapt à droite (au lieu du ZipGate de la LP1).
- *   Tant que le composant Quiz n'est pas créé, le Hero utilise le ZipGate par défaut.
- * - AidesSection est centrale (avant la FAQ, mise en valeur).
- * - PromiseGrid + IncludedSection + Process orientés sécurité senior et aides.
- * - Pas de PacksSection (un seul "pack senior" complet, pas de gamme).
+ * Angle "l'aide d'abord" (refonte inspirée EcoShower) :
+ * - Hero = hook MaPrimeAdapt + montant d'aides + QuizMaPrimeAdapt à droite.
+ * - Travaux couverts (PromiseGrid) : scope large, salle de bain en tête.
+ * - Identification émotionnelle → Éligibilité (3 tranches) → Barème + exemple chiffré.
+ * - Aides cumulables, process, prise en charge, preuves, FAQ, form.
+ *
+ * Le "1€" est volontairement ABSENT de la page (réservé à la pub Meta).
+ * Aucune mention "pose en 1 jour / 24h". Crédit d'impôt PMR supprimé (→ Action Logement).
+ * SpecsSection retirée de cette LP (trop technique pour la cible 60+).
  */
 export default function MaPrimeAdaptLP() {
   return (
@@ -70,20 +75,82 @@ export default function MaPrimeAdaptLP() {
           <PressBar label={lp.pressBar.label} items={lp.pressBar.items} />
         )}
 
-        <PromiseGrid
-          eyebrow={lp.promiseGrid.eyebrow}
-          h2={lp.promiseGrid.h2}
-          h2Highlight={lp.promiseGrid.h2Highlight}
-          intro={lp.promiseGrid.intro}
-          items={lp.promiseGrid.items}
-        />
+        {/* Travaux couverts — split image + liste aérée (diversité dans la liste) */}
+        {lp.coveredWorks && (
+          <CoveredWorks
+            eyebrow={lp.coveredWorks.eyebrow}
+            h2={lp.coveredWorks.h2}
+            h2Highlight={lp.coveredWorks.h2Highlight}
+            intro={lp.coveredWorks.intro}
+            image={lp.coveredWorks.image}
+            imageCaption={lp.coveredWorks.imageCaption}
+            items={lp.coveredWorks.items}
+          />
+        )}
 
-        {/* AidesSection remontée plus haut sur LP2 : c'est LE morceau central */}
+        {/* Vous vous reconnaissez ? — identification émotionnelle */}
+        {lp.identification && (
+          <IdentificationSection
+            eyebrow={lp.identification.eyebrow}
+            h2={lp.identification.h2}
+            h2Highlight={lp.identification.h2Highlight}
+            intro={lp.identification.intro}
+            items={lp.identification.items}
+            ctaLabel={lp.identification.ctaLabel}
+            ctaHref={lp.identification.ctaHref}
+          />
+        )}
+
+        {/* Êtes-vous éligible ? — 3 tranches d'âge */}
+        {lp.eligibility && (
+          <EligibilitySection
+            eyebrow={lp.eligibility.eyebrow}
+            h2={lp.eligibility.h2}
+            h2Highlight={lp.eligibility.h2Highlight}
+            intro={lp.eligibility.intro}
+            tranches={lp.eligibility.tranches}
+            conditions={lp.eligibility.conditions}
+            ctaLabel={lp.eligibility.ctaLabel}
+            ctaHref={lp.eligibility.ctaHref}
+          />
+        )}
+
+        {/* Barème ANAH 2026 + exemple chiffré */}
+        {lp.bareme && (
+          <BaremeSection
+            eyebrow={lp.bareme.eyebrow}
+            h2={lp.bareme.h2}
+            h2Highlight={lp.bareme.h2Highlight}
+            intro={lp.bareme.intro}
+            plafondTravaux={lp.bareme.plafondTravaux}
+            rows={lp.bareme.rows}
+            example={lp.bareme.example}
+            note={lp.bareme.note}
+          />
+        )}
+
+        {/* Aides cumulables */}
         <AidesSection
           eyebrow={lp.aides.eyebrow}
           h2={lp.aides.h2}
           intro={lp.aides.intro}
           items={lp.aides.items}
+        />
+
+        <ProcessSteps
+          eyebrow={lp.process.eyebrow}
+          h2Lead={lp.process.h2Lead}
+          h2Highlight={lp.process.h2Highlight}
+          h2Tail={lp.process.h2Tail}
+          steps={lp.process.steps}
+        />
+
+        {/* Notre prise en charge */}
+        <IncludedSection
+          eyebrow={lp.included.eyebrow}
+          h2={lp.included.h2}
+          intro={lp.included.intro}
+          items={lp.included.items}
         />
 
         {lp.beforeAfter && (
@@ -100,28 +167,11 @@ export default function MaPrimeAdaptLP() {
           />
         )}
 
-        <ProcessSteps
-          eyebrow={lp.process.eyebrow}
-          h2Lead={lp.process.h2Lead}
-          h2Highlight={lp.process.h2Highlight}
-          h2Tail={lp.process.h2Tail}
-          steps={lp.process.steps}
-        />
-
-        <IncludedSection
-          eyebrow={lp.included.eyebrow}
-          h2={lp.included.h2}
-          intro={lp.included.intro}
-          items={lp.included.items}
-        />
-
         <Gallery
           eyebrow={lp.gallery.eyebrow}
           h2={lp.gallery.h2}
           images={lp.gallery.images}
         />
-
-        <SpecsSection eyebrow={lp.specs.eyebrow} h2={lp.specs.h2} items={lp.specs.items} />
 
         <Testimonials
           eyebrow={lp.testimonials.eyebrow}

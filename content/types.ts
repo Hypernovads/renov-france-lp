@@ -47,6 +47,35 @@ export type AideItem = {
   body: string;
 };
 
+/** Section "Vous vous reconnaissez ?" — identification émotionnelle (LP2). */
+export type IdentificationItem = {
+  icon: string;
+  /** La situation à laquelle le visiteur s'identifie (ex. "Vous enjambez la baignoire avec appréhension ?") */
+  situation: string;
+  /** La phrase qui rassure et renvoie vers l'éligibilité */
+  reassurance: string;
+};
+
+/** Tranche d'âge / situation d'éligibilité MaPrimeAdapt' (LP2). */
+export type EligibilityTranche = {
+  /** Grand affichage (ex. "70 ans et +") */
+  age: string;
+  /** Condition associée (ex. "Sans condition de perte d'autonomie.") */
+  condition: string;
+};
+
+/** Ligne du barème ANAH (LP2). */
+export type BaremeRow = {
+  /** Profil de revenus (ex. "Revenus très modestes") */
+  profil: string;
+  /** Taux de prise en charge (ex. "70 %") */
+  taux: string;
+  /** Montant d'aide max (ex. "jusqu'à 15 400 €") */
+  plafondAide: string;
+  /** Ton visuel : 'high' = bleu/mis en avant, 'mid' = secondaire */
+  tone: 'high' | 'mid';
+};
+
 export type FaqItem = { q: string; a: string };
 
 export type Pack = {
@@ -168,6 +197,63 @@ export type LPContent = {
     h2: string;
     intro: string;
     items: AideItem[];
+  };
+
+  /** Section "Travaux couverts" — split image + liste aérée (LP2). La liste couvre
+   *  la diversité des travaux (SDB, douche, WC, monte-escalier) ; une seule image sobre. */
+  coveredWorks?: {
+    eyebrow: string;
+    h2: string;
+    h2Highlight?: string;
+    intro?: string;
+    image: Image;
+    imageCaption?: string;
+    items: PromiseItem[];
+  };
+
+  /** Section "Vous vous reconnaissez ?" — identification émotionnelle (LP2 MaPrimeAdapt'). */
+  identification?: {
+    eyebrow: string;
+    h2: string;
+    /** Substring du h2 en italic-accent terracotta */
+    h2Highlight?: string;
+    intro?: string;
+    items: IdentificationItem[];
+    /** CTA sous les cards (ancre vers le quiz/form) */
+    ctaLabel?: string;
+    ctaHref?: string;
+  };
+
+  /** Section "Êtes-vous éligible ?" — 3 tranches d'âge + conditions communes (LP2). */
+  eligibility?: {
+    eyebrow: string;
+    h2: string;
+    h2Highlight?: string;
+    intro?: string;
+    tranches: EligibilityTranche[];
+    /** Conditions communes (propriétaire/locataire, revenus…) listées sous les tranches */
+    conditions: string[];
+    ctaLabel?: string;
+    ctaHref?: string;
+  };
+
+  /** Section "Barème + exemple chiffré" — crédibilise les montants d'aide (LP2). */
+  bareme?: {
+    eyebrow: string;
+    h2: string;
+    h2Highlight?: string;
+    intro?: string;
+    /** Plafond de travaux pris en compte (ex. "22 000 € HT de travaux") */
+    plafondTravaux: string;
+    rows: BaremeRow[];
+    /** Cas concret chiffré, présenté en mini-"facture" */
+    example: {
+      persona: string;
+      badge?: string;
+      lines: { label: string; value: string; kind: 'base' | 'aide' | 'total' }[];
+      footnote?: string;
+    };
+    note?: string;
   };
   faq: {
     eyebrow: string;
