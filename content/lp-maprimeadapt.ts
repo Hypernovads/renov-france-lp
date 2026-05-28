@@ -119,23 +119,33 @@ export const lpMaPrimeAdapt: LPContent = {
     items: [
       {
         icon: 'droplets',
+        title: 'Baignoire → douche sécurisée',
+        body: 'De plain-pied, antidérapante, avec barre de maintien et siège.',
+      },
+      {
+        icon: 'sparkles',
         title: 'Salle de bain adaptée',
-        body: "Réfection complète et sécurisée, pensée pour l'autonomie.",
+        body: 'Réfection complète et sécurisée, pensée pour l’autonomie.',
+      },
+      {
+        icon: 'settings',
+        title: 'Monte-escalier',
+        body: 'Motorisé, installé sur votre escalier existant.',
       },
       {
         icon: 'shield-check',
-        title: 'Baignoire → douche sécurisée',
-        body: 'Douche de plain-pied, receveur extra-plat, barre de maintien et siège.',
+        title: 'WC surélevé & barres d’appui',
+        body: 'Réhausse, barres d’appui et robinetterie ergonomique.',
       },
       {
-        icon: 'home',
-        title: 'WC & accessibilité',
-        body: 'WC surélevé, barres d’appui, robinetterie ergonomique.',
+        icon: 'ruler',
+        title: 'Élargissement des portes',
+        body: 'Suppression des seuils, accès fauteuil facilité.',
       },
       {
-        icon: 'wrench',
-        title: 'Monte-escalier & mobilité',
-        body: 'Élargissement des portes, suppression des seuils, monte-escalier.',
+        icon: 'sun',
+        title: 'Volets roulants & domotique',
+        body: 'Motorisation des volets, éclairage et détecteurs.',
       },
     ],
   },
