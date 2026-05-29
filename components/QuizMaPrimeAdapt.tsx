@@ -109,29 +109,29 @@ const QUESTIONS: Question[] = [
   },
   {
     id: 'revenu',
-    question: 'Votre tranche de revenu fiscal de référence ?',
-    hint: "Ligne en bas de la 1ère page de votre avis d'imposition. Confidentiel — sert uniquement au calcul de vos aides (barèmes ANAH 2026).",
+    question: 'Quels sont les revenus de votre foyer ?',
+    hint: "Votre « revenu fiscal de référence » (sur votre avis d'impôt). Confidentiel — sert juste à calculer vos aides.",
     type: 'choice',
     options: [
       {
         value: 'tres-modeste',
         label: 'Moins de 17 363 € (seul) ou 25 393 € (couple)',
-        description: "Très modeste — MaPrimeAdapt' 70 % ✓",
+        description: 'Vous touchez le maximum (70 %)',
       },
       {
         value: 'modeste',
-        label: '17 363 — 22 259 € (seul) ou 25 393 — 32 553 € (couple)',
-        description: "Modeste — MaPrimeAdapt' 50 % ✓",
+        label: '17 363 à 22 259 € (seul) ou 25 393 à 32 553 € (couple)',
+        description: 'Aides élevées (50 %)',
       },
       {
         value: 'intermediaire',
-        label: '22 259 — 31 185 € (seul) ou 32 553 — 45 842 € (couple)',
-        description: 'Intermédiaire — autres aides cumulables',
+        label: '22 259 à 31 185 € (seul) ou 32 553 à 45 842 € (couple)',
+        description: 'D’autres aides restent cumulables',
       },
       {
         value: 'superieur',
         label: 'Plus de 31 185 € (seul) ou 45 842 € (couple)',
-        description: 'Supérieur — aides limitées mais possibles',
+        description: 'Aides plus limitées, mais possibles',
       },
       {
         value: 'sais-pas',
@@ -142,7 +142,7 @@ const QUESTIONS: Question[] = [
   },
   {
     id: 'situation',
-    question: 'Votre situation aujourd’hui ?',
+    question: 'Votre situation aujourd’hui ?',
     type: 'choice',
     options: [
       {
@@ -155,38 +155,38 @@ const QUESTIONS: Question[] = [
       },
       {
         value: 'reconnu-pmr',
-        label: "Reconnu en perte d'autonomie (GIR 1-6 ou RQTH ≥ 50 %)",
-        description: "Débloque MaPrimeAdapt' 70 % + APA + bonus CARSAT (jusqu'à +6 000 € d'aides supplémentaires).",
+        label: 'En perte d’autonomie ou en situation de handicap',
+        description: 'APA, carte d’invalidité… → débloque le maximum d’aides.',
       },
     ],
   },
   {
     id: 'regime',
-    question: 'Votre régime professionnel / retraite ?',
-    hint: "Critique pour Action Logement (5 000 €) — réservée aux retraités du régime général et salariés actifs du privé.",
+    question: 'Vous êtes (ou étiez)…',
+    hint: 'Cela détermine votre aide Action Logement (jusqu’à 5 000 €).',
     type: 'choice',
     options: [
       {
         value: 'retraite-prive',
-        label: 'Retraité·e du régime général (ex-salarié·e du privé)',
-        description: 'Éligible Action Logement 5 000 € + CARSAT.',
+        label: 'Retraité(e) du privé',
+        description: 'Ouvre Action Logement 5 000 € + CARSAT.',
       },
       {
         value: 'salarie-prive',
-        label: 'Actif·ve, salarié·e du privé',
-        description: 'Éligible Action Logement 5 000 € si en perte d’autonomie.',
+        label: 'Salarié(e) du privé, en activité',
+        description: 'Action Logement possible (5 000 €).',
       },
       {
         value: 'retraite-public',
-        label: 'Retraité·e fonction publique',
+        label: 'Retraité(e) de la fonction publique',
       },
       {
         value: 'salarie-public',
-        label: 'Actif·ve fonction publique',
+        label: 'Fonctionnaire en activité',
       },
       {
         value: 'independant',
-        label: 'Indépendant·e / profession libérale',
+        label: 'Indépendant(e) ou profession libérale',
       },
       {
         value: 'sans-activite',
