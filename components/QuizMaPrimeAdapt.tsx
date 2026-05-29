@@ -613,11 +613,11 @@ function IntroPanel({ onStart }: { onStart: (whom: ForWhom) => void }) {
       <p className="text-[13px] text-navy font-semibold mb-2.5 text-center">
         Cette nouvelle douche, c’est pour…
       </p>
-      <div className="grid grid-cols-2 gap-2.5 mb-5">
+      <div className="grid grid-cols-2 gap-2.5 mb-4">
         <button
           type="button"
           onClick={() => onStart('me')}
-          className="p-4 rounded-2xl border-[1.5px] border-navy/[0.12] bg-white hover:border-terracotta hover:bg-terracotta/[0.05] hover:-translate-y-0.5 transition-all duration-250 flex flex-col items-center gap-2 min-h-[110px] group"
+          className="p-4 rounded-2xl border-[1.5px] border-navy/[0.12] bg-white hover:border-terracotta hover:bg-terracotta/[0.05] hover:-translate-y-0.5 transition-all duration-250 flex flex-col items-center gap-2 min-h-[100px] group"
         >
           <span className="inline-flex size-10 items-center justify-center rounded-xl bg-terracotta/10 text-terracotta group-hover:bg-terracotta group-hover:text-cream transition-colors">
             <User className="size-5" aria-hidden />
@@ -628,7 +628,7 @@ function IntroPanel({ onStart }: { onStart: (whom: ForWhom) => void }) {
         <button
           type="button"
           onClick={() => onStart('relative')}
-          className="p-4 rounded-2xl border-[1.5px] border-navy/[0.12] bg-white hover:border-terracotta hover:bg-terracotta/[0.05] hover:-translate-y-0.5 transition-all duration-250 flex flex-col items-center gap-2 min-h-[110px] group"
+          className="p-4 rounded-2xl border-[1.5px] border-navy/[0.12] bg-white hover:border-terracotta hover:bg-terracotta/[0.05] hover:-translate-y-0.5 transition-all duration-250 flex flex-col items-center gap-2 min-h-[100px] group"
         >
           <span className="inline-flex size-10 items-center justify-center rounded-xl bg-terracotta/10 text-terracotta group-hover:bg-terracotta group-hover:text-cream transition-colors">
             <Users className="size-5" aria-hidden />
@@ -639,7 +639,7 @@ function IntroPanel({ onStart }: { onStart: (whom: ForWhom) => void }) {
       </div>
 
       {/* Plan B téléphone — capture les 30 % qui préfèrent appeler */}
-      <div className="text-center py-3.5 border-y border-navy/[0.08] mb-4">
+      <div className="text-center py-3 border-y border-navy/[0.08] mb-3.5">
         <p className="text-[11px] text-slate/80 mb-1.5">— ou si vous préférez —</p>
         <a
           href={client.phone.href}
@@ -670,7 +670,7 @@ function IntroPanel({ onStart }: { onStart: (whom: ForWhom) => void }) {
       </ul>
 
       {/* Mini témoignage discret */}
-      <div className="mt-5 p-3 rounded-xl bg-cream-warm/40 border border-cream-warm/60 flex items-start gap-2.5">
+      <div className="mt-4 p-3 rounded-xl bg-cream-warm/40 border border-cream-warm/60 flex items-start gap-2.5">
         <Quote className="size-3.5 text-terracotta shrink-0 mt-1" aria-hidden />
         <p className="text-[12px] text-slate leading-snug italic">
           « On a équipé maman sans qu’elle ait à gérer la moindre paperasse. Une vraie

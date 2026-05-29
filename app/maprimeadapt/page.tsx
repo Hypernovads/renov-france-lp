@@ -126,16 +126,9 @@ export default function MaPrimeAdaptLP() {
           items={lp.aides.items}
         />
 
-        <ProcessSteps
-          eyebrow={lp.process.eyebrow}
-          h2Lead={lp.process.h2Lead}
-          h2Highlight={lp.process.h2Highlight}
-          h2Tail={lp.process.h2Tail}
-          steps={lp.process.steps}
-        />
-
-        {/* Notre prise en charge — split image droite (quinconce). Image = placeholder
-            (réalisation 03) à remplacer par une photo "conseillère / visite à domicile". */}
+        {/* Notre prise en charge — intercalé entre Aides et Process pour casser le double
+            fond bleu foncé (et flux narratif : aides → on gère tout → comment ça se passe).
+            Image = placeholder (réalisation 03) à remplacer par une photo "conseillère / visite". */}
         <CoveredWorks
           eyebrow={lp.included.eyebrow}
           h2={lp.included.h2}
@@ -148,6 +141,14 @@ export default function MaPrimeAdaptLP() {
           }}
           imageCaption="Réalisation — Aix-en-Provence"
           imageSide="right"
+        />
+
+        <ProcessSteps
+          eyebrow={lp.process.eyebrow}
+          h2Lead={lp.process.h2Lead}
+          h2Highlight={lp.process.h2Highlight}
+          h2Tail={lp.process.h2Tail}
+          steps={lp.process.steps}
         />
 
         <Gallery
