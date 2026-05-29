@@ -9,8 +9,6 @@ import { TrustStrip } from '@/components/TrustStrip';
 import { PressBar } from '@/components/PressBar';
 import { CoveredWorks } from '@/components/CoveredWorks';
 import { IdentificationSection } from '@/components/IdentificationSection';
-import { EligibilitySection } from '@/components/EligibilitySection';
-import { BaremeSection } from '@/components/BaremeSection';
 import { AidesSection } from '@/components/AidesSection';
 import { ProcessSteps } from '@/components/ProcessSteps';
 import { BeforeAfterSlider } from '@/components/BeforeAfterSlider';
@@ -115,33 +113,10 @@ export default function MaPrimeAdaptLP() {
           />
         )}
 
-        {/* Êtes-vous éligible ? — 3 tranches d'âge */}
-        {lp.eligibility && (
-          <EligibilitySection
-            eyebrow={lp.eligibility.eyebrow}
-            h2={lp.eligibility.h2}
-            h2Highlight={lp.eligibility.h2Highlight}
-            intro={lp.eligibility.intro}
-            tranches={lp.eligibility.tranches}
-            conditions={lp.eligibility.conditions}
-            ctaLabel={lp.eligibility.ctaLabel}
-            ctaHref={lp.eligibility.ctaHref}
-          />
-        )}
-
-        {/* Barème ANAH 2026 + exemple chiffré */}
-        {lp.bareme && (
-          <BaremeSection
-            eyebrow={lp.bareme.eyebrow}
-            h2={lp.bareme.h2}
-            h2Highlight={lp.bareme.h2Highlight}
-            intro={lp.bareme.intro}
-            plafondTravaux={lp.bareme.plafondTravaux}
-            rows={lp.bareme.rows}
-            example={lp.bareme.example}
-            note={lp.bareme.note}
-          />
-        )}
+        {/* Sections "Éligibilité (3 profils)" et "Barème + exemple" RETIRÉES (choix Steve) :
+            - Éligibilité affichée = frein, auto-disqualifie ; le quiz hero qualifie déjà en douceur.
+            - Barème/exemple = redondant avec le quiz (montant perso) + reste à charge refroidit.
+            Contenu (lp.eligibility / lp.bareme) + composants conservés, réactivables si besoin. */}
 
         {/* Aides cumulables */}
         <AidesSection
