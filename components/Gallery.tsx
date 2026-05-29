@@ -13,7 +13,7 @@ type Props = {
  */
 export function Gallery({ eyebrow, h2, images }: Props) {
   return (
-    <section className="section-pad bg-cream">
+    <section id="gallery" className="section-pad bg-cream">
       <div className="container-wide">
         <header className="max-w-2xl mb-10 sm:mb-14">
           <span className="eyebrow">{eyebrow}</span>

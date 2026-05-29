@@ -50,12 +50,35 @@ export const client = {
     googleUrl: 'https://g.page/r/XXXXXXXXXXX',
   },
 
-  // ─── Mentions légales footer ───────────────────────────────────
+  // ─── Mentions légales ──────────────────────────────────────────
+  // ⚠️ Champs lus par les pages /mentions/legales et /mentions/confidentialite.
+  //    Tous les "À COMPLÉTER" DOIVENT être remplis avant mise en ligne.
   legal: {
     address: 'À COMPLÉTER — Adresse siège, CP Ville',
     dpoEmail: 'rgpd@a-completer.fr',
     privacyUrl: '/mentions/confidentialite',
     legalNoticeUrl: '/mentions/legales',
+    cguUrl: '/cgu',
+    /** Forme juridique : SAS, SARL, EURL, EI… */
+    legalForm: 'À COMPLÉTER — forme juridique (ex. SAS)',
+    /** Capital social (ex. "10 000 €") */
+    capital: 'À COMPLÉTER — capital social',
+    /** N° TVA intracommunautaire (ex. "FR XX XXXXXXXXX") */
+    tvaIntra: 'À COMPLÉTER — n° TVA intracommunautaire',
+    /** Nom du directeur de la publication (gérant / président) */
+    publicationDirector: 'À COMPLÉTER — directeur de la publication',
+    /** Hébergeur du site — prérempli Vercel (cible de déploiement). À ajuster si autre. */
+    host: {
+      name: 'Vercel Inc.',
+      address: '440 N Barranca Ave #4133, Covina, CA 91723, États-Unis',
+      url: 'https://vercel.com',
+    },
+    /** Médiateur de la consommation — OBLIGATOIRE pour le BTP avec des particuliers.
+     *  Si pas encore d'adhésion, il faut en souscrire un (ex. CM2C, Medicys…). */
+    mediator: {
+      name: 'À COMPLÉTER — médiateur de la consommation',
+      url: 'À COMPLÉTER — site du médiateur',
+    },
   },
 
   // ─── Logo ──────────────────────────────────────────────────────

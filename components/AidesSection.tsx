@@ -12,7 +12,7 @@ const ROTATION_ICONS = [Euro, PiggyBank, Receipt, HandCoins];
 
 export function AidesSection({ eyebrow, h2, intro, items }: Props) {
   return (
-    <section className="section-pad bg-navy text-cream relative overflow-hidden grain-overlay">
+    <section id="aides" className="section-pad bg-navy text-cream relative overflow-hidden grain-overlay">
       {/* Tâche colorée décorative */}
       <div
         className="absolute -top-32 -right-32 size-96 rounded-full bg-terracotta/20 blur-3xl"

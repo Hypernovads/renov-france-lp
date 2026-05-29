@@ -513,9 +513,9 @@ export const lpMaPrimeAdapt: LPContent = {
       { label: 'Aides & financement', href: '#aides' },
     ],
     entreprise: [
-      { label: 'À propos', href: '#' },
       { label: 'Réalisations', href: '#gallery' },
       { label: 'Avis clients', href: '#testimonials' },
+      { label: 'Vos aides', href: '#aides' },
       { label: 'Contact', href: '#hero-form' },
     ],
     villes: [
