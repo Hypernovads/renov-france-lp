@@ -16,7 +16,19 @@ type Props = {
 export function Footer({ services, entreprise, villes, tagline }: Props) {
   const t =
     tagline ??
-    `Spécialistes de la rénovation de salle de bain à Marseille et dans tout le 13. Artisans certifiés Qualibat à votre service.`;
+    `Spécialistes de la rénovation de salle de bain à Marseille et dans tout le 13.`;
+
+  // Ligne légale du footer : on n'affiche QUE les infos réellement renseignées
+  // (pas de fausse décennale / Qualibat tant qu'on ne les a pas).
+  const ok = (v: string) => !v.startsWith('À COMPLÉTER');
+  const legalBits = [
+    ok(client.certifications.decennaleAssureur) ? `Décennale ${client.certifications.decennaleAssureur}` : null,
+    ok(client.certifications.qualibatNumber) ? `Qualibat n°${client.certifications.qualibatNumber}` : null,
+    ok(client.siret) ? `SIRET ${client.siret}` : null,
+    ok(client.rcs) ? client.rcs : null,
+  ]
+    .filter(Boolean)
+    .join(' · ');
 
   return (
     <footer className="bg-navy-deep text-cream/60 pt-14 sm:pt-18 pb-10 px-5 sm:px-12">
@@ -27,12 +39,9 @@ export function Footer({ services, entreprise, villes, tagline }: Props) {
             <BrandMark inverted />
           </div>
           <p className="text-[14px] leading-[1.7] max-w-[340px] mb-4 text-cream/65">{t}</p>
-          <p className="text-[12px] leading-[1.6] text-cream/40">
-            Décennale {client.certifications.decennaleAssureur.replace('À COMPLÉTER — assureur décennale', 'MAAF')}
-            {' · '}RGE {client.certifications.qualibatNumber.startsWith('À COMPLÉTER') ? 'Qualibat' : `n°${client.certifications.qualibatNumber}`}
-            {' · '}SIRET {client.siret}
-            {' · '}{client.rcs}
-          </p>
+          {legalBits && (
+            <p className="text-[12px] leading-[1.6] text-cream/40">{legalBits}</p>
+          )}
         </div>
 
         {/* ─── Services col ────────────────────────────────────── */}

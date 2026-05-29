@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { LegalPage } from '@/components/LegalPage';
+import { LegalPage, has } from '@/components/LegalPage';
 import { client } from '@/content/client';
 
 export const metadata: Metadata = {
@@ -23,8 +23,15 @@ export default function ConfidentialitePage() {
       <h2>1. Responsable du traitement</h2>
       <p>
         Le responsable du traitement est {client.legalName}, dont le siège est situé{' '}
-        {client.legal.address}. Pour toute question relative à vos données :{' '}
-        <a href={`mailto:${client.legal.dpoEmail}`}>{client.legal.dpoEmail}</a>.
+        {client.legal.address}. Pour toute question relative à vos données, vous pouvez nous
+        contacter{' '}
+        {has(client.legal.dpoEmail) ? (
+          <>
+            à <a href={`mailto:${client.legal.dpoEmail}`}>{client.legal.dpoEmail}</a>.
+          </>
+        ) : (
+          <>par courrier à l’adresse du siège social indiquée ci-dessus.</>
+        )}
       </p>
 
       <h2>2. Données collectées</h2>
@@ -85,10 +92,16 @@ export default function ConfidentialitePage() {
         <li>droit de retirer votre consentement à tout moment.</li>
       </ul>
       <p>
-        Pour exercer ces droits, écrivez-nous à{' '}
-        <a href={`mailto:${client.legal.dpoEmail}`}>{client.legal.dpoEmail}</a>. Si vous estimez,
-        après nous avoir contactés, que vos droits ne sont pas respectés, vous pouvez introduire
-        une réclamation auprès de la CNIL :{' '}
+        Pour exercer ces droits, contactez-nous{' '}
+        {has(client.legal.dpoEmail) ? (
+          <>
+            à <a href={`mailto:${client.legal.dpoEmail}`}>{client.legal.dpoEmail}</a>
+          </>
+        ) : (
+          <>par courrier à l’adresse de notre siège social</>
+        )}
+        . Si vous estimez, après nous avoir contactés, que vos droits ne sont pas respectés, vous
+        pouvez introduire une réclamation auprès de la CNIL :{' '}
         <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">www.cnil.fr</a>.
       </p>
 

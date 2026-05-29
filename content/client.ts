@@ -9,10 +9,15 @@
 
 export const client = {
   // ─── Identité ──────────────────────────────────────────────────
+  // brandName = marque commerciale affichée (header/footer). Encore À DÉFINIR
+  // (le nom + logo de l'activité rénovation sont en cours de décision côté Steve).
+  // legalName = entité juridique éditrice (mentions légales) = Chiva immobilier.
   brandName: 'À COMPLÉTER',
-  legalName: 'À COMPLÉTER — Raison sociale',
-  siret: 'À COMPLÉTER — SIRET 14 chiffres',
-  rcs: 'À COMPLÉTER — RCS Ville',
+  legalName: 'Chiva immobilier',
+  siret: '852 738 343 00023',
+  // RCS déduit : SIREN 852 738 343 + greffe de Créteil (Saint-Mandé, Val-de-Marne 94).
+  // À confirmer sur l'extrait Kbis / Infogreffe.
+  rcs: '852 738 343 R.C.S. Créteil',
   yearFounded: 'À COMPLÉTER',
 
   // ─── Contact ───────────────────────────────────────────────────
@@ -54,19 +59,22 @@ export const client = {
   // ⚠️ Champs lus par les pages /mentions/legales et /mentions/confidentialite.
   //    Tous les "À COMPLÉTER" DOIVENT être remplis avant mise en ligne.
   legal: {
-    address: 'À COMPLÉTER — Adresse siège, CP Ville',
-    dpoEmail: 'rgpd@a-completer.fr',
+    address: '14 avenue du Général de Gaulle, 94160 Saint-Mandé',
+    // Email RGPD/contact : à venir (Steve le fournira plus tard).
+    dpoEmail: '',
     privacyUrl: '/mentions/confidentialite',
     legalNoticeUrl: '/mentions/legales',
     cguUrl: '/cgu',
     /** Forme juridique : SAS, SARL, EURL, EI… */
-    legalForm: 'À COMPLÉTER — forme juridique (ex. SAS)',
-    /** Capital social (ex. "10 000 €") */
-    capital: 'À COMPLÉTER — capital social',
-    /** N° TVA intracommunautaire (ex. "FR XX XXXXXXXXX") */
-    tvaIntra: 'À COMPLÉTER — n° TVA intracommunautaire',
+    legalForm: 'SAS (société par actions simplifiée)',
+    /** Capital social */
+    capital: '75 000 €',
+    /** Code APE / NAF */
+    ape: '6810Z',
+    /** N° TVA intracommunautaire — NON affiché tant que non vérifié sur Infogreffe (consigne Steve). */
+    tvaIntra: '',
     /** Nom du directeur de la publication (gérant / président) */
-    publicationDirector: 'À COMPLÉTER — directeur de la publication',
+    publicationDirector: 'Anthony Destrières',
     /** Hébergeur du site — prérempli Vercel (cible de déploiement). À ajuster si autre. */
     host: {
       name: 'Vercel Inc.',

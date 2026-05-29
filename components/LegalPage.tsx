@@ -3,6 +3,14 @@ import { Header } from './Header';
 import { Footer } from './Footer';
 
 /**
+ * Renvoie true si une valeur est réellement renseignée (≠ placeholder).
+ * Filtre les "À COMPLÉTER …", les chaînes vides, et les placeholders type
+ * "04 XX XX XX XX" / "contact@a-completer.fr" / "g.page/r/XXXX".
+ */
+export const has = (v?: string): v is string =>
+  !!v && !v.startsWith('À COMPLÉTER') && !/XX|a-completer\.fr/.test(v);
+
+/**
  * Mise en page partagée des pages légales (mentions légales, confidentialité, CGU).
  * Header + contenu typographié (via variantes Tailwind sur descendants) + Footer.
  * Les pages enfants écrivent du HTML sémantique pur (h2 / p / ul) — le style est ici.
