@@ -64,7 +64,7 @@ export const lpMaPrimeAdapt: LPContent = {
     {
       icon: 'star',
       label: '4,5/5 Google',
-      rating: '187 avis vérifiés',
+      rating: '127 avis vérifiés',
       href: client.reviews.googleUrl,
     },
     { icon: 'clock', label: 'Réponse en 30 s', rating: "Test d'éligibilité gratuit" },

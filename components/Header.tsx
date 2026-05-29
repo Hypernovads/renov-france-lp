@@ -16,7 +16,17 @@ import { BrandMark } from './BrandMark';
  *    UNIQUEMENT sur desktop (sm+). Sur mobile, le sticky bottom 3-boutons (WhatsApp /
  *    Appeler / Devis) prend le relais — pas de duplication d'action.
  */
-export function Header() {
+type Props = {
+  /** Libellé du CTA header au scroll (default "Mon devis gratuit"). LP2 : "Vérifier mon éligibilité". */
+  ctaLabel?: string;
+  /** Cible du CTA (default "#form-long"). LP2 : "#hero-form" (le quiz = conversion n°1). */
+  ctaHref?: string;
+};
+
+export function Header({
+  ctaLabel = 'Mon devis gratuit',
+  ctaHref = '#form-long',
+}: Props = {}) {
   const [showDevisCta, setShowDevisCta] = useState(false);
 
   useEffect(() => {
@@ -54,19 +64,19 @@ export function Header() {
           {/* CTA "Mon devis" — DESKTOP UNIQUEMENT (sm+). Sur mobile, sticky bottom prend
               le relais → pas de duplication. Apparaît au scroll après le hero. */}
           <a
-            href="#form-long"
+            href={ctaHref}
             className={[
               'hidden sm:inline-flex',
               'btn-primary text-[13px] sm:text-sm overflow-hidden',
               'transition-all duration-300 ease-smooth',
               showDevisCta
-                ? 'opacity-100 max-w-[200px] px-4 sm:px-5'
+                ? 'opacity-100 max-w-[260px] px-4 sm:px-5'
                 : 'opacity-0 max-w-0 px-0 pointer-events-none',
             ].join(' ')}
             aria-hidden={!showDevisCta}
             tabIndex={showDevisCta ? 0 : -1}
           >
-            <span className="whitespace-nowrap">Mon devis gratuit</span>
+            <span className="whitespace-nowrap">{ctaLabel}</span>
             <ArrowRight className="size-4 shrink-0" aria-hidden />
           </a>
         </nav>

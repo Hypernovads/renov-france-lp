@@ -62,7 +62,7 @@ export function Hero({
       {/* Grain texture overlay */}
       <div className="absolute inset-0 bg-grain opacity-[0.06] pointer-events-none mix-blend-overlay" aria-hidden />
 
-      <div className="container-wide relative z-10 grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20 py-12 sm:py-16 lg:py-24 items-center min-h-[92vh]">
+      <div className="container-wide relative z-10 grid gap-7 sm:gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20 py-7 sm:py-16 lg:py-24 items-start lg:items-center min-h-[92vh]">
         {/* ─── Colonne gauche : copy + KPIs ───────────────────── */}
         <div className="relative">
           {locationChip && (
@@ -112,8 +112,9 @@ export function Hero({
             {sub}
           </p>
 
-          {/* 3 KPI stats serif */}
-          <ul className="flex flex-wrap gap-x-8 gap-y-5">
+          {/* 3 KPI stats serif — DESKTOP uniquement (sur mobile ils passent SOUS le quiz
+              pour le remonter au-dessus de la ligne de flottaison) */}
+          <ul className="hidden lg:flex flex-wrap gap-x-8 gap-y-5">
             {client.heroKpis.map((kpi) => (
               <li key={kpi.label} className="flex flex-col gap-1">
                 <span
@@ -134,6 +135,24 @@ export function Hero({
         <div className="lg:justify-self-end w-full" id="hero-form">
           {rightSlot ?? <ZipGate source={source} merciHref={merciHref} />}
         </div>
+
+        {/* KPIs MOBILE — placés après le quiz pour le faire remonter. Cachés en desktop
+            (lg:hidden → retirés de la grille 2 colonnes). */}
+        <ul className="flex lg:hidden flex-wrap gap-x-8 gap-y-4">
+          {client.heroKpis.map((kpi) => (
+            <li key={kpi.label} className="flex flex-col gap-1">
+              <span
+                className="font-serif text-cream leading-none"
+                style={{ fontSize: '28px', fontWeight: 500 }}
+              >
+                <Stat value={kpi.value} />
+              </span>
+              <span className="text-[11px] uppercase tracking-[0.08em] text-cream/60 font-medium">
+                {kpi.label}
+              </span>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

@@ -605,7 +605,7 @@ function IntroPanel({ onStart }: { onStart: (whom: ForWhom) => void }) {
           Vérifiez votre éligibilité
         </h2>
         <p className="text-sm text-slate mt-1">
-          Estimation en 45 secondes · sans engagement
+          Estimation en 30 secondes · sans engagement
         </p>
       </div>
 
@@ -673,8 +673,8 @@ function IntroPanel({ onStart }: { onStart: (whom: ForWhom) => void }) {
       <div className="mt-5 p-3 rounded-xl bg-cream-warm/40 border border-cream-warm/60 flex items-start gap-2.5">
         <Quote className="size-3.5 text-terracotta shrink-0 mt-1" aria-hidden />
         <p className="text-[12px] text-slate leading-snug italic">
-          « On a équipé maman en 1 jour. Reste à charge :{' '}
-          <strong className="text-navy not-italic font-semibold">87 €</strong>. »
+          « On a équipé maman sans qu’elle ait à gérer la moindre paperasse. Une vraie
+          tranquillité. »
           <span className="block text-[10px] text-slate/70 not-italic mt-0.5">
             — Sylvie L., Marseille (pour sa mère)
           </span>

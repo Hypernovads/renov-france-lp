@@ -49,7 +49,7 @@ export default function MaPrimeAdaptLP() {
         withWeek={lp.announcement.withWeek}
         href={lp.announcement.href}
       />
-      <Header />
+      <Header ctaLabel="Vérifier mon éligibilité" ctaHref="#hero-form" />
 
       <main>
         <Hero
