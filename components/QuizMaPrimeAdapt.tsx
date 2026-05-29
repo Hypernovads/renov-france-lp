@@ -34,7 +34,7 @@ type Slot = 'morning' | 'afternoon' | 'evening' | 'any';
 
 type Stage =
   | 'intro'      // pré-engagement binaire (moi / un proche) — gros boost conversion
-  | 'question'   // 4 questions du quiz
+  | 'question'   // 6 questions du quiz
   | 'shortform'  // escape hatch "je préfère qu'on m'appelle" depuis une question
   | 'calculating'// loader théâtralisé 4s
   | 'result'     // résultat + form final (nom + tel + créneau)
@@ -137,6 +137,60 @@ const QUESTIONS: Question[] = [
         value: 'sais-pas',
         label: 'Je préfère qu’on vérifie pour moi',
         description: 'On calcule avec une hypothèse favorable.',
+      },
+    ],
+  },
+  {
+    id: 'situation',
+    question: 'Votre situation aujourd’hui ?',
+    type: 'choice',
+    options: [
+      {
+        value: 'autonome',
+        label: "Autonome, j'anticipe pour l'avenir",
+      },
+      {
+        value: 'difficultes',
+        label: 'Quelques difficultés au quotidien',
+      },
+      {
+        value: 'reconnu-pmr',
+        label: "Reconnu en perte d'autonomie (GIR 1-6 ou RQTH ≥ 50 %)",
+        description: "Débloque MaPrimeAdapt' 70 % + APA + bonus CARSAT (jusqu'à +6 000 € d'aides supplémentaires).",
+      },
+    ],
+  },
+  {
+    id: 'regime',
+    question: 'Votre régime professionnel / retraite ?',
+    hint: "Critique pour Action Logement (5 000 €) — réservée aux retraités du régime général et salariés actifs du privé.",
+    type: 'choice',
+    options: [
+      {
+        value: 'retraite-prive',
+        label: 'Retraité·e du régime général (ex-salarié·e du privé)',
+        description: 'Éligible Action Logement 5 000 € + CARSAT.',
+      },
+      {
+        value: 'salarie-prive',
+        label: 'Actif·ve, salarié·e du privé',
+        description: 'Éligible Action Logement 5 000 € si en perte d’autonomie.',
+      },
+      {
+        value: 'retraite-public',
+        label: 'Retraité·e fonction publique',
+      },
+      {
+        value: 'salarie-public',
+        label: 'Actif·ve fonction publique',
+      },
+      {
+        value: 'independant',
+        label: 'Indépendant·e / profession libérale',
+      },
+      {
+        value: 'sans-activite',
+        label: 'Aucune de ces situations',
       },
     ],
   },
@@ -279,10 +333,9 @@ function calculateAides(a: Answers): Calculation {
  * Flow optimisé pour conversion senior 65+ :
  * 1. intro       : pré-engagement BINAIRE ("Pour moi" / "Pour un proche") +
  *                  tel "Plan B" visible + bullets + réassurance
- * 2. question    : 4 questions enchaînées (âge → statut → revenu → CP).
- *                  Situation (PMR) et régime retirés (choix Steve, réduction friction) :
- *                  posés au téléphone par la conseillère. Chaque question expose un
- *                  escape hatch "Je préfère qu'on m'appelle" → ouvre shortform.
+ * 2. question    : 6 questions enchaînées (âge → statut → revenu → situation
+ *                  → régime → CP). Chaque question expose un escape hatch
+ *                  "Je préfère qu'on m'appelle" → ouvre shortform.
  * 3. shortform   : escape hatch — capture nom+tel+créneau sans terminer le quiz
  * 4. calculating : loader théâtralisé 4s avec messages qui défilent
  * 5. result      : compteur animé du montant + breakdown + social proof
