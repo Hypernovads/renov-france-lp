@@ -1,13 +1,16 @@
 import { NextResponse } from 'next/server';
 import { randomUUID } from 'node:crypto';
 import { leadSchema, type LeadPayload } from '@/lib/validation';
+import { sendTelegram, createNotionLead } from '@/lib/notify';
 
 /**
  * POST /api/lead
  *
- * Phase 1 : validation Zod + log + return ok.
- * Phase 2 : remplacer le console.log par un fetch POST vers le webhook n8n
- *           avec header `x-hpn-secret` (cf. 00-brief-initial.md).
+ * Validation Zod → notif Telegram (groupe) + création dans la base Notion "Leads".
+ * Les deux notifs partent en parallèle (Promise.allSettled) : l'échec de l'une
+ * ne bloque jamais l'autre, le lead est au pire seulement loggé en console.
+ *
+ * Phase suivante : ajouter Meta Conversions API (CAPI) + GA4 mesure server-side.
  */
 export async function POST(req: Request) {
   let body: unknown;
@@ -64,15 +67,14 @@ export async function POST(req: Request) {
 
   console.log('[lead]', JSON.stringify(normalized, null, 2));
 
-  // TODO Phase 2 — décommenter et configurer :
-  // await fetch(process.env.N8N_WEBHOOK_URL!, {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     'x-hpn-secret': process.env.N8N_SECRET!,
-  //   },
-  //   body: JSON.stringify(normalized),
-  // });
+  // Notifs en parallèle — on n'attend PAS l'une avant l'autre, et un échec
+  // d'une notif ne fait pas échouer la requête utilisateur.
+  const [tg, nt] = await Promise.allSettled([
+    sendTelegram(lead, leadId),
+    createNotionLead(lead, leadId),
+  ]);
+  if (tg.status === 'rejected') console.error('[notify:telegram]', tg.reason);
+  if (nt.status === 'rejected') console.error('[notify:notion]', nt.reason);
 
   return NextResponse.json({ ok: true, leadId });
 }
