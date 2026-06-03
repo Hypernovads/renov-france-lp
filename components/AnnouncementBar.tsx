@@ -35,7 +35,7 @@ export function AnnouncementBar({
     withWeek && week ? text.replace('{semaine}', week) : text.replace(' {semaine}', '');
 
   const inner = (
-    <div className="container-wide flex items-center justify-center gap-2 py-2.5 text-center text-[13px] text-cream/95">
+    <div className="container-wide flex items-center justify-center gap-2 py-3 text-center text-[14px] sm:text-[15px] text-cream/95">
       {withDot && (
         <span
           className="inline-block size-1.5 rounded-full bg-emerald-400 shrink-0 mr-0.5 animate-pulse-green"
