@@ -12,7 +12,7 @@ export const client = {
   // brandName = marque commerciale affichée (header/footer). Encore À DÉFINIR
   // (le nom + logo de l'activité rénovation sont en cours de décision côté Steve).
   // legalName = entité juridique éditrice (mentions légales) = Chiva immobilier.
-  brandName: 'À COMPLÉTER',
+  brandName: 'RENOV FRANCE',
   legalName: 'Chiva immobilier',
   siret: '852 738 343 00023',
   // RCS déduit : SIREN 852 738 343 + greffe de Créteil (Saint-Mandé, Val-de-Marne 94).
@@ -93,7 +93,10 @@ export const client = {
   // Tant qu'on n'a pas le logo client, on affiche le brandName en typo serif navy
   // avec une icône lucide (Bath) dans un carré navy + point terracotta final.
   // Quand on l'aura : poser /public/logo.svg + logo-cream.svg et activer logoSrc.
-  logoSrc: null as string | null,
+  // Logo principal (fond clair). 1750×899 px, fond blanc opaque.
+  // Affiché tel quel dans le Header (fond clair) ; le footer (fond navy) garde le
+  // wordmark texte tant qu'on n'a pas une version inverse/blanche du logo.
+  logoSrc: '/logo-renov-france.png' as string | null,
   logoSrcCream: null as string | null,
 
   // ─── KPI stats hero ────────────────────────────────────────────

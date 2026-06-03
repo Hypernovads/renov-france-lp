@@ -1,18 +1,46 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { client } from '@/content/client';
 
 type Props = {
-  /** Variante : sur fond clair (default) ou inversée (logo cream, texte cream — pour footer) */
+  /** Variante : sur fond clair (default) ou inversée (logo cream / texte cream — pour footer navy) */
   inverted?: boolean;
 };
 
 /**
  * Logo + wordmark partagé header/footer.
- * Icône bathtub custom SVG dans carré navy, "BrandName." + dot terracotta en Fraunces 600.
  *
- * Quand le vrai logo client sera dispo, on swap pour `<Image src={client.logoSrc} />`.
+ * Logique d'affichage :
+ * - Header (fond clair, !inverted) : si `client.logoSrc` défini → image PNG du logo,
+ *   sinon → fallback icône bathtub + wordmark navy.
+ * - Footer (fond navy, inverted) : si `client.logoSrcCream` défini → image cream du logo,
+ *   sinon → fallback icône bathtub cream + wordmark cream (évite un rectangle blanc moche
+ *   si on n'a que la version couleur fond clair).
  */
 export function BrandMark({ inverted = false }: Props) {
+  const logoSrc = inverted ? client.logoSrcCream : client.logoSrc;
+
+  // ─── Si on a une vraie image de logo pour cette variante : on l'affiche ───
+  if (logoSrc) {
+    return (
+      <Link
+        href="/"
+        aria-label={client.brandName}
+        className="inline-flex items-center group"
+      >
+        <Image
+          src={logoSrc}
+          alt={client.brandName}
+          width={1750}
+          height={899}
+          priority
+          className="h-9 sm:h-10 w-auto transition-transform duration-300 ease-smooth group-hover:scale-[1.03]"
+        />
+      </Link>
+    );
+  }
+
+  // ─── Fallback wordmark texte (icône + nom serif + dot terracotta) ───
   const markBg = inverted ? 'bg-cream text-navy' : 'bg-navy text-cream';
   const textColor = inverted ? 'text-cream' : 'text-navy';
 

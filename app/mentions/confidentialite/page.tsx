@@ -3,7 +3,7 @@ import { LegalPage, has } from '@/components/LegalPage';
 import { client } from '@/content/client';
 
 export const metadata: Metadata = {
-  title: `Politique de confidentialité — ${client.brandName === 'À COMPLÉTER' ? client.legalName : client.brandName}`,
+  title: `Politique de confidentialité — ${client.brandName}`,
   description: 'Comment nous collectons, utilisons et protégeons vos données personnelles (RGPD).',
   robots: { index: false, follow: true },
 };

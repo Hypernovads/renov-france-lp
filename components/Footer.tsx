@@ -75,7 +75,7 @@ export function Footer({ services, entreprise, villes, tagline }: Props) {
       {/* ─── Footer bottom : copyright + legal ─────────────────── */}
       <div className="max-w-[1400px] mx-auto pt-8 border-t border-cream/10 flex flex-col sm:flex-row justify-between gap-3 text-[12px] text-cream/50">
         <span>
-          &copy; {new Date().getFullYear()} {client.brandName === 'À COMPLÉTER' ? client.legalName : client.brandName} · Tous droits réservés
+          &copy; {new Date().getFullYear()} {client.brandName} · Tous droits réservés
         </span>
         <span>
           <Link href={client.legal.legalNoticeUrl} className="hover:text-terracotta-light transition-colors">

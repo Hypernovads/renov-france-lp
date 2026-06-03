@@ -3,7 +3,7 @@ import { LegalPage, has } from '@/components/LegalPage';
 import { client } from '@/content/client';
 
 export const metadata: Metadata = {
-  title: `Mentions légales — ${client.brandName === 'À COMPLÉTER' ? client.legalName : client.brandName}`,
+  title: `Mentions légales — ${client.brandName}`,
   description: 'Mentions légales et informations sur l’éditeur du site.',
   robots: { index: false, follow: true },
 };

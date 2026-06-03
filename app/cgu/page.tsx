@@ -3,7 +3,7 @@ import { LegalPage } from '@/components/LegalPage';
 import { client } from '@/content/client';
 
 export const metadata: Metadata = {
-  title: `Conditions générales d’utilisation — ${client.brandName === 'À COMPLÉTER' ? client.legalName : client.brandName}`,
+  title: `Conditions générales d’utilisation — ${client.brandName}`,
   description: 'Conditions générales d’utilisation du site.',
   robots: { index: false, follow: true },
 };
