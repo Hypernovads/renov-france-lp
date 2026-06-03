@@ -23,7 +23,9 @@ export const leadSchema = z.object({
   name: z.string().max(80).optional().default(''),
   email: z.string().email('Email invalide').optional().or(z.literal('')),
   phone: z.string().regex(phoneRegex, 'Téléphone invalide'),
-  postal_code: z.string().regex(postalRegex, 'CP invalide (5 chiffres)'),
+  // Optionnel : vide accepté pour les leads "early form" (CP pas encore connu).
+  // Si rempli, doit être un CP FR à 5 chiffres.
+  postal_code: z.union([z.string().regex(postalRegex, 'CP invalide (5 chiffres)'), z.literal('')]).optional().default(''),
   city: z.string().max(80).optional().default(''),
 
   is_owner: z.boolean(),
@@ -36,6 +38,14 @@ export const leadSchema = z.object({
   website: z.string().max(0, 'spam').optional().default(''),
 
   raw: z.record(z.unknown()).optional(),
+
+  /** Lead "partiel" — capturé après l'early form (nom+tel) avant la fin du quiz.
+   *  Statut Notion : "🟡 Quiz en cours". À enrichir/upgrader si le quiz est complété. */
+  is_partial: z.boolean().optional().default(false),
+
+  /** ID de la page Notion existante à mettre à jour (au lieu d'en créer une nouvelle).
+   *  Utilisé pour le flow : early form → create Notion → fin de quiz → update même page. */
+  notion_page_id: z.string().optional(),
 });
 
 export type LeadPayload = z.infer<typeof leadSchema>;

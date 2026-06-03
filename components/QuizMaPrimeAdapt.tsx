@@ -34,10 +34,11 @@ type Slot = 'morning' | 'afternoon' | 'evening' | 'any';
 
 type Stage =
   | 'intro'      // pré-engagement binaire (moi / un proche) — gros boost conversion
+  | 'early-form' // NOUVEAU: nom + tel captés AVANT le quiz → lead garanti même si abandon
   | 'question'   // 6 questions du quiz
   | 'shortform'  // escape hatch "je préfère qu'on m'appelle" depuis une question
   | 'calculating'// loader théâtralisé 4s
-  | 'result'     // résultat + form final (nom + tel + créneau)
+  | 'result'     // résultat + créneau de rappel (nom + tel déjà captés en early-form)
   | 'submitting';
 
 type Answers = {
@@ -363,12 +364,62 @@ export function QuizMaPrimeAdapt({ source, merciHref }: Props) {
   const [postalDraft, setPostalDraft] = useState('');
   const [postalError, setPostalError] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  /** ID Notion retourné par /api/lead après l'early form (nom+tel).
+   *  Permet d'enrichir la même page Notion à la fin du quiz au lieu d'en créer une 2e. */
+  const [notionPageId, setNotionPageId] = useState<string | null>(null);
+  const [earlySubmitting, setEarlySubmitting] = useState(false);
 
-  /** Démarre le quiz depuis l'intro avec la pré-segmentation moi/proche. */
+  /** Démarre le quiz depuis l'intro avec la pré-segmentation moi/proche.
+   *  → enchaîne sur l'early form (capture nom+tel AVANT les questions). */
   const handleStart = (whom: ForWhom) => {
     setForWhom(whom);
-    setStage('question');
-    setStepIdx(0);
+    setStage('early-form');
+  };
+
+  /**
+   * Early form (nom+tel) → crée immédiatement le lead en Notion (is_partial=true,
+   * statut "🟡 Quiz en cours"). On garde le pageId retourné pour pouvoir UPDATE
+   * la même page à la fin du quiz (au lieu de créer un doublon).
+   *
+   * Trade-off CRO assumé : on ajoute 1 step → légère friction, mais on
+   * GARANTIT la capture du lead même si l'utilisateur abandonne les 6 questions.
+   */
+  const handleEarlyFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim() || !phone.trim()) return;
+    setEarlySubmitting(true);
+    setError(null);
+    try {
+      const payload = {
+        source,
+        name,
+        phone,
+        postal_code: '',
+        is_owner: false, // on ne sait pas encore — sera mis à jour à la fin du quiz
+        project_type: 'Quiz éligibilité MaPrimeAdapt (en cours)',
+        is_partial: true,
+        raw: {
+          for_whom: forWhom,
+          stage: 'early_form',
+        },
+      };
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error('http');
+      const data = await res.json();
+      if (data?.notion_page_id) setNotionPageId(data.notion_page_id);
+      // Enchaîne sur les questions du quiz
+      setStage('question');
+      setStepIdx(0);
+    } catch (err) {
+      setError("Oups, l'envoi a échoué. Vérifiez votre numéro et réessayez.");
+      console.error(err);
+    } finally {
+      setEarlySubmitting(false);
+    }
   };
 
   /** Escape hatch — depuis n'importe quelle question, l'user demande à être rappelé. */
@@ -421,7 +472,11 @@ export function QuizMaPrimeAdapt({ source, merciHref }: Props) {
     else setStage('intro');
   };
 
-  /** Soumission depuis le shortform (escape hatch — quiz non terminé). */
+  /**
+   * Soumission depuis le shortform (escape hatch — quiz non terminé).
+   * Si on a déjà un notionPageId (early form complété), on UPDATE la même page
+   * (statut "🆕 Nouveau" + créneau de rappel) au lieu de créer un doublon.
+   */
   const handleShortformSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStage('submitting');
@@ -434,6 +489,8 @@ export function QuizMaPrimeAdapt({ source, merciHref }: Props) {
         postal_code: answers.postal ?? '',
         is_owner: false,
         project_type: 'Demande de rappel (quiz non terminé)',
+        // Si l'utilisateur a passé l'early form, on enrichit la même page Notion
+        ...(notionPageId ? { notion_page_id: notionPageId, is_partial: false } : {}),
         raw: {
           quiz_aborted: true,
           for_whom: forWhom,
@@ -456,7 +513,12 @@ export function QuizMaPrimeAdapt({ source, merciHref }: Props) {
     }
   };
 
-  /** Soumission finale après quiz complet + résultat. */
+  /**
+   * Soumission finale après quiz complet + résultat.
+   * Si on a un notionPageId (depuis l'early form), on UPDATE la page Notion
+   * existante (statut "🟡 Quiz en cours" → "🆕 Nouveau" + enrichie qualifications).
+   * Sinon (fallback), on créé une nouvelle page (ne devrait pas arriver vu le flow).
+   */
   const handleFinalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!calc) return;
@@ -474,6 +536,8 @@ export function QuizMaPrimeAdapt({ source, merciHref }: Props) {
           answers.statut === 'proprietaire-bailleur' ||
           answers.statut === 'enfant',
         project_type: "Pack senior MaPrimeAdapt'",
+        is_partial: false,
+        ...(notionPageId ? { notion_page_id: notionPageId } : {}),
         raw: {
           quiz_completed: true,
           for_whom: forWhom,
@@ -509,6 +573,20 @@ export function QuizMaPrimeAdapt({ source, merciHref }: Props) {
       />
       <div className="relative bg-cream rounded-3xl shadow-form-floating border border-white/50 overflow-hidden">
         {stage === 'intro' && <IntroPanel onStart={handleStart} />}
+
+        {stage === 'early-form' && (
+          <EarlyFormPanel
+            forWhom={forWhom}
+            name={name}
+            phone={phone}
+            onNameChange={setName}
+            onPhoneChange={setPhone}
+            onSubmit={handleEarlyFormSubmit}
+            onBack={() => setStage('intro')}
+            submitting={earlySubmitting}
+            error={error}
+          />
+        )}
 
         {stage === 'question' && (
           <QuestionPanel
@@ -553,8 +631,6 @@ export function QuizMaPrimeAdapt({ source, merciHref }: Props) {
             phone={phone}
             slot={slot}
             postal={answers.postal ?? ''}
-            onNameChange={setName}
-            onPhoneChange={setPhone}
             onSlotChange={setSlot}
             onSubmit={handleFinalSubmit}
             onBack={handleBack}
@@ -1060,8 +1136,6 @@ function ResultPanel({
   phone,
   slot,
   postal,
-  onNameChange,
-  onPhoneChange,
   onSlotChange,
   onSubmit,
   onBack,
@@ -1073,8 +1147,6 @@ function ResultPanel({
   phone: string;
   slot: Slot | null;
   postal: string;
-  onNameChange: (v: string) => void;
-  onPhoneChange: (v: string) => void;
   onSlotChange: (v: Slot) => void;
   onSubmit: (e: React.FormEvent) => void;
   onBack: () => void;
@@ -1083,8 +1155,8 @@ function ResultPanel({
 }) {
   const [displayTotal, setDisplayTotal] = useState(0);
   const [displayRest, setDisplayRest] = useState(0);
-  const nameId = useId();
-  const phoneId = useId();
+  // Prénom uniquement (1er mot) pour la salutation chaleureuse
+  const firstName = name.trim().split(/\s+/)[0] || '';
 
   // Compteur animé easeOutCubic 1,4s
   useEffect(() => {
@@ -1108,7 +1180,7 @@ function ResultPanel({
 
   const eligibleItems = calc.breakdown.filter((b) => b.eligible);
 
-  // Le form est complet uniquement quand TOUS les champs sont remplis (incluant le créneau)
+  // name + phone déjà captés à l'early form → ne reste qu'à choisir le créneau
   const formComplete = !!name && !!phone && !!slot;
 
   return (
@@ -1205,45 +1277,29 @@ function ResultPanel({
       <div className="mb-4 px-4 py-3 rounded-xl bg-cream-warm/50 border border-cream-warm">
         <p className="text-[12px] text-navy font-semibold mb-1.5 flex items-center gap-1.5">
           <Sparkles className="size-3.5 text-terracotta" aria-hidden />
-          Plus qu’une étape pour votre devis personnalisé
+          {firstName ? `Plus qu’une étape, ${firstName}.` : 'Plus qu’une étape.'}
         </p>
         <p className="text-[12px] text-slate leading-snug">
-          Pour recevoir votre devis détaillé et débloquer le dossier d’aides, laissez vos
-          coordonnées. Notre conseillère vous rappelle sous 24 h.
+          Choisissez le créneau qui vous convient — notre conseillère vous rappelle
+          sous 24 h pour finaliser votre dossier d’aides.
         </p>
       </div>
 
       <form onSubmit={onSubmit} className="space-y-3">
-        <div>
-          <label htmlFor={nameId} className="sr-only">
-            Nom et prénom
-          </label>
-          <input
-            id={nameId}
-            type="text"
-            required
-            placeholder="Nom et prénom"
-            value={name}
-            onChange={(e) => onNameChange(e.target.value)}
-            autoComplete="name"
-            className="w-full min-h-[52px] px-4 rounded-xl bg-white text-base text-ink placeholder:text-slate/60 outline-none border-[1.5px] border-navy/[0.12] transition-all duration-250 focus:border-terracotta focus:shadow-[0_0_0_4px_rgba(194,105,63,0.1)]"
-          />
-        </div>
-        <div>
-          <label htmlFor={phoneId} className="sr-only">
-            Téléphone
-          </label>
-          <input
-            id={phoneId}
-            type="tel"
-            required
-            placeholder="Votre téléphone"
-            value={phone}
-            onChange={(e) => onPhoneChange(e.target.value)}
-            inputMode="tel"
-            autoComplete="tel"
-            className="w-full min-h-[52px] px-4 rounded-xl bg-white text-base text-ink placeholder:text-slate/60 outline-none border-[1.5px] border-navy/[0.12] transition-all duration-250 focus:border-terracotta focus:shadow-[0_0_0_4px_rgba(194,105,63,0.1)]"
-          />
+        {/* Récap coordonnées (déjà captées à l'étape 2 — pas re-saisies) */}
+        <div className="px-4 py-3 rounded-xl bg-white border border-navy/[0.10] flex items-center gap-3">
+          <CheckCircle2 className="size-4 text-emerald-600 shrink-0" aria-hidden />
+          <div className="min-w-0 flex-1">
+            <p className="text-[11px] uppercase font-semibold text-slate leading-none mb-1" style={{ letterSpacing: '0.08em' }}>
+              On vous rappelle au
+            </p>
+            <p className="font-semibold text-navy text-[14px] tabular-nums truncate">
+              {phone}
+            </p>
+            {firstName && (
+              <p className="text-[12px] text-slate truncate">{name}</p>
+            )}
+          </div>
         </div>
 
         <SlotSelector value={slot} onChange={onSlotChange} />
@@ -1280,6 +1336,147 @@ function ResultPanel({
           la décision finale des organismes. Notre conseillère calcule vos aides
           précises gratuitement en visite, sans engagement. RGPD respecté.
         </p>
+      </form>
+    </div>
+  );
+}
+
+// ─── Early Form (capture nom+tel AVANT le quiz) ──────────────────────
+//
+// Étape intermédiaire entre l'intro et la 1re question. Garantit la capture
+// du lead même si l'utilisateur abandonne les 6 questions du quiz. Côté CRO :
+// on accepte la friction ajoutée (+1 step) en échange du gain en taux de
+// récupération des abandonnistes (~20-30 % typique).
+//
+// Le lead est créé en Notion avec statut "🟡 Quiz en cours" + notif Telegram
+// "lead capturé". Si le quiz se termine, la MÊME page Notion est mise à jour
+// (statut → "🆕 Nouveau" + enrichi). Pas de doublon.
+
+function EarlyFormPanel({
+  forWhom,
+  name,
+  phone,
+  onNameChange,
+  onPhoneChange,
+  onSubmit,
+  onBack,
+  submitting,
+  error,
+}: {
+  forWhom: ForWhom | null;
+  name: string;
+  phone: string;
+  onNameChange: (v: string) => void;
+  onPhoneChange: (v: string) => void;
+  onSubmit: (e: React.FormEvent) => void;
+  onBack: () => void;
+  submitting: boolean;
+  error: string | null;
+}) {
+  const nameId = useId();
+  const phoneId = useId();
+  const canSubmit = name.trim().length >= 2 && phone.trim().length >= 8 && !submitting;
+
+  return (
+    <div className="p-6 sm:p-8 animate-fade-up">
+      {/* Header + retour */}
+      <div className="mb-4">
+        <button
+          type="button"
+          onClick={onBack}
+          className="inline-flex items-center gap-1 text-xs text-slate hover:text-navy mb-3 transition-colors"
+        >
+          <ArrowLeft className="size-3.5" aria-hidden />
+          Retour
+        </button>
+        <span
+          className="block text-[11px] uppercase font-semibold text-terracotta mb-1.5"
+          style={{ letterSpacing: '0.12em' }}
+        >
+          Étape 1 / 2 · 30 secondes
+        </span>
+        <h2
+          className="font-serif text-navy leading-tight"
+          style={{ fontSize: '22px', fontWeight: 500, letterSpacing: '-0.01em' }}
+        >
+          {forWhom === 'relative'
+            ? 'Vos coordonnées pour démarrer'
+            : 'Vos coordonnées pour démarrer'}
+        </h2>
+        <p className="text-sm text-slate mt-1 leading-snug">
+          Nous calculons votre éligibilité, puis notre conseillère vous rappelle
+          avec votre devis. <strong className="text-navy font-semibold">Sans engagement.</strong>
+        </p>
+      </div>
+
+      <form onSubmit={onSubmit} className="space-y-3">
+        <div>
+          <label htmlFor={nameId} className="block text-[12px] font-semibold text-navy mb-1.5">
+            Votre prénom et nom
+          </label>
+          <input
+            id={nameId}
+            type="text"
+            required
+            placeholder="Ex. Marie Dupont"
+            value={name}
+            onChange={(e) => onNameChange(e.target.value)}
+            autoComplete="name"
+            autoFocus
+            className="w-full min-h-[56px] px-4 rounded-2xl bg-white text-base text-ink placeholder:text-slate/60 outline-none border-[1.5px] border-navy/[0.12] transition-all duration-250 focus:border-terracotta focus:shadow-[0_0_0_4px_rgba(194,105,63,0.1)]"
+          />
+        </div>
+        <div>
+          <label htmlFor={phoneId} className="block text-[12px] font-semibold text-navy mb-1.5">
+            Votre téléphone
+          </label>
+          <input
+            id={phoneId}
+            type="tel"
+            required
+            placeholder="06 12 34 56 78"
+            value={phone}
+            onChange={(e) => onPhoneChange(e.target.value)}
+            inputMode="tel"
+            autoComplete="tel"
+            className="w-full min-h-[56px] px-4 rounded-2xl bg-white text-base text-ink placeholder:text-slate/60 outline-none border-[1.5px] border-navy/[0.12] transition-all duration-250 focus:border-terracotta focus:shadow-[0_0_0_4px_rgba(194,105,63,0.1)] tabular-nums"
+          />
+        </div>
+
+        <button
+          type="submit"
+          disabled={!canSubmit}
+          className="w-full inline-flex items-center justify-center gap-2 min-h-[60px] px-6 rounded-2xl bg-terracotta hover:bg-terracotta-deep text-cream font-semibold text-base shadow-terracotta-sm hover:shadow-terracotta-xl transition-all duration-300 ease-smooth disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] mt-1"
+        >
+          {submitting ? (
+            <>
+              <Loader2 className="size-5 animate-spin" aria-hidden /> Envoi…
+            </>
+          ) : (
+            <>
+              Commencer mon éligibilité
+              <ArrowRight className="size-5" aria-hidden />
+            </>
+          )}
+        </button>
+
+        {error && (
+          <p className="flex items-center gap-1.5 text-sm text-terracotta-deep" role="alert">
+            <AlertCircle className="size-4" aria-hidden />
+            {error}
+          </p>
+        )}
+
+        <ul className="pt-2 space-y-1.5 text-[12px] text-slate">
+          <li className="flex items-start gap-2">
+            <ShieldCheck className="size-3.5 text-emerald-600 shrink-0 mt-0.5" aria-hidden />
+            <span>Données confidentielles, RGPD respecté</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <CheckCircle2 className="size-3.5 text-emerald-600 shrink-0 mt-0.5" aria-hidden />
+            <span>1 seul rappel humain, à l’horaire de votre choix</span>
+          </li>
+        </ul>
       </form>
     </div>
   );

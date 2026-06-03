@@ -1,16 +1,19 @@
 import { NextResponse } from 'next/server';
 import { randomUUID } from 'node:crypto';
 import { leadSchema, type LeadPayload } from '@/lib/validation';
-import { sendTelegram, createNotionLead } from '@/lib/notify';
+import { sendTelegram, createNotionLead, updateNotionLead } from '@/lib/notify';
 
 /**
  * POST /api/lead
  *
- * Validation Zod → notif Telegram (groupe) + création dans la base Notion "Leads".
- * Les deux notifs partent en parallèle (Promise.allSettled) : l'échec de l'une
- * ne bloque jamais l'autre, le lead est au pire seulement loggé en console.
+ * Flow 2 étapes (depuis le quiz hero LP2) :
+ * 1. Early form (nom+tel) → is_partial=true → CREATE Notion (statut "🟡 Quiz en cours")
+ *    + notif Telegram "lead capturé". Retourne notion_page_id côté client.
+ * 2. Fin de quiz → notion_page_id passé → UPDATE même page Notion (statut "🆕 Nouveau",
+ *    enrichi qualifications + créneau). Notif Telegram "lead qualifié".
  *
- * Phase suivante : ajouter Meta Conversions API (CAPI) + GA4 mesure server-side.
+ * Si pas de notion_page_id → CREATE classique (form long, ou tout autre flow direct).
+ * Échec d'une notif (Telegram OU Notion) → loggé, mais ne bloque pas l'autre.
  */
 export async function POST(req: Request) {
   let body: unknown;
@@ -39,16 +42,17 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true, leadId: 'silent' });
   }
 
-  const leadId = randomUUID();
+  const leadId = lead.notion_page_id || randomUUID();
+  const isUpdate = !!lead.notion_page_id;
 
-  // Payload normalisé prêt pour n8n (Phase 2)
+  // Payload normalisé pour le log
   const normalized = {
     leadId,
+    isUpdate,
+    isPartial: lead.is_partial,
     receivedAt: new Date().toISOString(),
     source: lead.source,
     campaign: lead.campaign,
-    adset: lead.adset,
-    ad: lead.ad,
     contact: {
       name: lead.name,
       email: lead.email || null,
@@ -59,22 +63,37 @@ export async function POST(req: Request) {
     qualification: {
       is_owner: lead.is_owner,
       project_type: lead.project_type,
-      budget: lead.budget,
       timing: lead.timing,
     },
     raw: lead.raw ?? null,
   };
-
   console.log('[lead]', JSON.stringify(normalized, null, 2));
 
-  // Notifs en parallèle — on n'attend PAS l'une avant l'autre, et un échec
-  // d'une notif ne fait pas échouer la requête utilisateur.
+  // ─── Notion : create OR update ────────────────────────────────────
+  // ─── Telegram : mode selon contexte (partial / qualified / full) ──
+  const telegramMode = isUpdate
+    ? 'qualified'
+    : lead.is_partial
+      ? 'partial'
+      : 'full';
+
+  const notionPromise: Promise<string> = isUpdate
+    ? updateNotionLead(lead.notion_page_id!, lead).then(() => lead.notion_page_id!)
+    : createNotionLead(lead, leadId);
+
   const [tg, nt] = await Promise.allSettled([
-    sendTelegram(lead, leadId),
-    createNotionLead(lead, leadId),
+    sendTelegram(lead, leadId, telegramMode),
+    notionPromise,
   ]);
+
   if (tg.status === 'rejected') console.error('[notify:telegram]', tg.reason);
   if (nt.status === 'rejected') console.error('[notify:notion]', nt.reason);
 
-  return NextResponse.json({ ok: true, leadId });
+  const notionPageId = nt.status === 'fulfilled' ? nt.value : lead.notion_page_id;
+
+  return NextResponse.json({
+    ok: true,
+    leadId,
+    notion_page_id: notionPageId,
+  });
 }
