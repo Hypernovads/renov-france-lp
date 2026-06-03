@@ -8,10 +8,21 @@ type Props = {
 };
 
 /**
- * Composition magazine asymétrique : grille 6 colonnes, tailles variables.
- * Mobile : 2 colonnes simples.
+ * Galerie « magazine » : 1 photo hero pleine largeur + grille uniforme dessous.
+ *
+ * Layout :
+ * - Hero (1ʳᵉ image) : pleine largeur, aspect 16/7 desktop · 4/3 mobile.
+ * - Grille du reste (auto-rows même hauteur) :
+ *   - Desktop : 3 colonnes (2 rangées de 3 → 6 thumbnails → idéal pour 7 images au total).
+ *   - Mobile : 2 colonnes (rangées multiples).
+ *
+ * → Forme un rectangle propre, cohérent desktop + mobile, sans cellule orpheline.
  */
 export function Gallery({ eyebrow, h2, images }: Props) {
+  if (!images || images.length === 0) return null;
+
+  const [hero, ...thumbs] = images;
+
   return (
     <section id="gallery" className="section-pad bg-cream">
       <div className="container-wide">
@@ -22,37 +33,38 @@ export function Gallery({ eyebrow, h2, images }: Props) {
           </h2>
         </header>
 
-        <div className="grid grid-cols-2 lg:grid-cols-6 auto-rows-[180px] sm:auto-rows-[200px] lg:auto-rows-[220px] gap-3 sm:gap-4">
-          {images.map((img, i) => (
-            <div
-              key={img.src}
-              className={[
-                'relative overflow-hidden rounded-md bg-cream-warm group',
-                // Pattern asymétrique sur desktop, simple sur mobile
-                LAYOUT[i % LAYOUT.length],
-              ].join(' ')}
-            >
-              <Image
-                src={img.src}
-                alt={img.alt}
-                fill
-                sizes="(max-width: 768px) 50vw, 33vw"
-                className="object-cover transition-transform duration-700 ease-smooth group-hover:scale-105"
-              />
-            </div>
-          ))}
+        {/* Hero image — pleine largeur */}
+        <div className="relative overflow-hidden rounded-md bg-cream-warm group aspect-[4/3] sm:aspect-[16/7] mb-3 sm:mb-4">
+          <Image
+            src={hero.src}
+            alt={hero.alt}
+            fill
+            sizes="100vw"
+            priority
+            className="object-cover transition-transform duration-700 ease-smooth group-hover:scale-[1.02]"
+          />
         </div>
+
+        {/* Grille uniforme — 2 col mobile, 3 col desktop */}
+        {thumbs.length > 0 && (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+            {thumbs.map((img) => (
+              <div
+                key={img.src}
+                className="relative overflow-hidden rounded-md bg-cream-warm group aspect-[4/3]"
+              >
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  sizes="(max-width: 768px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-700 ease-smooth group-hover:scale-105"
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
 }
-
-// 6 cellules pour cycler sur une grille de 6 colonnes
-const LAYOUT = [
-  'lg:col-span-3 lg:row-span-2', // grande à gauche
-  'lg:col-span-2',
-  'lg:col-span-1 lg:row-span-2',
-  'lg:col-span-2',
-  'lg:col-span-2',
-  'lg:col-span-3',
-];
