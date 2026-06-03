@@ -350,15 +350,16 @@ export const lpMaPrimeAdapt: LPContent = {
   },
 
   gallery: {
-    eyebrow: 'Galerie',
+    eyebrow: 'Nos réalisations',
     h2: 'Des salles de bain conçues pour durer.',
     images: [
-      { src: u('photo-1552321554-5fefe8c9ef14'), alt: 'Douche italienne épurée' },
-      { src: u('photo-1620626011761-996317b8d101'), alt: 'Douche carrelage grand format' },
-      { src: u('photo-1564540583246-934409427776'), alt: 'Douche paroi vitrée' },
-      { src: u('photo-1600585154340-be6161a56a0c'), alt: 'Salle de bain contemporaine' },
-      { src: u('photo-1604014237800-1c9102c219da'), alt: 'Salle de bain chaleureuse' },
-      { src: u('photo-1584622650111-993a426fbf0a'), alt: 'Douche élégante' },
+      { src: '/images/realisations/chantier-01.png', alt: 'Salle de bain rénovée par RENOV FRANCE — réalisation 1' },
+      { src: '/images/realisations/chantier-02.png', alt: 'Salle de bain rénovée par RENOV FRANCE — réalisation 2' },
+      { src: '/images/realisations/chantier-03.png', alt: 'Salle de bain rénovée par RENOV FRANCE — réalisation 3' },
+      { src: '/images/realisations/chantier-04.png', alt: 'Salle de bain rénovée par RENOV FRANCE — réalisation 4' },
+      { src: '/images/realisations/chantier-05.png', alt: 'Salle de bain rénovée par RENOV FRANCE — réalisation 5' },
+      { src: '/images/realisations/chantier-06.png', alt: 'Salle de bain rénovée par RENOV FRANCE — réalisation 6' },
+      { src: '/images/realisations/chantier-07.png', alt: 'Salle de bain rénovée par RENOV FRANCE — réalisation 7' },
     ],
   },
 
