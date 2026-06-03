@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { lpRenovation as lp } from '@/content/lp-renovation';
+import { getLocationChip } from '@/lib/geo';
 
 import { AnnouncementBar } from '@/components/AnnouncementBar';
 import { Header } from '@/components/Header';
@@ -38,6 +39,8 @@ export const metadata: Metadata = {
  * - Tonalité magazine premium, cible 35-55 propriétaires aisés.
  */
 export default function RenovationTotaleLP() {
+  // Perso ville depuis la géoloc IP Vercel — fallback statique si hors zone / dev local
+  const locationChip = getLocationChip(lp.hero.locationChip);
   return (
     <>
       <AnnouncementBar
@@ -52,7 +55,7 @@ export default function RenovationTotaleLP() {
 
       <main>
         <Hero
-          locationChip={lp.hero.locationChip}
+          locationChip={locationChip}
           h1Lead={lp.hero.h1Lead}
           h1Highlight={lp.hero.h1Highlight}
           h1Tail={lp.hero.h1Tail}

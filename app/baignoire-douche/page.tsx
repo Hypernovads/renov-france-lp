@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { lpBaignoireDouche as lp } from '@/content/lp-baignoire-douche';
+import { getLocationChip } from '@/lib/geo';
 
 import { AnnouncementBar } from '@/components/AnnouncementBar';
 import { Header } from '@/components/Header';
@@ -27,6 +28,8 @@ export const metadata: Metadata = {
 };
 
 export default function BaignoireDoucheLP() {
+  // Perso ville depuis la géoloc IP Vercel — fallback statique si hors zone / dev local
+  const locationChip = getLocationChip(lp.hero.locationChip);
   return (
     <>
       <AnnouncementBar
@@ -41,7 +44,7 @@ export default function BaignoireDoucheLP() {
 
       <main>
         <Hero
-          locationChip={lp.hero.locationChip}
+          locationChip={locationChip}
           h1Lead={lp.hero.h1Lead}
           h1Highlight={lp.hero.h1Highlight}
           h1Tail={lp.hero.h1Tail}

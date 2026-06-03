@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { lpMaPrimeAdapt as lp } from '@/content/lp-maprimeadapt';
+import { getLocationChip } from '@/lib/geo';
 
 import { AnnouncementBar } from '@/components/AnnouncementBar';
 import { Header } from '@/components/Header';
@@ -39,6 +40,8 @@ export const metadata: Metadata = {
  * SpecsSection retirée de cette LP (trop technique pour la cible 60+).
  */
 export default function MaPrimeAdaptLP() {
+  // Perso ville depuis la géoloc IP Vercel — fallback statique si hors zone / dev local
+  const locationChip = getLocationChip(lp.hero.locationChip);
   return (
     <>
       <AnnouncementBar
@@ -53,7 +56,7 @@ export default function MaPrimeAdaptLP() {
 
       <main>
         <Hero
-          locationChip={lp.hero.locationChip}
+          locationChip={locationChip}
           h1Lead={lp.hero.h1Lead}
           h1Highlight={lp.hero.h1Highlight}
           h1Tail={lp.hero.h1Tail}
