@@ -22,8 +22,8 @@ export const client = {
 
   // ─── Contact ───────────────────────────────────────────────────
   phone: {
-    display: '04 XX XX XX XX',
-    href: 'tel:+33400000000',
+    display: '07 55 55 08 08',
+    href: 'tel:+33755550808',
   },
   whatsapp: {
     display: 'WhatsApp',
