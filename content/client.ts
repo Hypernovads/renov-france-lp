@@ -27,7 +27,7 @@ export const client = {
   },
   whatsapp: {
     display: 'WhatsApp',
-    href: 'https://wa.me/33000000000',
+    href: 'https://wa.me/33755550808',
   },
   email: 'contact@a-completer.fr',
   hours: 'Lun–Sam 8h–19h',
