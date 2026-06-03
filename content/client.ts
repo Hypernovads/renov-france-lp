@@ -93,10 +93,11 @@ export const client = {
   // Tant qu'on n'a pas le logo client, on affiche le brandName en typo serif navy
   // avec une icône lucide (Bath) dans un carré navy + point terracotta final.
   // Quand on l'aura : poser /public/logo.svg + logo-cream.svg et activer logoSrc.
-  // Logo principal (fond clair). 1750×899 px, fond blanc opaque.
-  // Affiché tel quel dans le Header (fond clair) ; le footer (fond navy) garde le
-  // wordmark texte tant qu'on n'a pas une version inverse/blanche du logo.
-  logoSrc: '/logo-renov-france.png' as string | null,
+  // Logo principal — fond transparent (PNG-32, 1750×899). Affiché dans le Header.
+  // Footer (fond navy) : garde le wordmark texte tant qu'on n'a pas une version
+  // blanche/cream du logo (la barre blanche du filet tricolore est transparente
+  // dans cette version → invisible sur fond navy).
+  logoSrc: '/logo-renov-france-transparent.png' as string | null,
   logoSrcCream: null as string | null,
 
   // ─── KPI stats hero ────────────────────────────────────────────
