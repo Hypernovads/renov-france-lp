@@ -81,13 +81,27 @@ export async function POST(req: Request) {
     ? updateNotionLead(lead.notion_page_id!, lead).then(() => lead.notion_page_id!)
     : createNotionLead(lead, leadId);
 
-  const [tg, nt] = await Promise.allSettled([
-    sendTelegram(lead, leadId, telegramMode),
-    notionPromise,
-  ]);
+  // ─── Anti-spam Telegram ──────────────────────────────────────────
+  // Pour les leads PARTIELS (early form nom+tel avant le quiz) on N'ENVOIE PAS
+  // de notif Telegram immédiate : sinon on aurait 2 notifs pour 1 même lead
+  // qui complète le quiz (1× "capturé" + 1× "qualifié"). Le lead reste créé
+  // dans Notion avec statut "🟡 Quiz en cours" → consultable côté Steve.
+  //
+  // Suite (à venir) : un cron Vercel scanne les leads "Quiz en cours" datant
+  // de > 15 min et envoie alors la notif Telegram "lead capturé (abandon)" +
+  // bascule en statut "🟠 Quiz abandonné". → 1 notif par lead, garantie.
+  const telegramTask: Promise<void> =
+    telegramMode === 'partial'
+      ? Promise.resolve()
+      : sendTelegram(lead, leadId, telegramMode);
+
+  const [tg, nt] = await Promise.allSettled([telegramTask, notionPromise]);
 
   if (tg.status === 'rejected') console.error('[notify:telegram]', tg.reason);
   if (nt.status === 'rejected') console.error('[notify:notion]', nt.reason);
+  if (telegramMode === 'partial') {
+    console.log('[notify:telegram] skipped (partial lead — anti-spam)');
+  }
 
   const notionPageId = nt.status === 'fulfilled' ? nt.value : lead.notion_page_id;
 
