@@ -1,9 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Phone, ArrowRight } from 'lucide-react';
+import { Phone, ArrowRight, Star } from 'lucide-react';
 import { client } from '@/content/client';
 import { BrandMark } from './BrandMark';
+
+/** Liens de navigation desktop (md+). Pointent vers les ancres de section déjà en place. */
+const NAV_LINKS = [
+  { label: 'Vos aides', href: '#aides' },
+  { label: 'Réalisations', href: '#gallery' },
+  { label: 'Avis', href: '#testimonials' },
+];
 
 /**
  * Header sticky glassmorphism.
@@ -49,6 +56,36 @@ export function Header({
     >
       <div className="container-wide flex items-center justify-between gap-3 py-3 sm:py-4">
         <BrandMark />
+
+        {/* ─── Trust badge + nav links (DESKTOP md+ uniquement) ───
+            Comble le vide entre logo et tel sur desktop, sans surcharger la LP. */}
+        <div className="hidden md:flex items-center gap-5 lg:gap-7">
+          {/* Trust badge Google */}
+          <a
+            href={client.reviews.googleUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cream/60 border border-navy/[0.08] text-[15px] text-navy/85 hover:text-navy hover:border-navy/20 transition-colors"
+            aria-label={`${client.reviews.googleRating}/5 sur Google, ${client.reviews.googleCount} avis`}
+          >
+            <Star className="size-4 fill-amber-400 text-amber-400" aria-hidden />
+            <span className="font-semibold tabular-nums">{client.reviews.googleRating}/5</span>
+            <span className="text-navy/60">· {client.reviews.googleCount} avis</span>
+          </a>
+
+          {/* Nav links — scroll vers les sections */}
+          <nav className="flex items-center gap-5 lg:gap-6">
+            {NAV_LINKS.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className="text-[15px] font-medium text-navy/75 hover:text-terracotta transition-colors whitespace-nowrap"
+              >
+                {l.label}
+              </a>
+            ))}
+          </nav>
+        </div>
 
         <nav className="flex items-center gap-2 sm:gap-3">
           {/* Tel toujours visible avec numéro plein (nowrap pour ne pas casser sur mobile) */}
