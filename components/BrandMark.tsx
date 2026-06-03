@@ -34,7 +34,7 @@ export function BrandMark({ inverted = false }: Props) {
           width={1750}
           height={899}
           priority
-          className="h-14 sm:h-20 w-auto transition-transform duration-300 ease-smooth group-hover:scale-[1.03]"
+          className="h-20 sm:h-24 w-auto transition-transform duration-300 ease-smooth group-hover:scale-[1.03]"
         />
       </Link>
     );
