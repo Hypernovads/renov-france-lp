@@ -22,12 +22,12 @@ export const client = {
 
   // ─── Contact ───────────────────────────────────────────────────
   phone: {
-    display: '07 55 55 08 08',
-    href: 'tel:+33755550808',
+    display: '06 30 30 38 38',
+    href: 'tel:+33630303838',
   },
   whatsapp: {
     display: 'WhatsApp',
-    href: 'https://wa.me/33755550808',
+    href: 'https://wa.me/33630303838',
   },
   email: 'contact@a-completer.fr',
   hours: 'Lun–Sam 8h–19h',
